@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>گیم‌نت | صفحه رسمی</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+            background: radial-gradient(circle at 10% 30%, #0b0f1c, #05070f);
+            color: #eef2ff;
+            line-height: 1.6;
+            direction: rtl;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+        }
+
+        /* container شیشه‌ای با درخشش */
+        .glass-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: rgba(15, 25, 45, 0.55);
+            backdrop-filter: blur(12px);
+            border-radius: 3rem;
+            border: 1px solid rgba(114, 137, 218, 0.3);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* header with neon glow */
+        .hero {
+            background: linear-gradient(125deg, rgba(0, 20, 50, 0.75), rgba(30, 20, 70, 0.7));
+            padding: 2.8rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(80, 130, 255, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFF, #8aadff, #c084fc);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 12px rgba(100, 150, 255, 0.3);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-tagline {
+            font-size: 1.2rem;
+            background: rgba(0, 0, 0, 0.4);
+            display: inline-block;
+            padding: 0.3rem 1.5rem;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            margin-top: 0.5rem;
+        }
+
+        .hero-tagline i {
+            margin-left: 8px;
+            color: #5f9eff;
+        }
+
+        /* بخش اصلی اطلاعات */
+        .info-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            padding: 2rem 2rem 1rem;
+            justify-content: center;
+        }
+
+        .card {
+            background: rgba(10, 20, 35, 0.65);
+            backdrop-filter: blur(8px);
+            border-radius: 2rem;
+            padding: 1.5rem 1.8rem;
+            flex: 1;
+            min-width: 220px;
+            border: 1px solid rgba(100, 150, 250, 0.2);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(100, 150, 255, 0.6);
+            background: rgba(20, 35, 60, 0.7);
+        }
+
+        .card i {
+            font-size: 2.2rem;
+            background: linear-gradient(145deg, #8bb3ff, #aa7eff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+        }
+
+        .card p, .card a {
+            color: #cdd9ff;
+            font-size: 0.95rem;
+            text-decoration: none;
+            word-break: break-word;
+        }
+
+        .card a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(70, 110, 200, 0.2);
+            padding: 6px 12px;
+            border-radius: 40px;
+            transition: all 0.2s;
+            margin-top: 8px;
+            border: 0.5px solid rgba(255,255,255,0.1);
+        }
+
+        .card a:hover {
+            background: rgba(100, 140, 255, 0.4);
+            color: white;
+            border-color: #7aa2ff;
+        }
+
+        .channels-section {
+            padding: 0.5rem 2rem 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0.8rem 0 1rem 0;
+            border-right: 5px solid #3b82f6;
+            padding-right: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .channels-list {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .channel-item {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.9rem;
+        }
+
+        .channel-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .channel-label {
+            font-weight: 700;
+            background: #1e2a4e;
+            padding: 0.2rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .channel-link {
+            color: #b9d0ff;
+            text-decoration: none;
+            font-family: monospace;
+            font-size: 0.9rem;
+            background: #0f172f;
+            padding: 6px 14px;
+            border-radius: 30px;
+            transition: 0.2s;
+            word-break: break-all;
+        }
+
+        .channel-link:hover {
+            background: #2d3a6e;
+            color: white;
+            text-decoration: underline;
+        }
+
+        .feedback-note {
+            margin-top: 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1rem;
+            border-radius: 1.2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            border: 1px dashed #5680e9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.8rem;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #8e9fc3;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 1rem;
+            }
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+            .card {
+                min-width: 100%;
+            }
+            .info-grid {
+                padding: 1.2rem;
+            }
+            .channels-list {
+                padding: 1rem;
+            }
+        }
+
+        .btn-copy {
+            background: none;
+            border: none;
+            color: #77aaff;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-right: 6px;
+            transition: 0.1s;
+        }
+        .btn-copy:hover {
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+<div class="glass-container">
+    <div class="hero">
+        <h1>🎮 گیم‌نت</h1>
+        <div class="hero-tagline">
+            <i class="fas fa-gamepad"></i> اینجا صفحه رسمی وب گیم نت حامدی فر هست
+        </div>
+    </div>
+
+    <div class="info-grid">
+        <div class="card">
+            <i class="fas fa-clock"></i>
+            <h3>ساعات کاری</h3>
+            <p>⏰ ساعت ۱۰ صبح تا ۱۰ شب</p>
+            <p style="font-size:0.8rem; margin-top:8px;"><i class="fas fa-calendar-week"></i> همه روزه (به جز تعطیلی‌های خاص)</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-store"></i>
+            <h3>خدمات گیم‌نت</h3>
+            <p>🎮 ارائه خدمات گیمینگ، شارژ بازی، اکانت، تاپ‌آپ و پشتیبانی سریع</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-headset"></i>
+            <h3>پشتیبانی</h3>
+            <p>پاسخگویی در ساعات کاری | از طریق روبیکا و چت رسمی</p>
+        </div>
+    </div>
+
+    <div class="channels-section">
+        <div class="section-title">
+            <i class="fab fa-rocketchat"></i> کانال‌های رسمی گیم‌نت
+        </div>
+        <div class="channels-list">
+            <div class="channel-item">
+                <span class="channel-label"><i class="fab fa-r-project"></i> کانال روبیکا</span>
+                <a href="https://rubika.ir/GAMENETJXP" target="_blank" class="channel-link" rel="noopener noreferrer">
+                    rubika.ir/GAMENETJXP
+                </a>
+                <button class="btn-copy" onclick="copyToClipboard('rubika.ir/GAMENETJXP')"><i class="far fa-copy"></i> کپی</button>
+            </div>
+            <div class="channel-item">
+                <span class="channel-label"><i class="fas fa-users"></i> چت روبیکا (گفتگو)</span>
+                <a href="https://rubika.ir/joing/IGBBIDBA0WCZWZPMKJBBNANXIDBOLVUZ" target="_blank" class="channel-link" rel="noopener noreferrer">
+                    پیوند چت گروهی
+                </a>
+                <button class="btn-copy" onclick="copyToClipboard('https://rubika.ir/joing/IGBBIDBA0WCZWZPMKJBBNANXIDBOLVUZ')"><i class="far fa-copy"></i> کپی لینک</button>
+            </div>
+            <div class="channel-item">
+                <span class="channel-label"><i class="far fa-comment-dots"></i> نظرات و پیشنهادات</span>
+                <a href="https://rubika.ir/javadxpro" target="_blank" class="channel-link" rel="noopener noreferrer">
+                    rubika.ir/javadxpro
+                </a>
+                <button class="btn-copy" onclick="copyToClipboard('rubika.ir/javadxpro')"><i class="far fa-copy"></i> کپی</button>
+                <span style="font-size:0.75rem; background:#00000066; padding:2px 10px; border-radius:30px;">📢 ارسال نظر و انتقادات</span>
+            </div>
+        </div>
+        <div class="feedback-note">
+            <i class="fas fa-info-circle"></i> جهت ارتباط سریع و اطلاع از تخفیف‌ها، کانال روبیکا را دنبال کنید. همچنین می‌توانید نظرات خود را برای اکانت javadxpro ارسال کنید.
+        </div>
+    </div>
+
+    <footer>
+        <i class="fas fa-crown"></i> گیم‌نت حامدی فر — ارائه‌دهنده خدمات گیمینگ و تفریح آنلاین <br>
+        ساعت کاری: ۱۰ صبح تا ۱۰ شب | پاسخگویی در روبیکا
+    </footer>
+</div>
+
+<script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            // نمایش یک نوتیفیکیشن ساده (alert ملایم)
+            const toast = document.createElement('div');
+            toast.innerText = '✅ لینک کپی شد!';
+            toast.style.position = 'fixed';
+            toast.style.bottom = '20px';
+            toast.style.left = '20px';
+            toast.style.backgroundColor = '#0f172fb3';
+            toast.style.backdropFilter = 'blur(8px)';
+            toast.style.color = '#bbddff';
+            toast.style.padding = '8px 16px';
+            toast.style.borderRadius = '30px';
+            toast.style.fontSize = '0.8rem';
+            toast.style.zIndex = '999';
+            toast.style.border = '1px solid #4f7eff';
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.remove(); }, 1800);
+        }).catch(() => {
+            alert('کپی دستی: ' + text);
+        });
+    }
+</script>
+</body>
+</html>
