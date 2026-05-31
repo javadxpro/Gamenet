@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>فروشگاه گیم نت | GameNet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', system-ui;
+            background: #0a0a0f;
+            color: #eef2ff;
+            direction: rtl;
+            padding-bottom: 75px;
+        }
+
+        /* منوی پایین */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #111118;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 12px;
+            border-top: 1px solid #222;
+            z-index: 100;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: 0.2s;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+
+        .nav-item i {
+            font-size: 1.3rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            color: #ff6a00;
+            background: #ff6a0010;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* هدر */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .logo h1 {
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #fff, #ff6a00);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .menu-btn {
+            background: #1a1a22;
+            border: none;
+            color: #ff6a00;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 0.4rem 0.9rem;
+            border-radius: 12px;
+        }
+
+        .search-box {
+            display: flex;
+            background: #1a1a22;
+            border-radius: 30px;
+            padding: 0.4rem 1rem;
+            flex: 1;
+            max-width: 260px;
+            border: 1px solid #333;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            padding: 0.4rem;
+            color: white;
+            width: 100%;
+        }
+
+        .search-box button {
+            background: none;
+            border: none;
+            color: #ff6a00;
+            cursor: pointer;
+        }
+
+        /* منوی کشویی */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100%;
+            background: #0f0f17f2;
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: 0.3s ease;
+            padding: 2rem 1rem;
+            border-left: 1px solid #ff6a0033;
+            overflow-y: auto;
+        }
+
+        .side-menu.open {
+            right: 0;
+        }
+
+        .close-menu {
+            background: none;
+            border: none;
+            color: #ff6a00;
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+        }
+
+        .side-menu h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #ff6a00;
+            border-right: 3px solid #ff6a00;
+            padding-right: 0.8rem;
+        }
+
+        .side-cat {
+            display: block;
+            padding: 0.7rem 1rem;
+            color: #ddd;
+            border-radius: 12px;
+            margin: 0.3rem 0;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .side-cat:hover {
+            background: #ff6a0022;
+            padding-right: 1.5rem;
+            color: #ff6a00;
+        }
+
+        .side-cat i {
+            margin-left: 0.8rem;
+            width: 25px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        /* محتوا */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            margin: 1rem 0 1rem;
+            border-right: 4px solid #ff6a00;
+            padding-right: 0.8rem;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .product-card {
+            background: #111118;
+            border-radius: 1.2rem;
+            overflow: hidden;
+            border: 1px solid #222;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            border-color: #ff6a00;
+            transform: translateY(-3px);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .product-price {
+            margin: 0.5rem 0;
+        }
+
+        .old-price {
+            font-size: 0.75rem;
+            text-decoration: line-through;
+            color: #aaa;
+            margin-left: 0.5rem;
+        }
+
+        .new-price {
+            font-size: 1.2rem;
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        .discount-badge {
+            background: #ff6a00;
+            color: #000;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .platform {
+            font-size: 0.7rem;
+            color: #aaa;
+            margin-top: 0.3rem;
+        }
+
+        /* سبد خرید */
+        .cart-item {
+            background: #111118;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #222;
+        }
+
+        .item-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .item-status {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin: 0.3rem 0;
+        }
+
+        .item-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .price-tag {
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #1a1a22;
+            padding: 0.2rem 0.5rem;
+            border-radius: 30px;
+        }
+
+        .quantity-control button {
+            background: none;
+            border: none;
+            color: #ff6a00;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 28px;
+        }
+
+        .cart-summary {
+            background: #111118;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid #ff6a0033;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.8rem 0;
+        }
+
+        .profit {
+            color: #4ade80;
+        }
+
+        .total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-top: 1px solid #333;
+            padding-top: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkout-btn {
+            background: #ff6a00;
+            color: #000;
+            font-weight: bold;
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 50px;
+            margin-top: 1rem;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .step-text {
+            color: #ff6a00;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* سایر بخش‌ها */
+        .sub-card,
+        .hardware-item,
+        .blog-section {
+            background: #111118;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #222;
+        }
+
+        .subscriptions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .hardware {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .hardware-item {
+            flex: 1;
+        }
+
+        .blog-section {
+            margin-top: 2rem;
+        }
+
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1rem;
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            padding: 1rem;
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        .owner-id {
+            background: #ff6a0022;
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+        }
+
+        .owner-id a {
+            color: #ff6a00;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="main-header">
+        <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+        <div class="logo">
+            <h1><i class="fas fa-store"></i> فروشگاه گیم نت</h1>
+        </div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="جستجو...">
+            <button onclick="searchGames()"><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+
+    <!-- منوی کناری -->
+    <div class="side-menu" id="sideMenu">
+        <button class="close-menu" id="closeMenu"><i class="fas fa-times"></i></button>
+        <h3><i class="fas fa-gamepad"></i> دسته‌بندی‌ها</h3>
+        <div class="side-cat" onclick="closeMenu()"><i class="fab fa-xbox"></i> ایکس باکس</div>
+        <div class="side-cat" onclick="closeMenu()"><i class="fab fa-playstation"></i> پلی استیشن</div>
+        <div class="side-cat" onclick="closeMenu()"><i class="fas fa-desktop"></i> کامپیوتر</div>
+        <div class="side-cat" onclick="closeMenu()"><i class="fas fa-microchip"></i> نینتندو سوییچ</div>
+        <div class="side-cat" onclick="closeMenu()"><i class="fas fa-globe"></i> سایر اشتراک‌ها</div>
+        <div class="side-cat" onclick="closeMenu()"><i class="fas fa-coins"></i> سکه و جم</div>
+        <div class="side-cat" onclick="closeMenu()"><i class="fas fa-ticket-alt"></i> گیفت کارت</div>
+        <div class="side-cat" onclick="closeMenu()"><i class="fas fa-download"></i> بازی آفلاین</div>
+        <div class="side-cat" onclick="closeMenu()"><i class="fas fa-copy"></i> بازی کپی خور</div>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- صفحه خانه -->
+    <div id="homePage" class="page active">
+        <h2 class="section-title">🏆 محبوب‌ترین بازی‌ها</h2>
+        <div class="games-grid" id="homeGrid"></div>
+    </div>
+
+    <!-- صفحه سبد خرید -->
+    <div id="cartPage" class="page">
+        <h2 class="section-title">🛒 سبد خرید</h2>
+        <div class="step-text">مرحله ۱ از ۳</div>
+        <div id="cartItems"></div>
+        <div id="cartSummary"></div>
+        <button class="checkout-btn" onclick="alert('در حال انتقال به درگاه پرداخت...')">ثبت سفارش</button>
+    </div>
+
+    <!-- صفحه پیشنهادها -->
+    <div id="offersPage" class="page">
+        <h2 class="section-title">🎮 پیشنهاد گیم نت</h2>
+        <div class="offers-grid">
+            <div class="product-card"><div class="product-info"><div class="product-title">HOLOW KNIGHT SILKSONG</div><div class="platform">XBOX</div></div></div>
+            <div class="product-card"><div class="product-info"><div class="product-title">SPORTS FLEA</div><div class="platform">XBOX</div></div></div>
+            <div class="product-card"><div class="product-info"><div class="product-title">BATTLEFIELD 6</div><div class="platform">پلی استیشن</div></div></div>
+            <div class="product-card"><div class="product-info"><div class="product-title">4RC Raiders</div><div class="platform">پلی استیشن</div></div></div>
+        </div>
+        <div class="blog-section"><i class="fas fa-blog"></i> مطالب وبلاگ | گیم‌نت</div>
+    </div>
+
+    <!-- صفحه فروش بازی -->
+    <div id="shopPage" class="page">
+        <h2 class="section-title">🎮 ایکس باکس</h2>
+        <div class="games-grid">
+            <div class="product-card"><div class="product-info"><div class="product-title">Screamer - Xbox</div><div class="new-price">۱۱,۳۷۲,۰۰۰ تومان</div></div></div>
+            <div class="product-card"><div class="product-info"><div class="product-title">FATAL FRAME II - Xbox</div><div class="new-price">۶,۸۴۲,۰۰۰ تومان</div></div></div>
+        </div>
+        <h2 class="section-title">🔥 پلی استیشن</h2>
+        <div class="games-grid">
+            <div class="product-card"><div class="product-info"><div class="product-title">REANIMAL - PS5</div><div class="new-price">۳,۱۵۲,۰۰۰ تومان</div></div></div>
+            <div class="product-card"><div class="product-info"><div class="product-title">Nioh 3 - PS5</div><div class="new-price">۳,۸۱۵,۰۰۰ تومان</div></div></div>
+        </div>
+    </div>
+
+    <!-- صفحه اشتراک‌ها -->
+    <div id="subsPage" class="page">
+        <h2 class="section-title">🏆 پرفروش‌ترین‌ها</h2>
+        <div class="subscriptions-grid">
+            <div class="sub-card">اشتراک پالس</div>
+            <div class="sub-card">اشتراک گیم پس</div>
+            <div class="sub-card">اسپاتیفای پریمیوم</div>
+            <div class="sub-card">استیم وات</div>
+        </div>
+        <div class="hardware">
+            <div class="hardware-item">🎮 دسته لازمی؟<br>خرید دسته</div>
+            <div class="hardware-item">🎮 کنسول نداری؟<br>خرید کنسول</div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="owner-id">
+            <i class="fab fa-telegram"></i> آیدی مدیریت:
+            <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a>
+        </div>
+        <p>فروشگاه گیم نت | تمامی حقوق محفوظ است</p>
+    </footer>
+</div>
+
+<!-- منوی پایین -->
+<div class="bottom-nav">
+    <div class="nav-item" data-page="home"><i class="fas fa-home"></i> خانه</div>
+    <div class="nav-item" data-page="cart"><i class="fas fa-shopping-cart"></i> سبد خرید</div>
+    <div class="nav-item" data-page="offers"><i class="fas fa-gift"></i> پیشنهادها</div>
+    <div class="nav-item" data-page="shop"><i class="fas fa-gamepad"></i> فروش بازی</div>
+    <div class="nav-item" data-page="subs"><i class="fas fa-trophy"></i> اشتراک‌ها</div>
+</div>
+
+<script>
+    // بازی‌های صفحه اصلی
+    const games = [
+        { title: "PES 2026 - جام جهانی", oldPrice: "۳,۸۰۰,۰۰۰", newPrice: "۲,۲۰۰,۰۰۰", discount: "۴۲%", platform: "PS4 | PS5", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/main/PES%20Monster%20PATCH%20WorldCup%202026.jpg" },
+        { title: "Call of Duty: Black Ops Cold War", oldPrice: "۴,۲۰۰,۰۰۰", newPrice: "۲,۴۵۰,۰۰۰", discount: "۴۲%", platform: "Xbox | PS", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/main/call%20of%20duty%20black%20ops%20cold%20war.jpg" },
+        { title: "Gang Beast", oldPrice: "۱,۸۰۰,۰۰۰", newPrice: "۹۹۰,۰۰۰", discount: "۴۵%", platform: "۴ نفره | Xbox", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/main/gang%20beast.jpg" }
+    ];
+
+    // رندر صفحه اصلی
+    function renderHome() {
+        const container = document.getElementById('homeGrid');
+        if (!container) return;
+        container.innerHTML = games.map(game => `
+            <div class="product-card">
+                <img class="product-img" src="${game.img}" alt="${game.title}">
+                <div class="product-info">
+                    <div class="product-title">${game.title}</div>
+                    <div class="product-price">
+                        <span class="old-price">${game.oldPrice}</span>
+                        <span class="new-price">${game.newPrice} تومان</span>
+                        <span class="discount-badge">${game.discount}</span>
+                    </div>
+                    <div class="platform">${game.platform}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // سبد خرید
+    let cartItems = [
+        { id: 1, name: "FIFA 22 - PS4", status: "کارکرده (دست دوم)", price: 2999000, quantity: 1 },
+        { id: 2, name: "The Last Of Us Part 2 - PS4", status: "کارکرده (دست دوم)", price: 5999000, quantity: 1 },
+        { id: 3, name: "Mortal Kombat 11 - PS4", status: "کارکرده (دست دوم)", price: 2999000, quantity: 1 }
+    ];
+
+    function formatPrice(p) { return p.toLocaleString(); }
+
+    function renderCart() {
+        const container = document.getElementById('cartItems');
+        const summary = document.getElementById('cartSummary');
+        if (!container || !summary) return;
+
+        let subtotal = 0;
+        cartItems.forEach(item => { subtotal += item.price * item.quantity; });
+        const profit = Math.floor(subtotal * 0.28);
+        const total = subtotal - profit;
+
+        container.innerHTML = cartItems.map(item => `
+            <div class="cart-item">
+                <div class="item-title">${item.name}</div>
+                <div class="item-status">وضعیت: ${item.status}</div>
+                <div class="item-price-row">
+                    <div class="price-tag">${formatPrice(item.price)} تومان</div>
+                    <div class="quantity-control">
+                        <button onclick="changeQty(${item.id}, -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="changeQty(${item.id}, 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        summary.innerHTML = `
+            <div class="summary-row"><span>قیمت کالاها (${cartItems.reduce((a,b)=>a+b.quantity,0)})</span><span>${formatPrice(subtotal)} تومان</span></div>
+            <div class="summary-row profit"><span>سود شما از این خرید</span><span>${formatPrice(profit)} (۲۸%)</span></div>
+            <div class="total"><span>جمع سبد خرید</span><span>${formatPrice(total)} تومان</span></div>
+        `;
+    }
+
+    window.changeQty = function(id, delta) {
+        const item = cartItems.find(i => i.id === id);
+        if (item) {
+            item.quantity = Math.max(1, item.quantity + delta);
+            renderCart();
+        }
+    };
+
+    // تغییر صفحه
+    function switchPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId + 'Page').classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+        document.querySelector(`.nav-item[data-page="${pageId}"]`).classList.add('active');
+        
+        if (pageId === 'cart') renderCart();
+    }
+
+    // منوی کناری
+    const menu = document.getElementById('sideMenu');
+    const overlayDiv = document.getElementById('overlay');
+    function openMenu() { menu.cla
