@@ -19,19 +19,37 @@
             padding: 2rem 1.5rem;
             min-height: 100vh;
         }
+        /* انیمیشن RGB فقط برای گوشه‌های اصلی */
+        @keyframes rgbBorderContainer {
+            0% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
+            25% { border-color: #00ff00; box-shadow: 0 0 20px #00ff00; }
+            50% { border-color: #0000ff; box-shadow: 0 0 15px #0000ff; }
+            75% { border-color: #ffff00; box-shadow: 0 0 20px #ffff00; }
+            100% { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; }
+        }
+        @keyframes rgbBorderHeaderFooter {
+            0% { border-color: #ff0000; }
+            25% { border-color: #00ff00; }
+            50% { border-color: #0000ff; }
+            75% { border-color: #ffff00; }
+            100% { border-color: #ff00ff; }
+        }
         .glass-container {
             max-width: 1200px;
             margin: 0 auto;
             background: rgba(15, 25, 45, 0.55);
             backdrop-filter: blur(12px);
             border-radius: 3rem;
-            border: 1px solid rgba(114, 137, 218, 0.3);
+            border: 3px solid;
             overflow: hidden;
+            animation: rgbBorderContainer 3s linear infinite;
         }
         .hero {
             background: linear-gradient(125deg, rgba(0, 20, 50, 0.75), rgba(30, 20, 70, 0.7));
             padding: 2rem;
             text-align: center;
+            border-bottom: 2px solid;
+            animation: rgbBorderHeaderFooter 3s linear infinite;
         }
         .hero h1 {
             font-size: 3rem;
@@ -59,6 +77,12 @@
             padding: 1rem;
             flex: 1;
             text-align: center;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(100, 150, 255, 0.5);
         }
         .device-row {
             display: flex;
@@ -69,6 +93,7 @@
             padding: 1rem;
             background: rgba(0,0,0,0.3);
             border-radius: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .device-item {
             text-align: center;
@@ -92,8 +117,8 @@
             padding: 0.5rem 1.2rem;
             border-radius: 40px;
             font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        /* گالری جدید به صورت فلکس در یک ردیف */
         .gallery-flex {
             display: flex;
             flex-wrap: wrap;
@@ -112,6 +137,11 @@
             max-width: 320px;
             display: flex;
             flex-direction: column;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+            border-color: rgba(100, 150, 255, 0.5);
         }
         .gallery-item img {
             width: 100%;
@@ -120,22 +150,12 @@
             object-fit: contain;
             background-color: #0a0f1a;
         }
-        /* برای عکس کوچکتر می‌توانیم حداکثر عرض کمتری بدهیم */
-        .gallery-item.small img {
-            max-height: 180px;
-        }
-        .gallery-item p {
-            padding: 0.7rem;
-            background: rgba(0,0,0,0.6);
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin: 0;
-        }
         .channels-list {
             padding: 1rem;
             background: rgba(0,0,0,0.3);
             margin: 1rem;
             border-radius: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .channel-item {
             display: flex;
@@ -147,8 +167,9 @@
         footer {
             text-align: center;
             padding: 1rem;
-            border-top: 1px solid #fff2;
+            border-top: 2px solid;
             font-size: 0.8rem;
+            animation: rgbBorderHeaderFooter 3s linear infinite;
         }
         .google-album-btn {
             display: inline-flex;
@@ -158,6 +179,11 @@
             color: white;
             text-decoration: none;
             margin: 0 1rem 1rem;
+            transition: 0.2s;
+        }
+        .google-album-btn:hover {
+            background: #5a9eff;
+            transform: scale(1.02);
         }
         @media (max-width: 800px) {
             .gallery-flex {
@@ -183,11 +209,10 @@
 
     <div class="info-grid">
         <div class="card"><i class="fas fa-clock"></i><h3>ساعات کاری</h3><p>⏰ ۱۰ صبح تا ۱۰ شب</p></div>
-        <div class="card"><i class="fas fa-store"></i><h3>خدمات</h3><p>🎮 نصب  بازی آفلاین  و آنلاین  PS و Xbox</p></div>
+        <div class="card"><i class="fas fa-store"></i><h3>خدمات</h3><p>🎮 نصب بازی آفلاین و آنلاین PS و Xbox</p></div>
         <div class="card"><i class="fas fa-headset"></i><h3>پشتیبانی</h3><p>در روبیکا</p></div>
     </div>
 
-    <!-- آیکون دستگاه‌ها با رنگ‌های درخواستی -->
     <div class="device-row">
         <div class="device-item">
             <i class="fab fa-playstation" style="color: #0099ff;"></i><br>
@@ -199,14 +224,12 @@
         </div>
     </div>
 
-    <!-- انواع بازی‌ها -->
     <div class="game-types">
         <span class="game-badge"><i class="fas fa-user"></i> بازی‌های ۱ نفره</span>
         <span class="game-badge"><i class="fas fa-user-friends"></i> بازی‌های ۲ نفره</span>
         <span class="game-badge"><i class="fas fa-users"></i> بازی‌های ۴ نفره</span>
     </div>
 
-    <!-- گالری به صورت فلکس و در یک ردیف (عکس‌ها بالا و پایین هم نمی‌شوند) -->
     <div class="gallery-flex">
         <div class="gallery-item">
             <img src="https://raw.githubusercontent.com/javadxpro/Gamenet/main/gang%20beast.jpg" alt="Gang Beast">
