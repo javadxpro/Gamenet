@@ -57,8 +57,17 @@
             border: 1px solid #ff6a0033;
         }
         .hero-section h1 { font-size: 1.8rem; margin-bottom: 0; }
-        .section-title { font-size: 1.4rem; margin: 1.5rem 0 1rem; border-right: 4px solid #ff6a00; padding-right: 0.8rem; }
-        .gift-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+        .section-title {
+            font-size: 1.4rem;
+            margin: 1.5rem 0 1rem;
+            border-right: 4px solid #ff6a00;
+            padding-right: 0.8rem;
+        }
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
         .gift-card {
             background: #111118;
             border-radius: 1rem;
@@ -68,21 +77,29 @@
             transition: 0.2s;
             cursor: pointer;
         }
-        .gift-card:hover { border-color: #ff6a00; transform: translateY(-3px); }
-        .gift-icon { font-size: 2rem; color: #ff6a00; margin-bottom: 0.5rem; }
-        .gift-title { font-size: 1rem; font-weight: bold; margin-bottom: 0.3rem; }
-        .gift-region { font-size: 0.7rem; color: #aaa; }
-        .gift-price { color: #4ade80; font-size: 0.8rem; margin-top: 0.5rem; }
-        .info-box {
-            background: #111118;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            text-align: center;
-            border: 1px solid #333;
+        .gift-card:hover {
+            border-color: #ff6a00;
+            transform: translateY(-3px);
         }
-        .info-box h3 { color: #ff6a00; margin-bottom: 0.5rem; }
-        .info-box p { color: #aaa; font-size: 0.85rem; line-height: 1.8; }
+        .gift-icon {
+            font-size: 2rem;
+            color: #ff6a00;
+            margin-bottom: 0.5rem;
+        }
+        .gift-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+        .gift-region {
+            font-size: 0.7rem;
+            color: #aaa;
+        }
+        .gift-price {
+            color: #4ade80;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
         footer { margin-top: 2rem; text-align: center; padding: 1rem; color: #888; font-size: 0.8rem; }
         .owner-id { background: #ff6a0022; display: inline-block; padding: 0.4rem 1rem; border-radius: 50px; }
         .owner-id a { color: #ff6a00; text-decoration: none; }
@@ -162,12 +179,6 @@
         <div class="gift-card" onclick="alert('خرید گیفت کارت EA Play')"><div class="gift-icon"><i class="fas fa-gamepad"></i></div><div class="gift-title">EA Play</div><div class="gift-region">گلوبال</div></div>
     </div>
 
-    <!-- باکس اطلاعات -->
-    <div class="info-box">
-        <h3><i class="fas fa-info-circle"></i> درباره فروشگاه گیفت کارت</h3>
-        <p>فروشگاه معتبر و رسمی گیفت کارت با تحویل آنی. انواع کارت هدیه و گیفت کارت های محبوب مانند اپل آیتونز، گوگل پلی، پلی استیشن، ایکس باکس، اسپاتیفای، استیم، روبلاکس، پابجی موبایل، گیم پس و ... را با بهترین قیمت و پشتیبانی ۲۴ ساعته تهیه کنید.</p>
-    </div>
-
     <footer>
         <div class="owner-id"><i class="fab fa-telegram"></i> آیدی مدیریت: <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a></div>
         <p>فروشگاه گیم نت | تمامی حقوق محفوظ است</p>
@@ -178,7 +189,7 @@
     <a href="index.html"><i class="fas fa-home"></i> خانه</a>
     <a href="cart.html"><i class="fas fa-shopping-cart"></i> سبد خرید</a>
     <a href="offers.html"><i class="fas fa-gift"></i> پیشنهادها</a>
-    <a href="shop.html"><i class="fas fa-gamepad"></i> فروش بازی</a>
+    <a href="games.html"><i class="fas fa-gamepad"></i> بازی‌ها</a>
     <a href="giftcard.html" class="active"><i class="fas fa-ticket-alt"></i> گیفت کارت</a>
 </div>
 </body>
