@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سبد خرید | فروشگاه گیم نت</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Vazirmatn', system-ui;
+            background: #0a0a0f;
+            color: #eef2ff;
+            direction: rtl;
+            padding-bottom: 75px;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #111118;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 12px;
+            border-top: 1px solid #222;
+            z-index: 100;
+        }
+        .bottom-nav a {
+            text-align: center;
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+        .bottom-nav a i { font-size: 1.3rem; display: block; margin-bottom: 4px; }
+        .bottom-nav a:hover, .bottom-nav a.active { color: #ff6a00; background: #ff6a0010; }
+        .container { max-width: 800px; margin: 0 auto; padding: 1rem; }
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .logo h1 { font-size: 1.4rem; background: linear-gradient(135deg, #fff, #ff6a00); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .back-link { color: #ff6a00; text-decoration: none; }
+        .section-title { font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .cart-item {
+            background: #111118;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #222;
+        }
+        .item-title { font-size: 1rem; font-weight: bold; }
+        .item-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .price-tag { color: #4ade80; font-weight: bold; }
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #1a1a22;
+            padding: 0.2rem 0.5rem;
+            border-radius: 30px;
+        }
+        .quantity-control button { background: none; border: none; color: #ff6a00; font-size: 1.2rem; cursor: pointer; width: 28px; }
+        .remove-btn { background: none; border: none; color: #ff4444; cursor: pointer; margin-right: 0.5rem; font-size: 1rem; }
+        .cart-summary {
+            background: #111118;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid #ff6a0033;
+        }
+        .summary-row { display: flex; justify-content: space-between; margin: 0.8rem 0; }
+        .total { font-size: 1.2rem; font-weight: bold; border-top: 1px solid #333; padding-top: 0.8rem; }
+        .checkout-btn {
+            background: #ff6a00;
+            color: #000;
+            font-weight: bold;
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 50px;
+            margin-top: 1rem;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .order-code {
+            background: #1a1a2e;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+            border: 2px solid #ff6a00;
+        }
+        .contact-bar {
+            background: #ff6a00;
+            color: #000;
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 50px;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+        .contact-bar a { color: #000; text-decoration: none; }
+        .empty-cart {
+            text-align: center;
+            padding: 2rem;
+            background: #111118;
+            border-radius: 1rem;
+        }
+        footer { margin-top: 2rem; text-align: center; padding: 1rem; color: #888; font-size: 0.8rem; }
+        @media (max-width: 600px) { .item-price-row { flex-direction: column; align-items: flex-start; gap: 0.5rem; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="main-header">
+        <div class="logo"><h1><i class="fas fa-store"></i> فروشگاه گیم نت</h1></div>
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت</a>
+    </div>
+
+    <h1 class="section-title">🛒 سبد خرید</h1>
+    <div id="cartItems"></div>
+    <div id="cartSummary"></div>
+    <div id="orderCodeDiv" class="order-code" style="display: none;">
+        <i class="fas fa-ticket-alt" style="font-size: 1.5rem;"></i>
+        <h3>کد پیگیری سفارش شما:</h3>
+        <h2 id="orderCode" style="color: #ff6a00; direction: ltr;"></h2>
+        <p>لطفاً برای هماهنگی خرید با ما تماس بگیرید</p>
+    </div>
+    <div class="contact-bar">
+        <i class="fas fa-phone-alt"></i> برای نهایی‌سازی خرید و هماهنگی تماس بگیرید:
+        <a href="tel:0933880140">۰۹۳۳۸۸۰۱۴۰</a> | 
+        <a href="tel:09372726142">۰۹۳۷۲۷۲۶۱۴۲</a>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn">نهایی‌سازی خرید و دریافت کد پیگیری</button>
+
+    <footer>
+        <p>فروشگاه گیم نت | تمامی حقوق محفوظ است</p>
+    </footer>
+</div>
+
+<div class="bottom-nav">
+    <a href="index.html"><i class="fas fa-home"></i> خانه</a>
+    <a href="cart.html" class="active"><i class="fas fa-shopping-cart"></i> سبد خرید</a>
+    <a href="offers.html"><i class="fas fa-gift"></i> پیشنهادها</a>
+    <a href="games.html"><i class="fas fa-gamepad"></i> بازی‌ها</a>
+    <a href="giftcard.html"><i class="fas fa-ticket-alt"></i> گیفت کارت</a>
+</div>
+
+<script>
+    // دریافت سبد خرید از localStorage
+    let cart = JSON.parse(localStorage.getItem('gameCart')) || [];
+
+    function formatPrice(p) { return p.toLocaleString(); }
+
+    function saveCart() {
+        localStorage.setItem('gameCart', JSON.stringify(cart));
+    }
+
+    function removeFromCart(id) {
+        cart = cart.filter(item => item.id !== id);
+        saveCart();
+        renderCart();
+    }
+
+    function changeQty(id, delta) {
+        const item = cart.find(i => i.id === id);
+        if (item) {
+            item.quantity = Math.max(1, (item.quantity || 1) + delta);
+            saveCart();
+            renderCart();
+        }
+    }
+
+    function renderCart() {
+        const container = document.getElementById('cartItems');
+        const summaryContainer = document.getElementById('cartSummary');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        
+        if (!cart || cart.length === 0) {
+            if (container) container.innerHTML = `<div class="empty-cart">🛒 سبد خرید شما خالی است<br><a href="index.html" style="color:#ff6a00;">بازگشت به فروشگاه</a></div>`;
+            if (summaryContainer) summaryContainer.innerHTML = '';
+            if (checkoutBtn) checkoutBtn.style.display = 'none';
+            return;
+        }
+        
+        let subtotal = 0;
+        cart.forEach(item => {
+            subtotal += item.priceNum * (item.quantity || 1);
+        });
+        
+        if (container) {
+            container.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="item-title">${item.title}</div>
+                    <div class="item-price-row">
+                        <div class="price-tag">${formatPrice(item.priceNum)} تومان</div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <button class="remove-btn" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button>
+                            <div class="quantity-control">
+                                <button onclick="changeQty(${item.id}, -1)">-</button>
+                                <span>${item.quantity || 1}</span>
+                                <button onclick="changeQty(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        if (summaryContainer) {
+            summaryContainer.innerHTML = `
+                <div class="summary-row"><span>مجموع</span><span>${formatPrice(subtotal)} تومان</span></div>
+                <div class="total"><span>قابل پرداخت</span><span>${formatPrice(subtotal)} تومان</span></div>
+            `;
+        }
+        
+        if (checkoutBtn) checkoutBtn.style.display = 'block';
+    }
+
+    function generateOrderCode() {
+        const user = JSON.parse(localStorage.getItem('gameUser'));
+        const userName = user ? user.name.slice(0, 3) : 'GUEST';
+        const random = Math.floor(Math.random() * 10000);
+        const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+        return `GM-${date}-${userName}-${random}`;
+    }
+
+    function checkout() {
+        if (!cart || cart.length === 0) {
+            alert('سبد خرید شما خالی است!');
+            return;
+        }
+        
+        const user = JSON.parse(localStorage.getItem('gameUser'));
+        if (!user) {
+            alert('لطفاً ابتدا در صفحه اصلی ثبت نام کنید!');
+            window.location.href = 'index.html';
+            return;
+        }
+        
+        const code = generateOrderCode();
+        localStorage.setItem('lastOrderCode', code);
+        localStorage.setItem('lastOrderCart', JSON.stringify(cart));
+        
+        document.getElementById('orderCodeDiv').style.display = 'block';
+        document.getElementById('orderCode').innerHTML = code;
+        document.getElementById('checkoutBtn').style.display = 'none';
+        
+        alert(`کد پیگیری شما: ${code}\nلطفاً با شماره‌های تماس گرفته شده هماهنگی کنید.`);
+    }
+
+    document.getElementById('checkoutBtn').onclick = checkout;
+    renderCart();
+</script>
+</body>
+</html>

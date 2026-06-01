@@ -70,6 +70,7 @@
             flex-wrap: wrap;
             gap: 1rem;
             padding: 1.5rem;
+            align-items: stretch;
         }
         .card {
             background: rgba(10, 20, 35, 0.65);
@@ -79,10 +80,33 @@
             text-align: center;
             border: 1px solid rgba(255,255,255,0.15);
             transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .card:hover {
             transform: translateY(-3px);
             border-color: rgba(100, 150, 255, 0.5);
+        }
+        /* دکمه فروشگاه */
+        .shop-btn {
+            background: linear-gradient(135deg, #ff6a00, #ff8c2a);
+            color: #000;
+            font-weight: bold;
+            padding: 0.6rem 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 0.8rem;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+        }
+        .shop-btn:hover {
+            transform: scale(1.02);
+            background: linear-gradient(135deg, #ff8c2a, #ffaa44);
+            box-shadow: 0 0 15px rgba(255, 106, 0, 0.5);
         }
         .device-row {
             display: flex;
@@ -197,6 +221,9 @@
         @media (max-width: 600px) {
             .hero h1 { font-size: 2rem; }
             .device-item i { font-size: 2rem; }
+            .info-grid {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -210,7 +237,12 @@
     <div class="info-grid">
         <div class="card"><i class="fas fa-clock"></i><h3>ساعات کاری</h3><p>⏰ ۱۰ صبح تا ۱۰ شب</p></div>
         <div class="card"><i class="fas fa-store"></i><h3>خدمات</h3><p>🎮 نصب بازی آفلاین و آنلاین PS و Xbox</p></div>
-        <div class="card"><i class="fas fa-headset"></i><h3>پشتیبانی</h3><p>در روبیکا</p></div>
+        <div class="card">
+            <i class="fas fa-headset"></i>
+            <h3>پشتیبانی</h3>
+            <p>در روبیکا</p>
+            <a href="index.html" class="shop-btn"><i class="fas fa-store"></i> ورود به فروشگاه</a>
+        </div>
     </div>
 
     <div class="device-row">

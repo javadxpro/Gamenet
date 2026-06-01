@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گیفت کارت | فروشگاه گیم نت</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Vazirmatn', system-ui;
+            background: #0a0a0f;
+            color: #eef2ff;
+            direction: rtl;
+            padding-bottom: 75px;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #111118;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 12px;
+            border-top: 1px solid #222;
+            z-index: 100;
+        }
+        .bottom-nav a {
+            text-align: center;
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+        .bottom-nav a i { font-size: 1.3rem; display: block; margin-bottom: 4px; }
+        .bottom-nav a:hover, .bottom-nav a.active { color: #ff6a00; background: #ff6a0010; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 1rem; }
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .logo h1 { font-size: 1.4rem; background: linear-gradient(135deg, #fff, #ff6a00); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .back-link { color: #ff6a00; text-decoration: none; }
+        .hero-section {
+            background: linear-gradient(135deg, #1a1a2e, #0a0a1a);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid #ff6a0033;
+        }
+        .hero-section h1 { font-size: 1.8rem; margin-bottom: 0; }
+        .section-title { font-size: 1.4rem; margin: 1.5rem 0 1rem; border-right: 4px solid #ff6a00; padding-right: 0.8rem; }
+        .gift-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+        .gift-card {
+            background: #111118;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #222;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .gift-card:hover { border-color: #ff6a00; transform: translateY(-3px); }
+        .gift-icon { font-size: 2rem; color: #ff6a00; margin-bottom: 0.5rem; }
+        .gift-title { font-size: 1rem; font-weight: bold; margin-bottom: 0.3rem; }
+        .gift-region { font-size: 0.7rem; color: #aaa; }
+        .gift-price { color: #4ade80; font-size: 0.8rem; margin-top: 0.5rem; }
+        .info-box {
+            background: #111118;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        .info-box h3 { color: #ff6a00; margin-bottom: 0.5rem; }
+        .info-box p { color: #aaa; font-size: 0.85rem; line-height: 1.8; }
+        footer { margin-top: 2rem; text-align: center; padding: 1rem; color: #888; font-size: 0.8rem; }
+        .owner-id { background: #ff6a0022; display: inline-block; padding: 0.4rem 1rem; border-radius: 50px; }
+        .owner-id a { color: #ff6a00; text-decoration: none; }
+        @media (max-width: 650px) { .hero-section h1 { font-size: 1.3rem; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="main-header">
+        <div class="logo"><h1><i class="fas fa-store"></i> فروشگاه گیم نت</h1></div>
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت</a>
+    </div>
+
+    <!-- بخش هدر (فقط عنوان) -->
+    <div class="hero-section">
+        <h1>🎁 فروشگاه گیفت کارت</h1>
+    </div>
+
+    <!-- دسته‌بندی اصلی -->
+    <h2 class="section-title">🍎 گیفت کارت اپل آیتونز (Apple)</h2>
+    <div class="gift-grid">
+        <div class="gift-card" onclick="alert('خرید گیفت کارت اپل آمریکا')"><div class="gift-icon"><i class="fab fa-apple"></i></div><div class="gift-title">اپل آیتونز</div><div class="gift-region">آمریکا</div><div class="gift-price">از ۲۵۰,۰۰۰ تومان</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت اپل ترکیه')"><div class="gift-icon"><i class="fab fa-apple"></i></div><div class="gift-title">اپل آیتونز</div><div class="gift-region">ترکیه</div><div class="gift-price">از ۲۰۰,۰۰۰ تومان</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت اپل آلمان')"><div class="gift-icon"><i class="fab fa-apple"></i></div><div class="gift-title">اپل آیتونز</div><div class="gift-region">آلمان</div><div class="gift-price">از ۳۰۰,۰۰۰ تومان</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت اپل انگلیس')"><div class="gift-icon"><i class="fab fa-apple"></i></div><div class="gift-title">اپل آیتونز</div><div class="gift-region">انگلیس</div><div class="gift-price">از ۳۵۰,۰۰۰ تومان</div></div>
+    </div>
+
+    <h2 class="section-title">🎮 گیفت کارت پلی استیشن (PSN)</h2>
+    <div class="gift-grid">
+        <div class="gift-card" onclick="alert('خرید گیفت کارت پلی استیشن آمریکا')"><div class="gift-icon"><i class="fab fa-playstation"></i></div><div class="gift-title">پلی استیشن</div><div class="gift-region">آمریکا</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت پلی استیشن ترکیه')"><div class="gift-icon"><i class="fab fa-playstation"></i></div><div class="gift-title">پلی استیشن</div><div class="gift-region">ترکیه</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت پلی استیشن امارات')"><div class="gift-icon"><i class="fab fa-playstation"></i></div><div class="gift-title">پلی استیشن</div><div class="gift-region">امارات</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت پلی استیشن آلمان')"><div class="gift-icon"><i class="fab fa-playstation"></i></div><div class="gift-title">پلی استیشن</div><div class="gift-region">آلمان</div></div>
+    </div>
+
+    <h2 class="section-title">🎮 گیفت کارت ایکس باکس (Xbox)</h2>
+    <div class="gift-grid">
+        <div class="gift-card" onclick="alert('خرید گیفت کارت ایکس باکس آمریکا')"><div class="gift-icon"><i class="fab fa-xbox"></i></div><div class="gift-title">ایکس باکس</div><div class="gift-region">آمریکا</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت ایکس باکس ترکیه')"><div class="gift-icon"><i class="fab fa-xbox"></i></div><div class="gift-title">ایکس باکس</div><div class="gift-region">ترکیه</div></div>
+        <div class="gift-card" onclick="alert('خرید گیم پس ایکس باکس برزیل')"><div class="gift-icon"><i class="fab fa-xbox"></i></div><div class="gift-title">گیم پس ایکس باکس</div><div class="gift-region">برزیل</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت گلد ایکس باکس')"><div class="gift-icon"><i class="fab fa-xbox"></i></div><div class="gift-title">گلد (Essential)</div><div class="gift-region">آمریکا</div></div>
+    </div>
+
+    <h2 class="section-title">💻 گیفت کارت استیم (Steam)</h2>
+    <div class="gift-grid">
+        <div class="gift-card" onclick="alert('خرید گیفت کارت استیم گلوبال')"><div class="gift-icon"><i class="fab fa-steam"></i></div><div class="gift-title">استیم</div><div class="gift-region">گلوبال</div></div>
+        <div class="gift-card" onclick="alert('خرید استیم والت ترکیه')"><div class="gift-icon"><i class="fab fa-steam"></i></div><div class="gift-title">استیم والت</div><div class="gift-region">ترکیه</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت استیم آمریکا')"><div class="gift-icon"><i class="fab fa-steam"></i></div><div class="gift-title">استیم</div><div class="gift-region">آمریکا</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت استیم اروپا')"><div class="gift-icon"><i class="fab fa-steam"></i></div><div class="gift-title">استیم</div><div class="gift-region">اروپا</div></div>
+    </div>
+
+    <h2 class="section-title">🤖 گیفت کارت گوگل پلی (Google Play)</h2>
+    <div class="gift-grid">
+        <div class="gift-card" onclick="alert('خرید گیفت کارت گوگل پلی آمریکا')"><div class="gift-icon"><i class="fab fa-google"></i></div><div class="gift-title">گوگل پلی</div><div class="gift-region">آمریکا</div></div>
+        <div class="gift-card" onclick="alert('خرید ویزا کارت گوگل پلی')"><div class="gift-icon"><i class="fab fa-google"></i></div><div class="gift-title">ویزا کارت گوگل پلی</div><div class="gift-region">آمریکا</div></div>
+    </div>
+
+    <h2 class="section-title">🎵 گیفت کارت اسپاتیفای (Spotify)</h2>
+    <div class="gift-grid">
+        <div class="gift-card" onclick="alert('خرید گیفت کارت اسپاتیفای آمریکا')"><div class="gift-icon"><i class="fab fa-spotify"></i></div><div class="gift-title">اسپاتیفای</div><div class="gift-region">آمریکا</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت اسپاتیفای گلوبال')"><div class="gift-icon"><i class="fab fa-spotify"></i></div><div class="gift-title">اسپاتیفای پریمیوم</div><div class="gift-region">گلوبال</div></div>
+    </div>
+
+    <h2 class="section-title">🎬 سایر گیفت کارت‌ها و اشتراک‌ها</h2>
+    <div class="gift-grid">
+        <div class="gift-card" onclick="alert('خرید اشتراک تلگرام پریمیوم')"><div class="gift-icon"><i class="fab fa-telegram"></i></div><div class="gift-title">تلگرام پریمیوم</div><div class="gift-region">گلوبال</div></div>
+        <div class="gift-card" onclick="alert('خرید استارز تلگرام')"><div class="gift-icon"><i class="fab fa-telegram"></i></div><div class="gift-title">استارز تلگرام</div><div class="gift-region">گلوبال</div></div>
+        <div class="gift-card" onclick="alert('خرید اکانت چت جی پی تی پلاس')"><div class="gift-icon"><i class="fas fa-robot"></i></div><div class="gift-title">ChatGPT Plus</div><div class="gift-region">اکانت پریمیوم</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت نتفلیکس')"><div class="gift-icon"><i class="fas fa-tv"></i></div><div class="gift-title">نتفلیکس</div><div class="gift-region">آمریکا</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت روبلاکس')"><div class="gift-icon"><i class="fas fa-cube"></i></div><div class="gift-title">روبلاکس</div><div class="gift-region">آمریکا</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت پابجی موبایل')"><div class="gift-icon"><i class="fas fa-gamepad"></i></div><div class="gift-title">پابجی موبایل</div><div class="gift-region">گلوبال</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت نینتندو')"><div class="gift-icon"><i class="fas fa-gamepad"></i></div><div class="gift-title">نینتندو</div><div class="gift-region">آمریکا</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت آمازون')"><div class="gift-icon"><i class="fab fa-amazon"></i></div><div class="gift-title">آمازون</div><div class="gift-region">آمریکا</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت ریزر گلد')"><div class="gift-icon"><i class="fas fa-dragon"></i></div><div class="gift-title">ریزر گلد</div><div class="gift-region">گلوبال</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت بتل نت')"><div class="gift-icon"><i class="fas fa-gamepad"></i></div><div class="gift-title">بتل نت</div><div class="gift-region">آمریکا</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت ولورانت')"><div class="gift-icon"><i class="fas fa-crosshairs"></i></div><div class="gift-title">ولورانت</div><div class="gift-region">آمریکا</div></div>
+        <div class="gift-card" onclick="alert('خرید گیفت کارت EA Play')"><div class="gift-icon"><i class="fas fa-gamepad"></i></div><div class="gift-title">EA Play</div><div class="gift-region">گلوبال</div></div>
+    </div>
+
+    <!-- باکس اطلاعات -->
+    <div class="info-box">
+        <h3><i class="fas fa-info-circle"></i> درباره فروشگاه گیفت کارت</h3>
+        <p>فروشگاه معتبر و رسمی گیفت کارت با تحویل آنی. انواع کارت هدیه و گیفت کارت های محبوب مانند اپل آیتونز، گوگل پلی، پلی استیشن، ایکس باکس، اسپاتیفای، استیم، روبلاکس، پابجی موبایل، گیم پس و ... را با بهترین قیمت و پشتیبانی ۲۴ ساعته تهیه کنید.</p>
+    </div>
+
+    <footer>
+        <div class="owner-id"><i class="fab fa-telegram"></i> آیدی مدیریت: <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a></div>
+        <p>فروشگاه گیم نت | تمامی حقوق محفوظ است</p>
+    </footer>
+</div>
+
+<div class="bottom-nav">
+    <a href="index.html"><i class="fas fa-home"></i> خانه</a>
+    <a href="cart.html"><i class="fas fa-shopping-cart"></i> سبد خرید</a>
+    <a href="offers.html"><i class="fas fa-gift"></i> پیشنهادها</a>
+    <a href="shop.html"><i class="fas fa-gamepad"></i> فروش بازی</a>
+    <a href="giftcard.html" class="active"><i class="fas fa-ticket-alt"></i> گیفت کارت</a>
+</div>
+</body>
+</html>
