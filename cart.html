@@ -110,7 +110,6 @@
             margin-top: 0.8rem;
             text-align: right;
             font-size: 0.8rem;
-            direction: ltr;
         }
         .contact-bar {
             background: #ff6a00;
@@ -201,6 +200,17 @@
 </div>
 
 <script>
+    // ========== تگ‌های بازی‌ها ==========
+    const gameTags = {
+        "PES 2026 - نسخه جام جهانی": "P6WE",
+        "PES 2026 - پچ زمستانی": "P6W",
+        "Call of Duty: Black Ops Cold War": "CBCW",
+        "Gang Beast": "GB",
+        "دزدان لاستیکی": "RB",
+        "Call of Duty Modern Warfare III": "MWIII",
+        "Injustice 2": "INJ2"
+    };
+
     let cart = JSON.parse(localStorage.getItem('gameCart')) || [];
 
     function formatPrice(p) { 
@@ -275,32 +285,32 @@
         if (checkoutBtn) checkoutBtn.style.display = 'block';
     }
 
-    // تابع ساخت کد پیگیری بر اساس محتوای سبد خرید + username
+    // تبدیل تاریخ شمسی
+    function getPersianDate() {
+        const date = new Date();
+        return date.toLocaleDateString('fa-IR').replace(/\//g, '.');
+    }
+
+    // تابع ساخت کد پیگیری با فرمت جدید
     function generateOrderCode(username) {
-        // ساخت بخش محصولات: مثلاً PESx2-GBx1
+        // ساخت بخش محصولات: مثلاً P6WEx2 - CBCWx1
         let itemsPart = cart.map(item => {
-            // گرفتن حروف اول بازی (حداکثر 4 حرف)
-            let shortName = item.title.substring(0, 4).replace(/[^آ-یa-zA-Z0-9]/g, '');
-            return `${shortName}x${item.quantity || 1}`;
-        }).join('-');
+            let tag = gameTags[item.title] || item.title.substring(0, 4);
+            return `${tag}x${item.quantity || 1}`;
+        }).join(' - ');
         
-        // تاریخ و زمان
-        const now = new Date();
-        const datePart = now.toISOString().slice(0, 10).replace(/-/g, '');
-        const timePart = now.toTimeString().slice(0, 5).replace(/:/g, '');
+        // تاریخ شمسی
+        const persianDate = getPersianDate();
         
-        // عدد تصادفی 4 رقمی
-        const random = Math.floor(Math.random() * 10000);
-        
-        // جمع کل برای تشخیص بهتر
+        // جمع کل
         let total = 0;
         cart.forEach(item => {
             let price = parseInt(String(item.price).replace(/,/g, '')) || item.priceNum || 150000;
             total += price * (item.quantity || 1);
         });
         
-        // کد نهایی با username
-        return `${username}-${itemsPart}-${datePart}-${timePart}-${random}-${total}`;
+        // کد نهایی با فرمت: username - محصولات - تاریخ - مبلغ کل
+        return `${username} - ${itemsPart} - ${persianDate} - ${total.toLocaleString()}`;
     }
 
     // تابع کپی کد پیگیری
@@ -332,7 +342,8 @@
         let orderDetails = '';
         cart.forEach(item => {
             let price = parseInt(String(item.price).replace(/,/g, '')) || item.priceNum || 150000;
-            orderDetails += `${item.title} ${item.type ? `(${item.type})` : ''} × ${item.quantity || 1} = ${(price * (item.quantity || 1)).toLocaleString()} تومان\n`;
+            let tag = gameTags[item.title] || item.title.substring(0, 4);
+            orderDetails += `${item.title} (${tag}) ${item.type ? `(${item.type})` : ''} × ${item.quantity || 1} = ${(price * (item.quantity || 1)).toLocaleString()} تومان<br>`;
         });
         
         let total = 0;
@@ -351,7 +362,7 @@
         document.getElementById('orderCode').innerHTML = code;
         document.getElementById('orderDetails').innerHTML = `
             <strong>📦 جزئیات سفارش:</strong><br>
-            ${orderDetails.replace(/\n/g, '<br>')}
+            ${orderDetails}
             <strong>💰 مبلغ کل: ${total.toLocaleString()} تومان</strong><br>
             <strong>👤 نام: ${user.fullName}</strong><br>
             <strong>🆔 نام کاربری: ${user.username}</strong><br>
