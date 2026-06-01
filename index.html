@@ -64,6 +64,7 @@
             cursor: pointer;
             padding: 0.4rem 0.9rem;
             border-radius: 12px;
+            transition: 0.2s;
         }
         .cart-icon {
             position: relative;
@@ -215,7 +216,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -225,25 +226,44 @@
             padding: 2rem;
             border-radius: 2rem;
             text-align: center;
-            max-width: 400px;
+            max-width: 450px;
             width: 90%;
+        }
+        .modal-content h3 {
+            color: #ff6a00;
+            margin-bottom: 1rem;
         }
         .modal-content input {
             width: 100%;
-            padding: 0.6rem;
+            padding: 0.8rem;
             margin: 0.5rem 0;
             border-radius: 30px;
             border: none;
             font-family: inherit;
+            background: #0a0a0f;
+            color: white;
+            border: 1px solid #333;
+        }
+        .modal-content input:focus {
+            outline: none;
+            border-color: #ff6a00;
         }
         .modal-content button {
             background: #ff6a00;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.5rem;
             border-radius: 30px;
             font-weight: bold;
             cursor: pointer;
             margin: 0.5rem;
+            font-family: inherit;
+        }
+        .modal-content button:hover {
+            background: #ff8c2a;
+        }
+        .close-modal-btn {
+            background: #333;
+            color: white;
         }
         @media (max-width: 650px) { .container { padding: 0.8rem; } .search-box { max-width: 180px; } }
     </style>
@@ -298,19 +318,24 @@
     <a href="giftcard.html"><i class="fas fa-ticket-alt"></i> گیفت کارت</a>
 </div>
 
+<!-- مودال ثبت نام کامل -->
 <div id="authModal" class="modal">
     <div class="modal-content">
-        <h3>ثبت نام / ورود</h3>
-        <input type="text" id="fullName" placeholder="نام و نام خانوادگی">
-        <input type="text" id="userPhone" placeholder="شماره موبایل">
-        <button onclick="registerUser()">ثبت نام</button>
-        <button onclick="closeModal()">انصراف</button>
-        <div id="userStatus" style="margin-top: 10px;"></div>
+        <h3><i class="fas fa-user-plus"></i> ثبت نام / ورود</h3>
+        <input type="text" id="fullName" placeholder="نام و نام خانوادگی" required>
+        <input type="text" id="username" placeholder="نام کاربری (username)" required>
+        <input type="email" id="email" placeholder="ایمیل" required>
+        <input type="tel" id="phone" placeholder="شماره تلفن" required>
+        <div>
+            <button onclick="registerUser()">ثبت نام</button>
+            <button class="close-modal-btn" onclick="closeModal()">انصراف</button>
+        </div>
+        <div id="userStatus" style="margin-top: 10px; font-size: 0.8rem;"></div>
     </div>
 </div>
 
 <script>
-    // لیست بازی‌های محبوب (موجود با لینک به صفحات جزئیات)
+    // لیست بازی‌های محبوب
     const popularGames = [
         {
             id: 1,
@@ -374,30 +399,62 @@
         `).join('');
     }
 
-    // ثبت نام
+    // ثبت نام با اطلاعات کامل
     let currentUser = JSON.parse(localStorage.getItem('gameUser')) || null;
 
     function registerUser() {
-        const name = document.getElementById('fullName').value;
-        const phone = document.getElementById('userPhone').value;
-        if (!name || !phone) { alert('لطفاً نام و شماره را وارد کنید'); return; }
-        const user = { name, phone, registerDate: new Date().toLocaleDateString('fa-IR') };
+        const fullName = document.getElementById('fullName').value.trim();
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        
+        if (!fullName || !username || !email || !phone) {
+            alert('لطفاً تمام فیلدها را پر کنید!');
+            return;
+        }
+        
+        // اعتبارسنجی ساده ایمیل
+        if (!email.includes('@') || !email.includes('.')) {
+            alert('لطفاً ایمیل معتبر وارد کنید!');
+            return;
+        }
+        
+        const user = { 
+            fullName, 
+            username, 
+            email, 
+            phone, 
+            registerDate: new Date().toLocaleDateString('fa-IR')
+        };
+        
         localStorage.setItem('gameUser', JSON.stringify(user));
         currentUser = user;
-        document.getElementById('userStatus').innerHTML = `<span style="color:#4ade80;">✓ ثبت نام شدید! خوش آمدید ${name}</span>`;
-        setTimeout(() => { closeModal(); }, 1500);
-        updateUserButton();
+        
+        document.getElementById('userStatus').innerHTML = `<span style="color:#4ade80;">✓ ثبت نام شدید! خوش آمدید ${fullName}</span>`;
+        
+        setTimeout(() => { 
+            closeModal(); 
+            updateUserButton();
+        }, 1500);
     }
 
     function openModal() {
         if (currentUser) {
-            alert(`کاربر گرامی ${currentUser.name} عزیز، خوش آمدید!\nشماره تماس: ${currentUser.phone}`);
+            alert(`کاربر گرامی ${currentUser.fullName} عزیز، خوش آمدید!\n\n🆔 نام کاربری: ${currentUser.username}\n📧 ایمیل: ${currentUser.email}\n📞 شماره تماس: ${currentUser.phone}`);
         } else {
+            // پاک کردن فرم
+            document.getElementById('fullName').value = '';
+            document.getElementById('username').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('userStatus').innerHTML = '';
             document.getElementById('authModal').style.display = 'flex';
         }
     }
 
-    function closeModal() { document.getElementById('authModal').style.display = 'none'; }
+    function closeModal() { 
+        document.getElementById('authModal').style.display = 'none'; 
+    }
 
     function updateUserButton() {
         const btn = document.getElementById('userBtn');
@@ -405,9 +462,11 @@
             if (currentUser) {
                 btn.innerHTML = `<i class="fas fa-user-check"></i>`;
                 btn.style.color = '#4ade80';
+                btn.title = currentUser.fullName;
             } else {
                 btn.innerHTML = `<i class="fas fa-user"></i>`;
                 btn.style.color = '#ff6a00';
+                btn.title = 'ورود / ثبت نام';
             }
         }
     }
