@@ -133,12 +133,6 @@
             margin-top: 1rem;
             color: #ff6a00;
         }
-        .success-msg {
-            color: #4ade80;
-            text-align: center;
-            margin-top: 0.5rem;
-            display: none;
-        }
         @media (max-width: 600px) { .item-price-row { flex-direction: column; align-items: flex-start; gap: 0.5rem; } }
     </style>
 </head>
@@ -155,9 +149,9 @@
     <div id="orderCodeDiv" class="order-code" style="display: none;">
         <i class="fas fa-check-circle" style="font-size: 1.5rem; color: #4ade80;"></i>
         <h3>✅ سفارش شما با موفقیت ثبت شد!</h3>
-        <h2 id="orderCode" style="color: #ff6a00; direction: ltr; font-size: 1.2rem;"></h2>
+        <h2 id="orderCode" style="color: #ff6a00; direction: ltr; font-size: 1rem; word-break: break-all;"></h2>
         <p>سفارش شما در <a href="https://github.com/javadxpro/Gamenet/issues" target="_blank" style="color:#4ade80;">Issues گیت‌هاب</a> ثبت شد.</p>
-        <p style="font-size: 0.8rem; margin-top: 0.5rem;">برای هماهنگی با ما تماس بگیرید.</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem;">برای هماهنگی با شماره‌های تماس بگیرید.</p>
     </div>
     <div class="contact-bar">
         <i class="fas fa-phone-alt"></i> برای نهایی‌سازی خرید و هماهنگی تماس بگیرید:
@@ -166,7 +160,6 @@
     </div>
     <button class="checkout-btn" id="checkoutBtn">✅ نهایی‌سازی خرید</button>
     <div id="loading" class="loading"><i class="fas fa-spinner fa-pulse"></i> در حال ثبت سفارش...</div>
-    <div id="successMsg" class="success-msg"></div>
 
     <footer>
         <div class="owner-id"><i class="fab fa-telegram"></i> آیدی مدیریت: <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a></div>
@@ -262,10 +255,9 @@
         return `GM-${date}-${random}`;
     }
 
-    // تابع ثبت سفارش در GitHub Issues با توکن
     async function createGitHubIssue(orderData) {
         const repo = "javadxpro/Gamenet";
-        const token = "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";
+        const token = "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";
         
         const title = `🛒 سفارش جدید - ${orderData.code}`;
         const body = `# سفارش جدید از فروشگاه گیم نت
@@ -351,19 +343,15 @@ ${orderData.items.map(item => `- **${item.title}** × ${item.quantity} = ${item.
         };
         
         try {
-            // ثبت در GitHub Issues
             const issue = await createGitHubIssue(orderData);
             
-            // ذخیره در localStorage
             localStorage.setItem('lastOrderCode', code);
             localStorage.setItem('lastOrderCart', JSON.stringify(cart));
             
-            // نمایش کد پیگیری
             document.getElementById('orderCodeDiv').style.display = 'block';
             document.getElementById('orderCode').innerHTML = code;
             checkoutBtn.style.display = 'none';
             
-            // پاک کردن سبد خرید
             cart = [];
             saveCart();
             renderCart();
