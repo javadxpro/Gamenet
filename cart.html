@@ -94,11 +94,6 @@
             cursor: pointer;
             font-family: inherit;
             font-size: 1rem;
-            transition: 0.2s;
-        }
-        .checkout-btn:disabled {
-            background: #555;
-            cursor: not-allowed;
         }
         .order-code {
             background: #1a1a2e;
@@ -107,6 +102,15 @@
             margin-top: 1rem;
             text-align: center;
             border: 2px solid #4ade80;
+        }
+        .order-details {
+            background: #0a0a0f;
+            border-radius: 0.8rem;
+            padding: 0.8rem;
+            margin-top: 0.8rem;
+            text-align: right;
+            font-size: 0.8rem;
+            direction: ltr;
         }
         .contact-bar {
             background: #ff6a00;
@@ -127,11 +131,24 @@
         footer { margin-top: 2rem; text-align: center; padding: 1rem; color: #888; font-size: 0.8rem; }
         .owner-id { background: #ff6a0022; display: inline-block; padding: 0.4rem 1rem; border-radius: 50px; }
         .owner-id a { color: #ff6a00; text-decoration: none; }
-        .loading {
-            display: none;
+        .info-text {
+            background: #1a1a2e;
+            border-radius: 0.8rem;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            font-size: 0.8rem;
+            color: #aaa;
             text-align: center;
-            margin-top: 1rem;
-            color: #ff6a00;
+        }
+        .copy-btn {
+            background: #ff6a00;
+            color: #000;
+            border: none;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            font-size: 0.7rem;
         }
         @media (max-width: 600px) { .item-price-row { flex-direction: column; align-items: flex-start; gap: 0.5rem; } }
     </style>
@@ -146,20 +163,28 @@
     <h1 class="section-title">🛒 سبد خرید</h1>
     <div id="cartItems"></div>
     <div id="cartSummary"></div>
-    <div id="orderCodeDiv" class="order-code" style="display: none;">
-        <i class="fas fa-check-circle" style="font-size: 1.5rem; color: #4ade80;"></i>
-        <h3>✅ سفارش شما با موفقیت ثبت شد!</h3>
-        <h2 id="orderCode" style="color: #ff6a00; direction: ltr; font-size: 1rem; word-break: break-all;"></h2>
-        <p>سفارش شما در <a href="https://github.com/javadxpro/Gamenet/issues" target="_blank" style="color:#4ade80;">Issues گیت‌هاب</a> ثبت شد.</p>
-        <p style="font-size: 0.8rem; margin-top: 0.5rem;">برای هماهنگی با شماره‌های تماس بگیرید.</p>
+    
+    <div class="info-text">
+        <i class="fas fa-info-circle"></i> پس از ثبت سفارش، کد پیگیری دریافت می‌کنید. 
+        لطفاً با شماره‌های تماس زیر هماهنگی کنید.
     </div>
+
     <div class="contact-bar">
-        <i class="fas fa-phone-alt"></i> برای نهایی‌سازی خرید و هماهنگی تماس بگیرید:
+        <i class="fas fa-phone-alt"></i> شماره‌های تماس برای هماهنگی:
         <a href="tel:0933880140">۰۹۳۳۸۸۰۱۴۰</a> | 
         <a href="tel:09372726142">۰۹۳۷۲۷۲۶۱۴۲</a>
     </div>
-    <button class="checkout-btn" id="checkoutBtn">✅ نهایی‌سازی خرید</button>
-    <div id="loading" class="loading"><i class="fas fa-spinner fa-pulse"></i> در حال ثبت سفارش...</div>
+
+    <div id="orderCodeDiv" class="order-code" style="display: none;">
+        <i class="fas fa-ticket-alt" style="font-size: 1.5rem; color: #ff6a00;"></i>
+        <h3>✅ کد پیگیری سفارش شما:</h3>
+        <h2 id="orderCode" style="color: #ff6a00; direction: ltr; font-size: 0.9rem; word-break: break-all; background: #0a0a0f; padding: 0.5rem; border-radius: 10px;"></h2>
+        <button class="copy-btn" onclick="copyOrderCode()">📋 کپی کد</button>
+        <div class="order-details" id="orderDetails"></div>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem;">📞 لطفاً با این کد با ما تماس بگیرید.</p>
+    </div>
+
+    <button class="checkout-btn" id="checkoutBtn">✅ ثبت سفارش و دریافت کد پیگیری</button>
 
     <footer>
         <div class="owner-id"><i class="fab fa-telegram"></i> آیدی مدیریت: <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a></div>
@@ -211,6 +236,7 @@
             if (container) container.innerHTML = `<div class="empty-cart">🛒 سبد خرید شما خالی است<br><a href="index.html" style="color:#ff6a00;">بازگشت به فروشگاه</a></div>`;
             if (summaryContainer) summaryContainer.innerHTML = '';
             if (checkoutBtn) checkoutBtn.style.display = 'block';
+            document.getElementById('orderCodeDiv').style.display = 'none';
             return;
         }
         
@@ -249,60 +275,45 @@
         if (checkoutBtn) checkoutBtn.style.display = 'block';
     }
 
-    function generateOrderCode() {
+    // تابع ساخت کد پیگیری بر اساس محتوای سبد خرید + username
+    function generateOrderCode(username) {
+        // ساخت بخش محصولات: مثلاً PESx2-GBx1
+        let itemsPart = cart.map(item => {
+            // گرفتن حروف اول بازی (حداکثر 4 حرف)
+            let shortName = item.title.substring(0, 4).replace(/[^آ-یa-zA-Z0-9]/g, '');
+            return `${shortName}x${item.quantity || 1}`;
+        }).join('-');
+        
+        // تاریخ و زمان
+        const now = new Date();
+        const datePart = now.toISOString().slice(0, 10).replace(/-/g, '');
+        const timePart = now.toTimeString().slice(0, 5).replace(/:/g, '');
+        
+        // عدد تصادفی 4 رقمی
         const random = Math.floor(Math.random() * 10000);
-        const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-        return `GM-${date}-${random}`;
-    }
-
-    async function createGitHubIssue(orderData) {
-        const repo = "javadxpro/Gamenet";
-        const token = "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";
         
-        const title = `🛒 سفارش جدید - ${orderData.code}`;
-        const body = `# سفارش جدید از فروشگاه گیم نت
-
-## 👤 اطلاعات کاربر
-- **نام:** ${orderData.userName}
-- **شماره تماس:** ${orderData.userPhone}
-- **تاریخ ثبت:** ${orderData.date}
-
-## 📦 جزئیات سفارش
-${orderData.items.map(item => `- **${item.title}** × ${item.quantity} = ${item.price.toLocaleString()} تومان`).join('\n')}
-
-## 💰 مبلغ کل
-**${orderData.total.toLocaleString()} تومان**
-
-## 🔑 کد پیگیری
-**${orderData.code}**
-
----
-*این سفارش به صورت خودکار از سایت فروشگاه گیم نت ثبت شده است.*
-        `;
-        
-        const response = await fetch(`https://api.github.com/repos/${repo}/issues`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `token ${token}`,
-                'Accept': 'application/vnd.github.v3+json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title: title,
-                body: body,
-                labels: ['سفارش', 'جدید']
-            })
+        // جمع کل برای تشخیص بهتر
+        let total = 0;
+        cart.forEach(item => {
+            let price = parseInt(String(item.price).replace(/,/g, '')) || item.priceNum || 150000;
+            total += price * (item.quantity || 1);
         });
         
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'خطا در ثبت سفارش');
-        }
-        
-        return await response.json();
+        // کد نهایی با username
+        return `${username}-${itemsPart}-${datePart}-${timePart}-${random}-${total}`;
     }
 
-    async function checkout() {
+    // تابع کپی کد پیگیری
+    function copyOrderCode() {
+        const code = document.getElementById('orderCode').innerText;
+        navigator.clipboard.writeText(code).then(() => {
+            alert('✅ کد پیگیری کپی شد!');
+        }).catch(() => {
+            alert('لطفاً دستی کپی کنید: ' + code);
+        });
+    }
+
+    function checkout() {
         if (!cart || cart.length === 0) {
             alert('سبد خرید شما خالی است!');
             return;
@@ -315,58 +326,49 @@ ${orderData.items.map(item => `- **${item.title}** × ${item.quantity} = ${item.
             return;
         }
         
-        const loading = document.getElementById('loading');
-        const checkoutBtn = document.getElementById('checkoutBtn');
+        const code = generateOrderCode(user.username);
         
-        loading.style.display = 'block';
-        checkoutBtn.disabled = true;
-        
-        let subtotal = 0;
+        // ساخت جزئیات سفارش برای نمایش
+        let orderDetails = '';
         cart.forEach(item => {
             let price = parseInt(String(item.price).replace(/,/g, '')) || item.priceNum || 150000;
-            subtotal += price * (item.quantity || 1);
+            orderDetails += `${item.title} ${item.type ? `(${item.type})` : ''} × ${item.quantity || 1} = ${(price * (item.quantity || 1)).toLocaleString()} تومان\n`;
         });
         
-        const code = generateOrderCode();
+        let total = 0;
+        cart.forEach(item => {
+            let price = parseInt(String(item.price).replace(/,/g, '')) || item.priceNum || 150000;
+            total += price * (item.quantity || 1);
+        });
         
-        const orderData = {
-            code: code,
-            userName: user.name,
-            userPhone: user.phone,
-            date: new Date().toLocaleDateString('fa-IR') + ' ' + new Date().toLocaleTimeString('fa-IR'),
-            items: cart.map(item => ({
-                title: item.title + (item.type ? ` (${item.type})` : ''),
-                quantity: item.quantity || 1,
-                price: parseInt(String(item.price).replace(/,/g, '')) || item.priceNum || 150000
-            })),
-            total: subtotal
-        };
+        // ذخیره در localStorage
+        localStorage.setItem('lastOrderCode', code);
+        localStorage.setItem('lastOrderCart', JSON.stringify(cart));
+        localStorage.setItem('lastOrderUser', JSON.stringify(user));
         
-        try {
-            const issue = await createGitHubIssue(orderData);
-            
-            localStorage.setItem('lastOrderCode', code);
-            localStorage.setItem('lastOrderCart', JSON.stringify(cart));
-            
-            document.getElementById('orderCodeDiv').style.display = 'block';
-            document.getElementById('orderCode').innerHTML = code;
-            checkoutBtn.style.display = 'none';
-            
-            cart = [];
-            saveCart();
-            renderCart();
-            
-            alert(`✅ سفارش شما با موفقیت ثبت شد!\n📌 کد پیگیری: ${code}\n🔗 لینک سفارش: ${issue.html_url}`);
-            
-        } catch (error) {
-            console.error('Error:', error);
-            alert('❌ خطا در ثبت سفارش: ' + error.message + '\n\nلطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.');
-        } finally {
-            loading.style.display = 'none';
-            checkoutBtn.disabled = false;
-        }
+        // نمایش کد پیگیری
+        document.getElementById('orderCodeDiv').style.display = 'block';
+        document.getElementById('orderCode').innerHTML = code;
+        document.getElementById('orderDetails').innerHTML = `
+            <strong>📦 جزئیات سفارش:</strong><br>
+            ${orderDetails.replace(/\n/g, '<br>')}
+            <strong>💰 مبلغ کل: ${total.toLocaleString()} تومان</strong><br>
+            <strong>👤 نام: ${user.fullName}</strong><br>
+            <strong>🆔 نام کاربری: ${user.username}</strong><br>
+            <strong>📞 تلفن: ${user.phone}</strong><br>
+            <strong>📧 ایمیل: ${user.email}</strong>
+        `;
+        document.getElementById('checkoutBtn').style.display = 'none';
+        
+        // پاک کردن سبد خرید
+        cart = [];
+        saveCart();
+        renderCart();
+        
+        alert(`✅ سفارش شما ثبت شد!\n📌 کد پیگیری: ${code}\n📞 لطفاً با شماره‌های تماس، هماهنگی کنید.`);
     }
 
+    window.copyOrderCode = copyOrderCode;
     document.getElementById('checkoutBtn').onclick = checkout;
     renderCart();
 </script>
