@@ -73,10 +73,6 @@
             width: 100%;
             height: 160px;
             object-fit: cover;
-            background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .game-info {
             padding: 1rem;
@@ -142,7 +138,7 @@
         <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی</a>
     </div>
 
-    <h2 class="section-title">🎮 بازی‌های کپی خور (PS4)</h2>
+    <h2 class="section-title">🎮 همه بازی‌های کپی خور (PS4)</h2>
     <div class="games-grid" id="allGamesGrid"></div>
 
     <footer>
@@ -160,73 +156,61 @@
 </div>
 
 <script>
-    // لیست کامل بازی‌های کپی خور PS4
-    // بازی‌های انحصاری پلی استیشن فقط آرم PS دارند
-    const exclusiveGames = [
-        "Marvel's Spider-Man", "Uncharted: The Lost Legacy", "The Last of Us Part 2",
-        "Ghost of Tsushima", "God of War", "Horizon Zero Dawn", "Horizon Forbidden West",
-        "Bloodborne", "Days Gone", "Ratchet & Clank", "Shadow of the Colossus"
-    ];
-
+    // لیست کامل بازی‌ها با لینک عکس از گیت‌هاب شما
     const gamesList = [
-        { title: "A Way Out", size: "16.6 GB", exclusive: false },
-        { title: "WATCH_DOGS® 2", size: "33 GB", exclusive: false },
-        { title: "TEKKEN™7", size: "39 GB", exclusive: false },
-        { title: "Marvel's Spider-Man", size: "71 GB", exclusive: true },
-        { title: "Minecraft", size: "2 GB", exclusive: false },
-        { title: "GTA V", size: "124 GB", exclusive: false },
-        { title: "Kung Fu Panda", size: "4.3 GB", exclusive: false },
-        { title: "FlatOut 4", size: "7 GB", exclusive: false },
-        { title: "WRECKFEST", size: "25.5 GB", exclusive: false },
-        { title: "Uncharted: The Lost Legacy", size: "46 GB", exclusive: true },
-        { title: "Unravel TWO", size: "3 GB", exclusive: false },
-        { title: "DEAD OR ALIVE 6", size: "62 GB", exclusive: false },
-        { title: "Road Redemption", size: "5.5 GB", exclusive: false },
-        { title: "Crash Team Racing Nitro-Fueled", size: "21.5 GB", exclusive: false },
-        { title: "American Fugitive", size: "2 GB", exclusive: false },
-        { title: "Streets of Rage 4", size: "5 GB", exclusive: false },
-        { title: "WWE 2K Battlegrounds", size: "8.5 GB", exclusive: false },
-        { title: "Kena: Bridge of Spirits", size: "18.5 GB", exclusive: false },
-        { title: "Call of Duty Modern Warfare II", size: "168 GB", exclusive: false },
-        { title: "WWE 2K23", size: "73 GB", exclusive: false },
-        { title: "EA SPORTS FC 24", size: "46 GB", exclusive: false },
-        { title: "EA SPORTS FC 25", size: "50 GB", exclusive: false },
-        { title: "EA SPORTS FC 26", size: "85 GB", exclusive: false },
-        { title: "Goat Simulator 3", size: "13 GB", exclusive: false },
-        { title: "Ghost Recon Wildlands", size: "57 GB", exclusive: false },
-        { title: "It Takes Two", size: "34.5 GB", exclusive: false },
-        { title: "Call of Duty Black Ops 3", size: "110 GB", exclusive: false },
-        { title: "Guns Gore and Cannoli 2", size: "1 GB", exclusive: false },
-        { title: "METAL SLUG XX", size: "1 GB", exclusive: false },
-        { title: "Call of Duty WWII", size: "80.5 GB", exclusive: false },
-        { title: "The Takeover", size: "1 GB", exclusive: false }
+        { title: "A Way Out", size: "16.6 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/A_Way_Out.jpg" },
+        { title: "WATCH_DOGS® 2", size: "33 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/WATCH_DOGS_2.jpg" },
+        { title: "TEKKEN™7", size: "39 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/TEKKEN_7.jpg" },
+        { title: "Marvel's Spider-Man", size: "71 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/MARVEL_SPIDER-MAN.jpg" },
+        { title: "Minecraft", size: "2 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Minecraft.jpeg" },
+        { title: "GTA V", size: "124 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/GTA-V.jpg" },
+        { title: "Kung Fu Panda", size: "4.3 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Kung_Fu_Panda.jpg" },
+        { title: "FlatOut 4", size: "7 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/FL4TOUT.jpg" },
+        { title: "WRECKFEST", size: "25.5 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/WRECKFEST.jpg" },
+        { title: "Uncharted: The Lost Legacy", size: "46 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/UNCHARTED_LEGACY.jpg" },
+        { title: "Unravel TWO", size: "3 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Unravel_TWO.jpeg" },
+        { title: "DEAD OR ALIVE 6", size: "62 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/DEAD_OR_ALIVE_6.jpg" },
+        { title: "Road Redemption", size: "5.5 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/ROAD_REDEMPION.jpg" },
+        { title: "Crash Team Racing", size: "21.5 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Crash_Team_Racing_Nitro-Fueled.jpg" },
+        { title: "American Fugitive", size: "2 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/American_Fugitive.jpg" },
+        { title: "Streets of Rage 4", size: "5 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Streets_of_Rage_4.jpg" },
+        { title: "WWE 2K Battlegrounds", size: "8.5 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/WWE_2K_Battlegrounds.jpg" },
+        { title: "Kena: Bridge of Spirits", size: "18.5 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Kena_Bridge_of_Spirits.jpg" },
+        { title: "Call of Duty Modern Warfare II", size: "168 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Call_of_Duty_Modern_Warfare_II.jpg" },
+        { title: "WWE 2K23", size: "73 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/WWE_2K23.jpg" },
+        { title: "EA SPORTS FC 24", size: "46 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/EA_SPORTS_FC_24.jpg" },
+        { title: "EA SPORTS FC 25", size: "50 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/EA_SPORTS_FC_25.jpg" },
+        { title: "EA SPORTS FC 26", size: "85 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/EA_SPORTS_FC26.jpg" },
+        { title: "Goat Simulator 3", size: "13 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Goat_Simulator_3.jpeg" },
+        { title: "Ghost Recon Wildlands", size: "57 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Ghost_Recon_Wildlands.jpg" },
+        { title: "It Takes Two", size: "34.5 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/It_Takes_Two.jpeg" },
+        { title: "Call of Duty Black Ops 3", size: "110 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Call_of_Duty_Black_Ops_3.jpeg" },
+        { title: "Guns Gore and Cannoli 2", size: "1 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Guns_Gore_and_Cannoli_2.jpg" },
+        { title: "METAL SLUG XX", size: "1 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/METAL_SLUG_XX.jpg" },
+        { title: "Call of Duty WWII", size: "80.5 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Call_of_Duty_WWII.jpg" },
+        { title: "The Takeover", size: "1 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/The_Takeover.jpg" }
     ];
 
     function renderAllGames() {
         const container = document.getElementById('allGamesGrid');
         if (!container) return;
         
-        container.innerHTML = gamesList.map(game => {
-            const isExclusive = game.exclusive;
-            return `
-                <div class="game-card" onclick="alert('${game.title} - قیمت: ۱۵۰,۰۰۰ تومان\nبرای خرید با پشتیبانی تماس بگیرید')">
-                    <div class="game-img">
-                        <i class="fas fa-gamepad" style="font-size: 3rem; color: #ff6a00;"></i>
+        container.innerHTML = gamesList.map(game => `
+            <div class="game-card" onclick="alert('${game.title} - قیمت: ۱۵۰,۰۰۰ تومان\\nبرای خرید با پشتیبانی تماس بگیرید')">
+                <img class="game-img" src="${game.img}" alt="${game.title}" onerror="this.src='https://placehold.co/400x200/1a1a2e/ff6a00?text=Game'">
+                <div class="game-info">
+                    <div class="game-title">${game.title}</div>
+                    <div class="game-size"><i class="fas fa-hdd"></i> ${game.size}</div>
+                    <div class="platform-icons">
+                        <i class="fab fa-playstation ps-icon"></i>
+                        <i class="fab fa-xbox xbox-icon"></i>
                     </div>
-                    <div class="game-info">
-                        <div class="game-title">${game.title}</div>
-                        <div class="game-size"><i class="fas fa-hdd"></i> ${game.size}</div>
-                        <div class="platform-icons">
-                            <i class="fab fa-playstation ps-icon"></i>
-                            ${!isExclusive ? '<i class="fab fa-xbox xbox-icon"></i>' : ''}
-                        </div>
-                        <div class="game-type">🎮 کپی خور</div>
-                        <div class="game-status">✅ موجود - ۱۵۰,۰۰۰ تومان</div>
-                        <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
-                    </div>
+                    <div class="game-type">🎮 کپی خور</div>
+                    <div class="game-status">✅ موجود - ۱۵۰,۰۰۰ تومان</div>
+                    <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
                 </div>
-            `;
-        }).join('');
+            </div>
+        `).join('');
     }
 
     renderAllGames();

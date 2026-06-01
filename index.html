@@ -64,7 +64,6 @@
             cursor: pointer;
             padding: 0.4rem 0.9rem;
             border-radius: 12px;
-            transition: 0.2s;
         }
         .cart-icon {
             position: relative;
@@ -150,6 +149,7 @@
         }
         .overlay.show { display: block; }
         .section-title { font-size: 1.4rem; margin: 1rem 0 1rem; border-right: 4px solid #ff6a00; padding-right: 0.8rem; }
+        
         .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
         .product-card {
             background: #111118;
@@ -196,6 +196,30 @@
             transition: 0.2s;
         }
         .product-card:hover .view-detail { background: #ff8c2a; }
+        
+        .subscriptions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .sub-card {
+            background: #111118;
+            border-radius: 1.2rem;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid #222;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .sub-card:hover {
+            border-color: #ff6a00;
+            transform: translateY(-5px);
+        }
+        .sub-icon { font-size: 2.5rem; color: #ff6a00; margin-bottom: 0.8rem; }
+        .sub-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; }
+        .sub-status { font-size: 0.8rem; color: #ff4444; font-weight: bold; margin-top: 0.3rem; }
+        
         .contact-bar {
             background: #ff6a00;
             color: #000;
@@ -229,10 +253,6 @@
             max-width: 450px;
             width: 90%;
         }
-        .modal-content h3 {
-            color: #ff6a00;
-            margin-bottom: 1rem;
-        }
         .modal-content input {
             width: 100%;
             padding: 0.8rem;
@@ -244,10 +264,6 @@
             color: white;
             border: 1px solid #333;
         }
-        .modal-content input:focus {
-            outline: none;
-            border-color: #ff6a00;
-        }
         .modal-content button {
             background: #ff6a00;
             border: none;
@@ -256,14 +272,6 @@
             font-weight: bold;
             cursor: pointer;
             margin: 0.5rem;
-            font-family: inherit;
-        }
-        .modal-content button:hover {
-            background: #ff8c2a;
-        }
-        .close-modal-btn {
-            background: #333;
-            color: white;
         }
         @media (max-width: 650px) { .container { padding: 0.8rem; } .search-box { max-width: 180px; } }
     </style>
@@ -304,6 +312,30 @@
     <h2 class="section-title">🏆 بازی‌های محبوب</h2>
     <div class="games-grid" id="gamesGrid"></div>
 
+    <h2 class="section-title">🔥 اشتراک‌های محبوب</h2>
+    <div class="subscriptions-grid">
+        <div class="sub-card" onclick="alert('اشتراک پلی استیشن پلاس - ناموجود')">
+            <div class="sub-icon"><i class="fab fa-playstation"></i></div>
+            <div class="sub-title">پلی استیشن پلاس</div>
+            <div class="sub-status">⛔ ناموجود</div>
+        </div>
+        <div class="sub-card" onclick="alert('اشتراک گیم پس - ناموجود')">
+            <div class="sub-icon"><i class="fab fa-xbox"></i></div>
+            <div class="sub-title">گیم پس</div>
+            <div class="sub-status">⛔ ناموجود</div>
+        </div>
+        <div class="sub-card" onclick="alert('رویال پس پابجی - ناموجود')">
+            <div class="sub-icon"><i class="fas fa-crosshairs"></i></div>
+            <div class="sub-title">رویال پس پابجی</div>
+            <div class="sub-status">⛔ ناموجود</div>
+        </div>
+        <div class="sub-card" onclick="alert('بتل پس کالاف - ناموجود')">
+            <div class="sub-icon"><i class="fas fa-gun"></i></div>
+            <div class="sub-title">بتل پس کالاف</div>
+            <div class="sub-status">⛔ ناموجود</div>
+        </div>
+    </div>
+
     <footer>
         <div class="owner-id"><i class="fab fa-telegram"></i> آیدی مدیریت: <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a></div>
         <p>فروشگاه گیم نت | تمامی حقوق محفوظ است</p>
@@ -318,7 +350,6 @@
     <a href="giftcard.html"><i class="fas fa-ticket-alt"></i> گیفت کارت</a>
 </div>
 
-<!-- مودال ثبت نام کامل -->
 <div id="authModal" class="modal">
     <div class="modal-content">
         <h3><i class="fas fa-user-plus"></i> ثبت نام / ورود</h3>
@@ -328,47 +359,18 @@
         <input type="tel" id="phone" placeholder="شماره تلفن" required>
         <div>
             <button onclick="registerUser()">ثبت نام</button>
-            <button class="close-modal-btn" onclick="closeModal()">انصراف</button>
+            <button class="close-modal-btn" onclick="closeModal()" style="background:#333;">انصراف</button>
         </div>
-        <div id="userStatus" style="margin-top: 10px; font-size: 0.8rem;"></div>
+        <div id="userStatus" style="margin-top: 10px;"></div>
     </div>
 </div>
 
 <script>
-    // لیست بازی‌های محبوب
     const popularGames = [
-        {
-            id: 1,
-            title: "PES 2026 - نسخه جام جهانی",
-            img: "https://raw.githubusercontent.com/javadxpro/Gamenet/main/PES%20Monster%20PATCH%20WorldCup%202026.jpg",
-            link: "game1.html",
-            platforms: ["ps"],
-            type: "کپی خور"
-        },
-        {
-            id: 2,
-            title: "Call of Duty: Black Ops Cold War",
-            img: "https://raw.githubusercontent.com/javadxpro/Gamenet/main/call%20of%20duty%20black%20ops%20cold%20war.jpg",
-            link: "game2.html",
-            platforms: ["ps", "xbox"],
-            type: null
-        },
-        {
-            id: 3,
-            title: "Gang Beast",
-            img: "https://raw.githubusercontent.com/javadxpro/Gamenet/main/gang%20beast.jpg",
-            link: "game3.html",
-            platforms: ["ps", "xbox"],
-            type: "کپی خور"
-        },
-        {
-            id: 4,
-            title: "PES 2026 - پچ زمستانی",
-            img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Monster%20PATCH%20WINTER%202026.jpg",
-            link: "game4.html",
-            platforms: ["ps"],
-            type: "کپی خور"
-        }
+        { id: 1, title: "PES 2026 - نسخه جام جهانی", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/PES%20Monster%20PATCH%20WorldCup%202026.jpg", link: "game1.html", platforms: ["ps"], type: "کپی خور" },
+        { id: 2, title: "Call of Duty: Black Ops Cold War", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/call%20of%20duty%20black%20ops%20cold%20war.jpg", link: "game2.html", platforms: ["ps", "xbox"], type: null },
+        { id: 3, title: "Gang Beast", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/gang%20beast.jpg", link: "game3.html", platforms: ["ps", "xbox"], type: "کپی خور" },
+        { id: 4, title: "PES 2026 - پچ زمستانی", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Monster%20PATCH%20WINTER%202026.jpg", link: "game4.html", platforms: ["ps"], type: "کپی خور" }
     ];
 
     let cart = JSON.parse(localStorage.getItem('gameCart')) || [];
@@ -382,7 +384,6 @@
     function renderPopularGames() {
         const container = document.getElementById('gamesGrid');
         if (!container) return;
-        
         container.innerHTML = popularGames.map(game => `
             <a href="${game.link}" class="product-card">
                 <img class="product-img" src="${game.img}" alt="${game.title}">
@@ -399,7 +400,6 @@
         `).join('');
     }
 
-    // ثبت نام با اطلاعات کامل
     let currentUser = JSON.parse(localStorage.getItem('gameUser')) || null;
 
     function registerUser() {
@@ -407,42 +407,19 @@
         const username = document.getElementById('username').value.trim();
         const email = document.getElementById('email').value.trim();
         const phone = document.getElementById('phone').value.trim();
-        
-        if (!fullName || !username || !email || !phone) {
-            alert('لطفاً تمام فیلدها را پر کنید!');
-            return;
-        }
-        
-        // اعتبارسنجی ساده ایمیل
-        if (!email.includes('@') || !email.includes('.')) {
-            alert('لطفاً ایمیل معتبر وارد کنید!');
-            return;
-        }
-        
-        const user = { 
-            fullName, 
-            username, 
-            email, 
-            phone, 
-            registerDate: new Date().toLocaleDateString('fa-IR')
-        };
-        
+        if (!fullName || !username || !email || !phone) { alert('لطفاً تمام فیلدها را پر کنید!'); return; }
+        if (!email.includes('@') || !email.includes('.')) { alert('لطفاً ایمیل معتبر وارد کنید!'); return; }
+        const user = { fullName, username, email, phone, registerDate: new Date().toLocaleDateString('fa-IR') };
         localStorage.setItem('gameUser', JSON.stringify(user));
         currentUser = user;
-        
         document.getElementById('userStatus').innerHTML = `<span style="color:#4ade80;">✓ ثبت نام شدید! خوش آمدید ${fullName}</span>`;
-        
-        setTimeout(() => { 
-            closeModal(); 
-            updateUserButton();
-        }, 1500);
+        setTimeout(() => { closeModal(); updateUserButton(); }, 1500);
     }
 
     function openModal() {
         if (currentUser) {
-            alert(`کاربر گرامی ${currentUser.fullName} عزیز، خوش آمدید!\n\n🆔 نام کاربری: ${currentUser.username}\n📧 ایمیل: ${currentUser.email}\n📞 شماره تماس: ${currentUser.phone}`);
+            alert(`کاربر گرامی ${currentUser.fullName} عزیز، خوش آمدید!\n🆔 نام کاربری: ${currentUser.username}\n📧 ایمیل: ${currentUser.email}\n📞 تلفن: ${currentUser.phone}`);
         } else {
-            // پاک کردن فرم
             document.getElementById('fullName').value = '';
             document.getElementById('username').value = '';
             document.getElementById('email').value = '';
@@ -452,26 +429,16 @@
         }
     }
 
-    function closeModal() { 
-        document.getElementById('authModal').style.display = 'none'; 
-    }
+    function closeModal() { document.getElementById('authModal').style.display = 'none'; }
 
     function updateUserButton() {
         const btn = document.getElementById('userBtn');
         if (btn) {
-            if (currentUser) {
-                btn.innerHTML = `<i class="fas fa-user-check"></i>`;
-                btn.style.color = '#4ade80';
-                btn.title = currentUser.fullName;
-            } else {
-                btn.innerHTML = `<i class="fas fa-user"></i>`;
-                btn.style.color = '#ff6a00';
-                btn.title = 'ورود / ثبت نام';
-            }
+            if (currentUser) { btn.innerHTML = `<i class="fas fa-user-check"></i>`; btn.style.color = '#4ade80'; }
+            else { btn.innerHTML = `<i class="fas fa-user"></i>`; btn.style.color = '#ff6a00'; }
         }
     }
 
-    // منوی کشویی
     const menuBtn = document.getElementById('menuBtn');
     const sideMenu = document.getElementById('sideMenu');
     const closeMenuBtn = document.getElementById('closeMenu');
