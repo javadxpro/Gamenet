@@ -149,11 +149,7 @@
         }
         .overlay.show { display: block; }
         .section-title { font-size: 1.4rem; margin: 1rem 0 1rem; border-right: 4px solid #ff6a00; padding-right: 0.8rem; }
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
         .product-card {
             background: #111118;
             border-radius: 1.2rem;
@@ -288,10 +284,6 @@
     <h2 class="section-title">🏆 بازی‌های محبوب</h2>
     <div class="games-grid" id="gamesGrid"></div>
 
-    <!-- بخش جدید: لیست بازی‌ها -->
-    <h2 class="section-title">📋 لیست بازی‌ها</h2>
-    <div class="games-grid" id="allGamesGrid"></div>
-
     <footer>
         <div class="owner-id"><i class="fab fa-telegram"></i> آیدی مدیریت: <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a></div>
         <p>فروشگاه گیم نت | تمامی حقوق محفوظ است</p>
@@ -318,7 +310,7 @@
 </div>
 
 <script>
-    // لیست بازی‌های محبوب (موجود)
+    // لیست بازی‌های محبوب (موجود با لینک به صفحات جزئیات)
     const popularGames = [
         {
             id: 1,
@@ -354,45 +346,6 @@
         }
     ];
 
-    // لیست همه بازی‌ها (برای بخش لیست بازی‌ها)
-    const allGames = [
-        {
-            title: "دزدان لاستیکی",
-            img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/rubber%20bandits.jpg",
-            status: "ناموجود"
-        },
-        {
-            title: "Call of Duty Modern Warfare III",
-            img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Call%20of%20Duty%20Modern%20Warfare%20III.jpg",
-            status: "ناموجود"
-        },
-        {
-            title: "Injustice 2",
-            img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/injustice%202.jpg",
-            status: "ناموجود"
-        },
-        {
-            title: "PES 2026 - نسخه جام جهانی",
-            img: "https://raw.githubusercontent.com/javadxpro/Gamenet/main/PES%20Monster%20PATCH%20WorldCup%202026.jpg",
-            status: "موجود"
-        },
-        {
-            title: "Call of Duty: Black Ops Cold War",
-            img: "https://raw.githubusercontent.com/javadxpro/Gamenet/main/call%20of%20duty%20black%20ops%20cold%20war.jpg",
-            status: "موجود"
-        },
-        {
-            title: "Gang Beast",
-            img: "https://raw.githubusercontent.com/javadxpro/Gamenet/main/gang%20beast.jpg",
-            status: "موجود"
-        },
-        {
-            title: "PES 2026 - پچ زمستانی",
-            img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Monster%20PATCH%20WINTER%202026.jpg",
-            status: "موجود"
-        }
-    ];
-
     let cart = JSON.parse(localStorage.getItem('gameCart')) || [];
 
     function updateCartCount() {
@@ -418,23 +371,6 @@
                     <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
                 </div>
             </a>
-        `).join('');
-    }
-
-    function renderAllGames() {
-        const container = document.getElementById('allGamesGrid');
-        if (!container) return;
-        
-        container.innerHTML = allGames.map(game => `
-            <div class="product-card" style="opacity: ${game.status === 'ناموجود' ? '0.6' : '1'}">
-                <img class="product-img" src="${game.img}" alt="${game.title}">
-                <div class="product-info">
-                    <div class="product-title">${game.title}</div>
-                    <div class="game-type" style="background: ${game.status === 'ناموجود' ? '#ff444415' : '#4ade8015'}; color: ${game.status === 'ناموجود' ? '#ff4444' : '#4ade80'}">
-                        ${game.status === 'ناموجود' ? '⛔ ناموجود' : '✅ موجود'}
-                    </div>
-                </div>
-            </div>
         `).join('');
     }
 
@@ -492,7 +428,6 @@
     window.onclick = function(e) { if (e.target === document.getElementById('authModal')) closeModal(); };
 
     renderPopularGames();
-    renderAllGames();
     updateCartCount();
     updateUserButton();
 </script>
