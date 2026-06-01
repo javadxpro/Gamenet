@@ -72,7 +72,7 @@
             border-radius: 30px;
         }
         .quantity-control button { background: none; border: none; color: #ff6a00; font-size: 1.2rem; cursor: pointer; width: 28px; }
-        .remove-btn { background: none; border: none; color: #ff4444; cursor: pointer; margin-right: 0.5rem; font-size: 1rem; }
+        .remove-btn { background: none; border: none; color: #ff4444; cursor: pointer; margin-right: 0.5rem; }
         .cart-summary {
             background: #111118;
             border-radius: 1rem;
@@ -93,6 +93,7 @@
             margin-top: 1rem;
             cursor: pointer;
             font-family: inherit;
+            font-size: 1rem;
         }
         .order-code {
             background: #1a1a2e;
@@ -119,6 +120,14 @@
             border-radius: 1rem;
         }
         footer { margin-top: 2rem; text-align: center; padding: 1rem; color: #888; font-size: 0.8rem; }
+        .owner-id { background: #ff6a0022; display: inline-block; padding: 0.4rem 1rem; border-radius: 50px; }
+        .owner-id a { color: #ff6a00; text-decoration: none; }
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+            color: #ff6a00;
+        }
         @media (max-width: 600px) { .item-price-row { flex-direction: column; align-items: flex-start; gap: 0.5rem; } }
     </style>
 </head>
@@ -136,7 +145,8 @@
         <i class="fas fa-ticket-alt" style="font-size: 1.5rem;"></i>
         <h3>کد پیگیری سفارش شما:</h3>
         <h2 id="orderCode" style="color: #ff6a00; direction: ltr;"></h2>
-        <p>لطفاً برای هماهنگی خرید با ما تماس بگیرید</p>
+        <p>سفارش شما با موفقیت ثبت شد! برای هماهنگی با ما تماس بگیرید.</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem;">📌 سفارش شما در <a href="https://github.com/javadxpro/Gamenet/issues" target="_blank" style="color:#ff6a00;">Issues گیت‌هاب</a> نیز ثبت شد.</p>
     </div>
     <div class="contact-bar">
         <i class="fas fa-phone-alt"></i> برای نهایی‌سازی خرید و هماهنگی تماس بگیرید:
@@ -144,8 +154,10 @@
         <a href="tel:09372726142">۰۹۳۷۲۷۲۶۱۴۲</a>
     </div>
     <button class="checkout-btn" id="checkoutBtn">نهایی‌سازی خرید و دریافت کد پیگیری</button>
+    <div id="loading" class="loading"><i class="fas fa-spinner fa-pulse"></i> در حال ثبت سفارش...</div>
 
     <footer>
+        <div class="owner-id"><i class="fab fa-telegram"></i> آیدی مدیریت: <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a></div>
         <p>فروشگاه گیم نت | تمامی حقوق محفوظ است</p>
     </footer>
 </div>
@@ -159,7 +171,6 @@
 </div>
 
 <script>
-    // دریافت سبد خرید از localStorage
     let cart = JSON.parse(localStorage.getItem('gameCart')) || [];
 
     function formatPrice(p) { return p.toLocaleString(); }
@@ -197,15 +208,16 @@
         
         let subtotal = 0;
         cart.forEach(item => {
-            subtotal += item.priceNum * (item.quantity || 1);
+            let price = parseInt(String(item.price).replace(/,/g, '')) || item.priceNum || 150000;
+            subtotal += price * (item.quantity || 1);
         });
         
         if (container) {
             container.innerHTML = cart.map(item => `
                 <div class="cart-item">
-                    <div class="item-title">${item.title}</div>
+                    <div class="item-title">${item.title} ${item.type ? `(${item.type})` : ''} ${item.console ? `- ${item.console === 'ps' ? 'پلی استیشن' : 'ایکس باکس'}` : ''}</div>
                     <div class="item-price-row">
-                        <div class="price-tag">${formatPrice(item.priceNum)} تومان</div>
+                        <div class="price-tag">${formatPrice(item.price)} تومان</div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <button class="remove-btn" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button>
                             <div class="quantity-control">
@@ -229,15 +241,52 @@
         if (checkoutBtn) checkoutBtn.style.display = 'block';
     }
 
-    function generateOrderCode() {
-        const user = JSON.parse(localStorage.getItem('gameUser'));
-        const userName = user ? user.name.slice(0, 3) : 'GUEST';
-        const random = Math.floor(Math.random() * 10000);
-        const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-        return `GM-${date}-${userName}-${random}`;
+    // تابع ثبت سفارش در GitHub Issues
+    async function createGitHubIssue(orderData) {
+        const repo = "javadxpro/Gamenet"; // مخزن شما
+        const token = ""; // بدون توکن، فقط Issue باز می‌کند (عمومی)
+        
+        // عنوان Issue
+        const title = `سفارش جدید - ${orderData.code}`;
+        
+        // متن Issue
+        const body = `
+# 🛒 سفارش جدید از فروشگاه گیم نت
+
+## 👤 اطلاعات کاربر
+- **نام:** ${orderData.userName || 'ناشناس'}
+- **شماره تماس:** ${orderData.userPhone || 'ثبت نشده'}
+- **تاریخ:** ${orderData.date}
+
+## 📦 جزئیات سفارش
+${orderData.items.map(item => `- **${item.title}** × ${item.quantity} = ${item.price.toLocaleString()} تومان`).join('\n')}
+
+## 💰 مبلغ کل
+**${orderData.total.toLocaleString()} تومان**
+
+## 🔑 کد پیگیری
+**${orderData.code}**
+
+---
+*این سفارش به صورت خودکار از سایت ثبت شده است.*
+        `;
+        
+        // ساخت URL برای ایجاد Issue
+        const url = `https://github.com/${repo}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+        
+        // باز کردن صفحه جدید برای ثبت Issue
+        window.open(url, '_blank');
+        
+        return true;
     }
 
-    function checkout() {
+    function generateOrderCode() {
+        const random = Math.floor(Math.random() * 10000);
+        const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+        return `GM-${date}-${random}`;
+    }
+
+    async function checkout() {
         if (!cart || cart.length === 0) {
             alert('سبد خرید شما خالی است!');
             return;
@@ -250,15 +299,58 @@
             return;
         }
         
+        const loading = document.getElementById('loading');
+        loading.style.display = 'block';
+        document.getElementById('checkoutBtn').disabled = true;
+        
+        let subtotal = 0;
+        cart.forEach(item => {
+            let price = parseInt(String(item.price).replace(/,/g, '')) || item.priceNum || 150000;
+            subtotal += price * (item.quantity || 1);
+        });
+        
         const code = generateOrderCode();
-        localStorage.setItem('lastOrderCode', code);
-        localStorage.setItem('lastOrderCart', JSON.stringify(cart));
         
-        document.getElementById('orderCodeDiv').style.display = 'block';
-        document.getElementById('orderCode').innerHTML = code;
-        document.getElementById('checkoutBtn').style.display = 'none';
+        const orderData = {
+            code: code,
+            userName: user.name,
+            userPhone: user.phone,
+            date: new Date().toLocaleDateString('fa-IR') + ' ' + new Date().toLocaleTimeString('fa-IR'),
+            items: cart.map(item => ({
+                title: item.title,
+                quantity: item.quantity || 1,
+                price: parseInt(String(item.price).replace(/,/g, '')) || item.priceNum || 150000
+            })),
+            total: subtotal
+        };
         
-        alert(`کد پیگیری شما: ${code}\nلطفاً با شماره‌های تماس گرفته شده هماهنگی کنید.`);
+        try {
+            // ذخیره در localStorage
+            localStorage.setItem('lastOrderCode', code);
+            localStorage.setItem('lastOrderCart', JSON.stringify(cart));
+            
+            // ایجاد Issue در گیت‌هاب
+            await createGitHubIssue(orderData);
+            
+            // نمایش کد پیگیری
+            document.getElementById('orderCodeDiv').style.display = 'block';
+            document.getElementById('orderCode').innerHTML = code;
+            document.getElementById('checkoutBtn').style.display = 'none';
+            
+            // پاک کردن سبد خرید
+            cart = [];
+            saveCart();
+            renderCart();
+            
+            alert(`✅ سفارش شما با موفقیت ثبت شد!\nکد پیگیری: ${code}\nسفارش در Issues گیت‌هاب نیز ثبت شد.`);
+            
+        } catch (error) {
+            alert('خطا در ثبت سفارش. لطفاً دوباره تلاش کنید.');
+            console.error(error);
+        } finally {
+            loading.style.display = 'none';
+            document.getElementById('checkoutBtn').disabled = false;
+        }
     }
 
     document.getElementById('checkoutBtn').onclick = checkout;
