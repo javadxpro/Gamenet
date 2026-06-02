@@ -83,7 +83,7 @@
         .summary-row { display: flex; justify-content: space-between; margin: 0.8rem 0; }
         .total { font-size: 1.2rem; font-weight: bold; border-top: 1px solid #333; padding-top: 0.8rem; }
         .checkout-btn {
-            background: #ff6a00;
+            background: #4ade80;
             color: #000;
             font-weight: bold;
             width: 100%;
@@ -94,6 +94,11 @@
             cursor: pointer;
             font-family: inherit;
             font-size: 1rem;
+            transition: 0.2s;
+        }
+        .checkout-btn:hover {
+            background: #22c55e;
+            transform: scale(1.02);
         }
         .order-code {
             background: #1a1a2e;
@@ -149,6 +154,11 @@
             cursor: pointer;
             font-size: 0.7rem;
         }
+        .copy-success {
+            color: #4ade80;
+            font-size: 0.7rem;
+            margin-top: 0.3rem;
+        }
         @media (max-width: 600px) { .item-price-row { flex-direction: column; align-items: flex-start; gap: 0.5rem; } }
     </style>
 </head>
@@ -178,7 +188,8 @@
         <i class="fas fa-ticket-alt" style="font-size: 1.5rem; color: #ff6a00;"></i>
         <h3>✅ کد پیگیری سفارش شما:</h3>
         <h2 id="orderCode" style="color: #ff6a00; direction: ltr; font-size: 0.9rem; word-break: break-all; background: #0a0a0f; padding: 0.5rem; border-radius: 10px;"></h2>
-        <button class="copy-btn" onclick="copyOrderCode()">📋 کپی کد</button>
+        <button class="copy-btn" id="copyCodeBtn">📋 کپی کد</button>
+        <div id="copySuccess" class="copy-success" style="display: none;">✅ کد پیگیری کپی شد!</div>
         <div class="order-details" id="orderDetails"></div>
         <p style="font-size: 0.8rem; margin-top: 0.5rem;">📞 لطفاً با این کد با ما تماس بگیرید.</p>
     </div>
@@ -200,17 +211,6 @@
 </div>
 
 <script>
-    // تگ‌های بازی‌ها
-    const gameTags = {
-        "PES 2026 - نسخه جام جهانی": "P6WE",
-        "PES 2026 - پچ زمستانی": "P6W",
-        "Call of Duty: Black Ops Cold War": "CBCW",
-        "Gang Beast": "GB",
-        "دزدان لاستیکی": "RB",
-        "Call of Duty Modern Warfare III": "MWIII",
-        "Injustice 2": "INJ2"
-    };
-
     let cart = JSON.parse(localStorage.getItem('gameCart')) || [];
 
     function formatPrice(p) { 
@@ -285,16 +285,30 @@
         if (checkoutBtn) checkoutBtn.style.display = 'block';
     }
 
-    // تاریخ شمسی
+    // تگ‌های بازی‌ها
+    const gameTags = {
+        "EA SPORTS FC 26": "FC26",
+        "Call of Duty Modern Warfare III": "MW3",
+        "Rubber Bandits": "RB",
+        "Injustice 2": "INJ2",
+        "EA SPORTS FC 24": "FC24"
+    };
+
+    function getGameTag(title) {
+        for (let key in gameTags) {
+            if (title.includes(key) || title === key) return gameTags[key];
+        }
+        return title.substring(0, 4).toUpperCase();
+    }
+
     function getPersianDate() {
         const date = new Date();
         return date.toLocaleDateString('fa-IR').replace(/\//g, '.');
     }
 
-    // ساخت کد پیگیری با فرمت: username_TAG1xCOUNT_TAG2xCOUNT_DATE_TOTAL
     function generateOrderCode(username) {
         let itemsPart = cart.map(item => {
-            let tag = gameTags[item.title] || item.title.substring(0, 4);
+            let tag = getGameTag(item.title);
             return `${tag}x${item.quantity || 1}`;
         }).join('_');
         
@@ -312,7 +326,11 @@
     function copyOrderCode() {
         const code = document.getElementById('orderCode').innerText;
         navigator.clipboard.writeText(code).then(() => {
-            alert('✅ کد پیگیری کپی شد!');
+            const successMsg = document.getElementById('copySuccess');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 2000);
         }).catch(() => {
             alert('لطفاً دستی کپی کنید: ' + code);
         });
@@ -336,7 +354,7 @@
         let orderDetails = '';
         cart.forEach(item => {
             let price = parseInt(String(item.price).replace(/,/g, '')) || item.priceNum || 150000;
-            let tag = gameTags[item.title] || item.title.substring(0, 4);
+            let tag = getGameTag(item.title);
             orderDetails += `${item.title} (${tag}) ${item.type ? `(${item.type})` : ''} × ${item.quantity || 1} = ${(price * (item.quantity || 1)).toLocaleString()} تومان<br>`;
         });
         
@@ -363,15 +381,20 @@
         `;
         document.getElementById('checkoutBtn').style.display = 'none';
         
+        // کپی خودکار کد
+        setTimeout(() => {
+            copyOrderCode();
+        }, 100);
+        
         cart = [];
         saveCart();
         renderCart();
         
-        alert(`✅ سفارش شما ثبت شد!\n📌 کد پیگیری: ${code}\n📞 لطفاً با شماره‌های تماس، هماهنگی کنید.`);
+        alert(`✅ سفارش شما ثبت شد!\n📌 کد پیگیری: ${code}\n📋 کد به طور خودکار کپی شد!\n📞 لطفاً با شماره‌های تماس، هماهنگی کنید.`);
     }
 
-    window.copyOrderCode = copyOrderCode;
     document.getElementById('checkoutBtn').onclick = checkout;
+    document.getElementById('copyCodeBtn').onclick = copyOrderCode;
     renderCart();
 </script>
 </body>

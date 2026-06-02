@@ -69,10 +69,15 @@
             border-color: #ff6a00;
             transform: translateY(-5px);
         }
+        .img-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
+        }
         .game-img {
             width: 100%;
-            height: 160px;
-            object-fit: cover;
+            height: auto;
+            display: block;
         }
         .game-info {
             padding: 1rem;
@@ -138,7 +143,7 @@
         <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی</a>
     </div>
 
-    <h2 class="section-title">🎮 همه بازی‌های کپی خور (PS4)</h2>
+    <h2 class="section-title">🎮 بازی‌های محبوب و پیشنهادی</h2>
     <div class="games-grid" id="allGamesGrid"></div>
 
     <footer>
@@ -156,8 +161,12 @@
 </div>
 
 <script>
-    // لیست کامل بازی‌ها با لینک عکس از گیت‌هاب شما
     const gamesList = [
+        { title: "EA SPORTS FC 26", size: "85 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/EA_SPORTS_FC26.jpg" },
+        { title: "Call of Duty Modern Warfare III", size: "120 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Call%20of%20Duty%20Modern%20Warfare%20III.jpg" },
+        { title: "Rubber Bandits", size: "3 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/rubber%20bandits.jpg" },
+        { title: "Injustice 2", size: "45 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/injustice%202.jpg" },
+        { title: "EA SPORTS FC 24", size: "46 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/EA_SPORTS_FC_24.jpg" },
         { title: "A Way Out", size: "16.6 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/A_Way_Out.jpg" },
         { title: "WATCH_DOGS® 2", size: "33 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/WATCH_DOGS_2.jpg" },
         { title: "TEKKEN™7", size: "39 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/TEKKEN_7.jpg" },
@@ -178,9 +187,7 @@
         { title: "Kena: Bridge of Spirits", size: "18.5 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Kena_Bridge_of_Spirits.jpg" },
         { title: "Call of Duty Modern Warfare II", size: "168 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Call_of_Duty_Modern_Warfare_II.jpg" },
         { title: "WWE 2K23", size: "73 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/WWE_2K23.jpg" },
-        { title: "EA SPORTS FC 24", size: "46 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/EA_SPORTS_FC_24.jpg" },
         { title: "EA SPORTS FC 25", size: "50 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/EA_SPORTS_FC_25.jpg" },
-        { title: "EA SPORTS FC 26", size: "85 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/EA_SPORTS_FC26.jpg" },
         { title: "Goat Simulator 3", size: "13 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Goat_Simulator_3.jpeg" },
         { title: "Ghost Recon Wildlands", size: "57 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Ghost_Recon_Wildlands.jpg" },
         { title: "It Takes Two", size: "34.5 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/It_Takes_Two.jpeg" },
@@ -197,7 +204,9 @@
         
         container.innerHTML = gamesList.map(game => `
             <div class="game-card" onclick="alert('${game.title} - قیمت: ۱۵۰,۰۰۰ تومان\\nبرای خرید با پشتیبانی تماس بگیرید')">
-                <img class="game-img" src="${game.img}" alt="${game.title}" onerror="this.src='https://placehold.co/400x200/1a1a2e/ff6a00?text=Game'">
+                <div class="img-container">
+                    <img class="game-img" src="${game.img}" alt="${game.title}" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
+                </div>
                 <div class="game-info">
                     <div class="game-title">${game.title}</div>
                     <div class="game-size"><i class="fas fa-hdd"></i> ${game.size}</div>
