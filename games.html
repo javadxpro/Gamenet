@@ -8,6 +8,33 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @keyframes rgbYellowOrange {
+            0% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
+            25% { border-color: #ff8c00; box-shadow: 0 0 12px #ff8c00; }
+            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
+            75% { border-color: #ffcc00; box-shadow: 0 0 12px #ffcc00; }
+            100% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
+        }
+
+        @keyframes rgbBorderContainer {
+            0% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+            25% { border-color: #ff8c00; box-shadow: 0 0 20px #ff8c00; }
+            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
+            75% { border-color: #ffcc00; box-shadow: 0 0 20px #ffcc00; }
+            100% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+        }
+
+        @keyframes trainOnTextRightToLeft {
+            0% { background-position: 300% 0; }
+            100% { background-position: -300% 0; }
+        }
+
+        @keyframes trainOnTextLeftToRight {
+            0% { background-position: -300% 0; }
+            100% { background-position: 300% 0; }
+        }
+
         body {
             font-family: 'Vazirmatn', system-ui;
             background: #0a0a0f;
@@ -44,7 +71,22 @@
             align-items: center;
             margin-bottom: 1.5rem;
         }
-        .logo h1 { font-size: 1.4rem; background: linear-gradient(135deg, #fff, #ff6a00); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .logo h1 { 
+            font-size: 1.4rem; 
+            font-weight: bold;
+            background: linear-gradient(90deg, 
+                #ffffff 0%, #ffffff 25%, 
+                #ff6a00 40%, #ffaa00 50%, #ff6a00 60%, 
+                #ffffff 75%, #ffffff 100%);
+            background-size: 300% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: trainOnTextRightToLeft 4s linear infinite;
+        }
+        .logo h1:hover {
+            animation: trainOnTextLeftToRight 1.5s linear infinite;
+        }
         .back-link { color: #ff6a00; text-decoration: none; }
         .section-title {
             font-size: 1.4rem;
@@ -61,13 +103,14 @@
             background: #111118;
             border-radius: 1.2rem;
             overflow: hidden;
-            border: 1px solid #222;
+            border: 2px solid;
             transition: 0.2s;
             cursor: pointer;
+            animation: rgbYellowOrange 4s linear infinite;
         }
         .game-card:hover {
-            border-color: #ff6a00;
             transform: translateY(-5px);
+            animation: rgbBorderContainer 1s linear infinite;
         }
         .img-container {
             width: 100%;
@@ -136,8 +179,23 @@
         .game-card:hover .view-detail {
             background: #ff8c2a;
         }
-        footer { margin-top: 2rem; text-align: center; padding: 1rem; color: #888; font-size: 0.8rem; }
-        .owner-id { background: #ff6a0022; display: inline-block; padding: 0.4rem 1rem; border-radius: 50px; }
+        footer { 
+            margin-top: 2rem; 
+            text-align: center; 
+            padding: 1rem; 
+            color: #888; 
+            font-size: 0.8rem; 
+            border-top: 2px solid; 
+            animation: rgbYellowOrange 3s linear infinite; 
+        }
+        .owner-id { 
+            background: #ff6a0022; 
+            display: inline-block; 
+            padding: 0.4rem 1rem; 
+            border-radius: 50px; 
+            font-size: 0.8rem;
+            border: none;
+        }
         .owner-id a { color: #ff6a00; text-decoration: none; }
         @media (max-width: 650px) { .container { padding: 0.8rem; } }
     </style>
@@ -168,7 +226,6 @@
 
 <script>
     const gamesList = [
-        // ترتیب جدید
         { title: "EA SPORTS FC 26", size: "85 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/EA_SPORTS_FC26.jpg", type: "کپی خور", status: "موجود" },
         { title: "WWE 2K23", size: "73 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/WWE_2K23.jpg", type: "کپی خور", status: "موجود" },
         { title: "Call of Duty Modern Warfare II", size: "168 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Call_of_Duty_Modern_Warfare_II.jpg", type: "کپی خور", status: "موجود" },
@@ -190,7 +247,6 @@
         { title: "Goat Simulator 3", size: "13 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Goat_Simulator_3.jpeg", type: "کپی خور", status: "موجود" },
         { title: "Minecraft", size: "2 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Minecraft.jpeg", type: "کپی خور", status: "موجود" },
         { title: "Kung Fu Panda", size: "4.3 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Kung_Fu_Panda.jpg", type: "کپی خور", status: "موجود" },
-        // بقیه بازی‌ها در ادامه
         { title: "PES 2026 - نسخه جام جهانی", size: "121.5 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/PES%20Monster%20PATCH%20WorldCup%202026.jpg", type: "کپی خور", status: "موجود" },
         { title: "Injustice 2", size: "45 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/injustice%202.jpg", type: null, status: "ناموجود" },
         { title: "WATCH_DOGS® 2", size: "33 GB", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/WATCH_DOGS_2.jpg", type: "کپی خور", status: "موجود" },

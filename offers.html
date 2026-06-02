@@ -8,6 +8,33 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @keyframes rgbYellowOrange {
+            0% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
+            25% { border-color: #ff8c00; box-shadow: 0 0 12px #ff8c00; }
+            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
+            75% { border-color: #ffcc00; box-shadow: 0 0 12px #ffcc00; }
+            100% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
+        }
+
+        @keyframes rgbBorderContainer {
+            0% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+            25% { border-color: #ff8c00; box-shadow: 0 0 20px #ff8c00; }
+            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
+            75% { border-color: #ffcc00; box-shadow: 0 0 20px #ffcc00; }
+            100% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+        }
+
+        @keyframes trainOnTextRightToLeft {
+            0% { background-position: 300% 0; }
+            100% { background-position: -300% 0; }
+        }
+
+        @keyframes trainOnTextLeftToRight {
+            0% { background-position: -300% 0; }
+            100% { background-position: 300% 0; }
+        }
+
         body {
             font-family: 'Vazirmatn', system-ui;
             background: #0a0a0f;
@@ -44,7 +71,22 @@
             align-items: center;
             margin-bottom: 1.5rem;
         }
-        .logo h1 { font-size: 1.4rem; background: linear-gradient(135deg, #fff, #ff6a00); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .logo h1 { 
+            font-size: 1.4rem; 
+            font-weight: bold;
+            background: linear-gradient(90deg, 
+                #ffffff 0%, #ffffff 25%, 
+                #ff6a00 40%, #ffaa00 50%, #ff6a00 60%, 
+                #ffffff 75%, #ffffff 100%);
+            background-size: 300% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: trainOnTextRightToLeft 4s linear infinite;
+        }
+        .logo h1:hover {
+            animation: trainOnTextLeftToRight 1.5s linear infinite;
+        }
         .back-link { color: #ff6a00; text-decoration: none; }
         .section-title {
             font-size: 1.4rem;
@@ -61,13 +103,14 @@
             background: #111118;
             border-radius: 1.2rem;
             overflow: hidden;
-            border: 1px solid #222;
+            border: 2px solid;
             transition: 0.2s;
             cursor: pointer;
+            animation: rgbYellowOrange 4s linear infinite;
         }
         .offer-card:hover {
-            border-color: #ff6a00;
             transform: translateY(-5px);
+            animation: rgbBorderContainer 1s linear infinite;
         }
         .img-container {
             width: 100%;
@@ -90,10 +133,8 @@
         }
         .offer-status {
             font-size: 0.8rem;
-            font-weight: bold;
-        }
-        .offer-status.unavailable {
             color: #ff4444;
+            font-weight: bold;
         }
         .blog-section {
             margin-top: 2rem;
@@ -103,8 +144,23 @@
             text-align: center;
             border: 1px solid #333;
         }
-        footer { margin-top: 2rem; text-align: center; padding: 1rem; color: #888; font-size: 0.8rem; }
-        .owner-id { background: #ff6a0022; display: inline-block; padding: 0.4rem 1rem; border-radius: 50px; }
+        footer { 
+            margin-top: 2rem; 
+            text-align: center; 
+            padding: 1rem; 
+            color: #888; 
+            font-size: 0.8rem; 
+            border-top: 2px solid; 
+            animation: rgbYellowOrange 3s linear infinite; 
+        }
+        .owner-id { 
+            background: #ff6a0022; 
+            display: inline-block; 
+            padding: 0.4rem 1rem; 
+            border-radius: 50px; 
+            font-size: 0.8rem;
+            border: none;
+        }
         .owner-id a { color: #ff6a00; text-decoration: none; }
         @media (max-width: 650px) { .container { padding: 0.8rem; } }
     </style>
@@ -116,7 +172,7 @@
         <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت</a>
     </div>
 
-    <h2 class="section-title">🎮 پیشنهاد گیم نت</h2>
+    <h2 class="section-title">پیشنهاد گیم نت</h2>
     <div class="offers-grid">
         <div class="offer-card" onclick="alert('Rubber Bandits - ناموجود')">
             <div class="img-container">
@@ -124,7 +180,7 @@
             </div>
             <div class="offer-info">
                 <div class="offer-title">Rubber Bandits</div>
-                <div class="offer-status unavailable">⛔ ناموجود</div>
+                <div class="offer-status">ناموجود</div>
             </div>
         </div>
         <div class="offer-card" onclick="alert('Injustice 2 - ناموجود')">
@@ -133,7 +189,7 @@
             </div>
             <div class="offer-info">
                 <div class="offer-title">Injustice 2</div>
-                <div class="offer-status unavailable">⛔ ناموجود</div>
+                <div class="offer-status">ناموجود</div>
             </div>
         </div>
     </div>

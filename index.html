@@ -8,6 +8,33 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @keyframes rgbYellowOrange {
+            0% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
+            25% { border-color: #ff8c00; box-shadow: 0 0 12px #ff8c00; }
+            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
+            75% { border-color: #ffcc00; box-shadow: 0 0 12px #ffcc00; }
+            100% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
+        }
+
+        @keyframes rgbBorderContainer {
+            0% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+            25% { border-color: #ff8c00; box-shadow: 0 0 20px #ff8c00; }
+            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
+            75% { border-color: #ffcc00; box-shadow: 0 0 20px #ffcc00; }
+            100% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+        }
+
+        @keyframes trainOnTextRightToLeft {
+            0% { background-position: 300% 0; }
+            100% { background-position: -300% 0; }
+        }
+
+        @keyframes trainOnTextLeftToRight {
+            0% { background-position: -300% 0; }
+            100% { background-position: 300% 0; }
+        }
+
         body {
             font-family: 'Vazirmatn', system-ui;
             background: #0a0a0f;
@@ -46,7 +73,22 @@
             margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
-        .logo h1 { font-size: 1.4rem; background: linear-gradient(135deg, #fff, #ff6a00); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .logo h1 { 
+            font-size: 1.4rem; 
+            font-weight: bold;
+            background: linear-gradient(90deg, 
+                #ffffff 0%, #ffffff 25%, 
+                #ff6a00 40%, #ffaa00 50%, #ff6a00 60%, 
+                #ffffff 75%, #ffffff 100%);
+            background-size: 300% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: trainOnTextRightToLeft 4s linear infinite;
+        }
+        .logo h1:hover {
+            animation: trainOnTextLeftToRight 1.5s linear infinite;
+        }
         .menu-btn {
             background: #1a1a22;
             border: none;
@@ -155,14 +197,18 @@
             background: #111118;
             border-radius: 1.2rem;
             overflow: hidden;
-            border: 1px solid #222;
+            border: 2px solid;
             transition: 0.2s;
             cursor: pointer;
             text-decoration: none;
             display: block;
             color: inherit;
+            animation: rgbYellowOrange 4s linear infinite;
         }
-        .product-card:hover { border-color: #ff6a00; transform: translateY(-5px); }
+        .product-card:hover {
+            transform: translateY(-5px);
+            animation: rgbBorderContainer 1s linear infinite;
+        }
         .img-container {
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -217,13 +263,14 @@
             border-radius: 1.2rem;
             padding: 1.5rem;
             text-align: center;
-            border: 1px solid #222;
+            border: 2px solid;
             transition: 0.2s;
             cursor: pointer;
+            animation: rgbYellowOrange 4s linear infinite;
         }
         .sub-card:hover {
-            border-color: #ff6a00;
             transform: translateY(-5px);
+            animation: rgbBorderContainer 1s linear infinite;
         }
         .sub-icon { font-size: 2.5rem; color: #ff6a00; margin-bottom: 0.8rem; }
         .sub-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; }
@@ -239,8 +286,23 @@
             font-weight: bold;
         }
         .contact-bar a { color: #000; text-decoration: none; }
-        footer { margin-top: 2rem; text-align: center; padding: 1rem; color: #888; font-size: 0.8rem; }
-        .owner-id { background: #ff6a0022; display: inline-block; padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.8rem; }
+        footer { 
+            margin-top: 2rem; 
+            text-align: center; 
+            padding: 1rem; 
+            color: #888; 
+            font-size: 0.8rem; 
+            border-top: 2px solid; 
+            animation: rgbYellowOrange 3s linear infinite; 
+        }
+        .owner-id { 
+            background: #ff6a0022; 
+            display: inline-block; 
+            padding: 0.4rem 1rem; 
+            border-radius: 50px; 
+            font-size: 0.8rem;
+            border: none;
+        }
         .owner-id a { color: #ff6a00; text-decoration: none; }
         .modal {
             display: none;
@@ -318,8 +380,61 @@
         <a href="tel:09372726142">۰۹۳۷۲۷۲۶۱۴۲</a>
     </div>
 
+    <!-- بازی‌های محبوب - با عکس‌های مستقیم از گیت‌هاب -->
     <h2 class="section-title">بازی‌های محبوب</h2>
-    <div class="games-grid" id="gamesGrid"></div>
+    <div class="games-grid">
+        <!-- PES 2026 جام جهانی -->
+        <a href="game1.html" class="product-card">
+            <div class="img-container">
+                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/PES%20Monster%20PATCH%20WorldCup%202026.jpg" alt="PES 2026 جام جهانی" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
+            </div>
+            <div class="product-info">
+                <div class="product-title">PES 2026 - نسخه جام جهانی</div>
+                <div class="platform-icons"><i class="fab fa-playstation ps-icon"></i></div>
+                <div class="game-type">🎮 کپی خور</div>
+                <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
+            </div>
+        </a>
+
+        <!-- Call of Duty -->
+        <a href="game2.html" class="product-card">
+            <div class="img-container">
+                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/call%20of%20duty%20black%20ops%20cold%20war.jpg" alt="Call of Duty" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
+            </div>
+            <div class="product-info">
+                <div class="product-title">Call of Duty: Black Ops Cold War</div>
+                <div class="platform-icons"><i class="fab fa-playstation ps-icon"></i><i class="fab fa-xbox xbox-icon"></i></div>
+                <div class="game-type">🎮 کپی خور</div>
+                <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
+            </div>
+        </a>
+
+        <!-- Gang Beast -->
+        <a href="game3.html" class="product-card">
+            <div class="img-container">
+                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/gang%20beast.jpg" alt="Gang Beast" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
+            </div>
+            <div class="product-info">
+                <div class="product-title">Gang Beast</div>
+                <div class="platform-icons"><i class="fab fa-playstation ps-icon"></i><i class="fab fa-xbox xbox-icon"></i></div>
+                <div class="game-type">🎮 کپی خور</div>
+                <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
+            </div>
+        </a>
+
+        <!-- PES 2026 پچ زمستانی -->
+        <a href="game4.html" class="product-card">
+            <div class="img-container">
+                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Monster%20PATCH%20WINTER%202026.jpg" alt="PES 2026 پچ زمستانی" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
+            </div>
+            <div class="product-info">
+                <div class="product-title">PES 2026 - پچ زمستانی</div>
+                <div class="platform-icons"><i class="fab fa-playstation ps-icon"></i></div>
+                <div class="game-type">🎮 کپی خور</div>
+                <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
+            </div>
+        </a>
+    </div>
 
     <h2 class="section-title">اشتراک‌های محبوب</h2>
     <div class="subscriptions-grid">
@@ -375,98 +490,7 @@
 </div>
 
 <script>
-    const popularGames = [
-        { id: 1, title: "PES 2026 - نسخه جام جهانی", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/PES%20Monster%20PATCH%20WorldCup%202026.jpg", link: "game1.html", platforms: ["ps"], type: "کپی خور" },
-        { id: 2, title: "Call of Duty: Black Ops Cold War", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/call%20of%20duty%20black%20ops%20cold%20war.jpg", link: "game2.html", platforms: ["ps", "xbox"], type: "کپی خور" },
-        { id: 3, title: "Gang Beast", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/gang%20beast.jpg", link: "game3.html", platforms: ["ps", "xbox"], type: "کپی خور" },
-        { id: 4, title: "PES 2026 - پچ زمستانی", img: "https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Monster%20PATCH%20WINTER%202026.jpg", link: "game4.html", platforms: ["ps"], type: "کپی خور" }
-    ];
-
     let cart = JSON.parse(localStorage.getItem('gameCart')) || [];
 
     function updateCartCount() {
-        const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-        const countEl = document.getElementById('cartCount');
-        if (countEl) countEl.innerText = count;
-    }
-
-    function renderPopularGames() {
-        const container = document.getElementById('gamesGrid');
-        if (!container) return;
-        container.innerHTML = popularGames.map(game => `
-            <a href="${game.link}" class="product-card">
-                <div class="img-container">
-                    <img class="product-img" src="${game.img}" alt="${game.title}" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
-                </div>
-                <div class="product-info">
-                    <div class="product-title">${game.title}</div>
-                    <div class="platform-icons">
-                        ${game.platforms.includes('ps') ? '<i class="fab fa-playstation ps-icon"></i>' : ''}
-                        ${game.platforms.includes('xbox') ? '<i class="fab fa-xbox xbox-icon"></i>' : ''}
-                    </div>
-                    ${game.type ? `<div class="game-type">🎮 ${game.type}</div>` : ''}
-                    <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
-                </div>
-            </a>
-        `).join('');
-    }
-
-    let currentUser = JSON.parse(localStorage.getItem('gameUser')) || null;
-
-    function registerUser() {
-        const fullName = document.getElementById('fullName').value.trim();
-        const username = document.getElementById('username').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        if (!fullName || !username || !email || !phone) { alert('لطفاً تمام فیلدها را پر کنید!'); return; }
-        if (!email.includes('@') || !email.includes('.')) { alert('لطفاً ایمیل معتبر وارد کنید!'); return; }
-        const user = { fullName, username, email, phone, registerDate: new Date().toLocaleDateString('fa-IR') };
-        localStorage.setItem('gameUser', JSON.stringify(user));
-        currentUser = user;
-        document.getElementById('userStatus').innerHTML = `<span style="color:#4ade80;">✓ ثبت نام شدید! خوش آمدید ${fullName}</span>`;
-        setTimeout(() => { closeModal(); updateUserButton(); }, 1500);
-    }
-
-    function openModal() {
-        if (currentUser) {
-            alert(`کاربر گرامی ${currentUser.fullName} عزیز، خوش آمدید!\n🆔 نام کاربری: ${currentUser.username}\n📧 ایمیل: ${currentUser.email}\n📞 تلفن: ${currentUser.phone}`);
-        } else {
-            document.getElementById('fullName').value = '';
-            document.getElementById('username').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('phone').value = '';
-            document.getElementById('userStatus').innerHTML = '';
-            document.getElementById('authModal').style.display = 'flex';
-        }
-    }
-
-    function closeModal() { document.getElementById('authModal').style.display = 'none'; }
-
-    function updateUserButton() {
-        const btn = document.getElementById('userBtn');
-        if (btn) {
-            if (currentUser) { btn.innerHTML = `<i class="fas fa-user-check"></i>`; btn.style.color = '#4ade80'; }
-            else { btn.innerHTML = `<i class="fas fa-user"></i>`; btn.style.color = '#ff6a00'; }
-        }
-    }
-
-    const menuBtn = document.getElementById('menuBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    const closeMenuBtn = document.getElementById('closeMenu');
-    const overlay = document.getElementById('overlay');
-    function openM() { sideMenu.classList.add('open'); overlay.classList.add('show'); document.body.style.overflow = 'hidden'; }
-    function closeM() { sideMenu.classList.remove('open'); overlay.classList.remove('show'); document.body.style.overflow = ''; }
-    if (menuBtn) menuBtn.onclick = openM;
-    if (closeMenuBtn) closeMenuBtn.onclick = closeM;
-    if (overlay) overlay.onclick = closeM;
-
-    const userBtn = document.getElementById('userBtn');
-    if (userBtn) userBtn.onclick = openModal;
-    window.onclick = function(e) { if (e.target === document.getElementById('authModal')) closeModal(); };
-
-    renderPopularGames();
-    updateCartCount();
-    updateUserButton();
-</script>
-</body>
-</html>
+       
