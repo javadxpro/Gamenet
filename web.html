@@ -10,6 +10,27 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* انیمیشن قطار RGB روی متن (راست به چپ) */
+        @keyframes trainRGBRightToLeft {
+            0% {
+                background-position: 300% 0;
+            }
+            100% {
+                background-position: -300% 0;
+            }
+        }
+
+        /* انیمیشن قطار RGB روی متن (چپ به راست) */
+        @keyframes trainRGBLeftToRight {
+            0% {
+                background-position: -300% 0;
+            }
+            100% {
+                background-position: 300% 0;
+            }
+        }
+
         body {
             font-family: 'Vazirmatn', system-ui, sans-serif;
             background: radial-gradient(circle at 10% 30%, #0b0f1c, #05070f);
@@ -19,21 +40,26 @@
             padding: 2rem 1.5rem;
             min-height: 100vh;
         }
-        /* انیمیشن RGB فقط برای گوشه‌های اصلی */
+        /* انیمیشن RGB برای حاشیه‌ها */
         @keyframes rgbBorderContainer {
             0% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
-            25% { border-color: #00ff00; box-shadow: 0 0 20px #00ff00; }
-            50% { border-color: #0000ff; box-shadow: 0 0 15px #0000ff; }
-            75% { border-color: #ffff00; box-shadow: 0 0 20px #ffff00; }
+            17% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+            33% { border-color: #ffff00; box-shadow: 0 0 20px #ffff00; }
+            50% { border-color: #00ff00; box-shadow: 0 0 15px #00ff00; }
+            67% { border-color: #00ffff; box-shadow: 0 0 20px #00ffff; }
+            83% { border-color: #0000ff; box-shadow: 0 0 15px #0000ff; }
             100% { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; }
         }
         @keyframes rgbBorderHeaderFooter {
             0% { border-color: #ff0000; }
-            25% { border-color: #00ff00; }
-            50% { border-color: #0000ff; }
-            75% { border-color: #ffff00; }
+            17% { border-color: #ffaa00; }
+            33% { border-color: #ffff00; }
+            50% { border-color: #00ff00; }
+            67% { border-color: #00ffff; }
+            83% { border-color: #0000ff; }
             100% { border-color: #ff00ff; }
         }
+
         .glass-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -53,10 +79,21 @@
         }
         .hero h1 {
             font-size: 3rem;
-            background: linear-gradient(135deg, #FFF, #8aadff);
+            font-weight: bold;
+            background: linear-gradient(90deg, 
+                #ffffff 0%, #ffffff 15%,
+                #ff0000 25%, #ffaa00 30%, #ffff00 35%,
+                #00ff00 45%, #00ffff 50%, #0000ff 55%,
+                #ff00ff 65%, #ff0000 70%,
+                #ffffff 85%, #ffffff 100%);
+            background-size: 300% auto;
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
+            animation: trainRGBRightToLeft 4s linear infinite;
+        }
+        .hero h1:hover {
+            animation: trainRGBLeftToRight 1.5s linear infinite;
         }
         .hero-tagline {
             background: rgba(0,0,0,0.4);
@@ -88,7 +125,6 @@
             transform: translateY(-3px);
             border-color: rgba(100, 150, 255, 0.5);
         }
-        /* دکمه فروشگاه */
         .shop-btn {
             background: linear-gradient(135deg, #ff6a00, #ff8c2a);
             color: #000;
@@ -230,7 +266,7 @@
 <body>
 <div class="glass-container">
     <div class="hero">
-        <h1>🎮 گیم‌نت</h1>
+        <h1>گیم‌نت</h1>
         <div class="hero-tagline"><i class="fas fa-gamepad"></i> اینجا صفحه رسمی وب گیم نت حامدی فر هست</div>
     </div>
 
