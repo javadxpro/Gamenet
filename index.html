@@ -7,6 +7,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <style>
+/* به بخش style اضافه کنید */
+.delivery-special {
+    background: linear-gradient(135deg, #ff6a33, #ffaa33);
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-shadow: 0 0 5px #fff;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         @keyframes rgbYellowOrange {
@@ -380,9 +394,9 @@
         <a href="tel:09372726142">۰۹۳۷۲۷۲۶۱۴۲</a>
     </div>
 
-   <div class="contact-bar">
-   <i class="fas"></i> تحویل یک شبه
-    </div>
+<div class="contact-bar delivery-special">
+    <i class="fas fa-truck"></i> تحویل یک شبه
+</div>
 
     <!-- بازی‌های محبوب - با عکس‌های مستقیم از گیت‌هاب -->
     <h2 class="section-title">بازی‌های محبوب</h2>
