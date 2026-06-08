@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>تیم فوتبال گیم نت | سالنی + زمین بزرگ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @keyframes rgbYellowOrange {
+            0% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
+            25% { border-color: #ff8c00; box-shadow: 0 0 12px #ff8c00; }
+            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
+            75% { border-color: #ffcc00; box-shadow: 0 0 12px #ffcc00; }
+            100% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
+        }
+
+        @keyframes rgbBorderContainer {
+            0% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+            25% { border-color: #ff8c00; box-shadow: 0 0 20px #ff8c00; }
+            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
+            75% { border-color: #ffcc00; box-shadow: 0 0 20px #ffcc00; }
+            100% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+        }
+
+        @keyframes trainOnTextRightToLeft {
+            0% { background-position: 300% 0; }
+            100% { background-position: -300% 0; }
+        }
+
+        body {
+            font-family: 'Vazirmatn', system-ui;
+            background: #0a0a0f;
+            color: #eef2ff;
+            direction: rtl;
+            min-height: 100vh;
+            padding: 1rem;
+            padding-bottom: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .team-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .logo h1 {
+            font-size: 1.6rem;
+            background: linear-gradient(90deg, #ffffff 0%, #ff6a00 50%, #ffffff 100%);
+            background-size: 300% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: trainOnTextRightToLeft 4s linear infinite;
+            display: inline-block;
+        }
+        .team-badge {
+            background: #ff6a00;
+            display: inline-block;
+            padding: 0.3rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .section-card {
+            background: #111118aa;
+            backdrop-filter: blur(8px);
+            border-radius: 2rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 2px solid;
+            animation: rgbBorderContainer 4s linear infinite;
+        }
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+            border-right: 4px solid #ff6a00;
+            padding-right: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .section-title i { color: #ff6a00; }
+
+        /* ترکیب عمودی (دروازه بان پایین، بقیه به سمت بالا) */
+        .lineup-vertical {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        .pitch-row {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .player-card {
+            background: #000000aa;
+            backdrop-filter: blur(8px);
+            border-radius: 2rem;
+            padding: 0.5rem 1rem;
+            min-width: 85px;
+            text-align: center;
+            border: 2px solid;
+            animation: rgbYellowOrange 4s linear infinite;
+            transition: 0.2s;
+        }
+        .player-card:hover {
+            transform: translateY(-5px);
+            background: #ff6a00cc;
+            border-color: #fff;
+        }
+        .player-name {
+            font-weight: bold;
+            margin: 0.2rem 0;
+            font-size: 0.85rem;
+        }
+        .player-position {
+            font-size: 0.65rem;
+            color: #ffcc88;
+        }
+
+        /* ترکیب سالنی */
+        .small-card {
+            background: #000000aa;
+            border-radius: 1.5rem;
+            padding: 0.4rem 0.8rem;
+            min-width: 80px;
+            text-align: center;
+            border: 2px solid;
+            animation: rgbYellowOrange 4s linear infinite;
+        }
+
+        .bench {
+            margin-top: 1rem;
+            background: #1a1a2eaa;
+            border-radius: 1.5rem;
+            padding: 1rem;
+        }
+        .bench h3 {
+            text-align: center;
+            margin-bottom: 0.8rem;
+            color: #ffcc88;
+            font-size: 1rem;
+        }
+        .bench-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+        .bench-card {
+            background: #00000099;
+            border-radius: 1.2rem;
+            padding: 0.3rem 0.7rem;
+            min-width: 70px;
+            text-align: center;
+            border: 1px solid #ffaa55;
+        }
+        .bench-name {
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        .bench-pos {
+            font-size: 0.55rem;
+            color: #aaa;
+        }
+
+        @media (max-width: 700px) {
+            .player-card { min-width: 65px; padding: 0.3rem 0.5rem; }
+            .player-name { font-size: 0.7rem; }
+            .player-position { font-size: 0.55rem; }
+            .small-card { min-width: 65px; }
+            .bench-card { min-width: 60px; }
+            .pitch-row { gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="team-header">
+        <div class="logo"><h1><i class="fas fa-store"></i> فروشگاه گیم نت</h1></div>
+        <div class="team-badge"><i class="fas fa-futbol"></i> تیم فوتبال گیم نت | لیگ گیمرها</div>
+    </div>
+
+    <!-- ========== زمین بزرگ (۱۱ نفره) ========== -->
+    <div class="section-card">
+        <div class="section-title">
+            <i class="fas fa-tree"></i> زمین بزرگ (۱۱ نفره)
+        </div>
+        <div class="lineup-vertical">
+            <!-- خط حمله (بالاترین) - LWF در چپ، CF وسط، RWF در راست -->
+            <div class="pitch-row">
+                <div class="player-card"><div class="player-name">ممد امین</div><div class="player-position">RWF</div></div>
+                <div class="player-card"><div class="player-name">جایمند</div><div class="player-position">CF</div></div>
+                <div class="player-card"><div class="player-name">یوسف</div><div class="player-position">LWF</div></div>
+            </div>
+            <!-- خط هافبک هجومی -->
+            <div class="pitch-row">
+                <div class="player-card"><div class="player-name">رضا</div><div class="player-position">AMF</div></div>
+            </div>
+            <!-- خط هافبک میانی (CMF وسط، DMF عقب‌تر) -->
+            <div class="pitch-row">
+                <div class="player-card"><div class="player-name">اسماعیلی</div><div class="player-position">CMF</div></div>
+                <div class="player-card"><div class="player-name">ابی</div><div class="player-position">DMF</div></div>
+            </div>
+            <!-- خط دفاع (LB چپ، CBها وسط، RB راست) -->
+            <div class="pitch-row">
+                <div class="player-card"><div class="player-name">عباس</div><div class="player-position">RB</div></div>
+                <div class="player-card"><div class="player-name">طاهریان</div><div class="player-position">CB</div></div>
+                <div class="player-card"><div class="player-name">جواد</div><div class="player-position">CB</div></div>
+                <div class="player-card"><div class="player-name">فارس</div><div class="player-position">LB</div></div>
+            </div>
+            <!-- دروازه بان (پایین) -->
+            <div class="pitch-row">
+                <div class="player-card"><div class="player-name">ممد جواد</div><div class="player-position">GK</div></div>
+            </div>
+        </div>
+
+        <!-- نیمکت ذخیره‌ها (عباس دروازه بان حذف شد) -->
+        <div class="bench">
+            <h3><i class="fas fa-chair"></i> نیمکت ذخیره‌ها</h3>
+            <div class="bench-grid">
+                <div class="bench-card"><div class="bench-name">میلاد</div><div class="bench-pos">CF/AMF</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== سالنی (۶ نفره) ========== -->
+    <div class="section-card">
+        <div class="section-title">
+            <i class="fas fa-building"></i> سالنی (۶ نفره - فوتسال)
+        </div>
+        <div class="lineup-vertical">
+            <!-- خط حمله (CF چپ و راست) -->
+            <div class="pitch-row">
+                <div class="small-card"><div class="player-name">یوسف</div><div class="player-position">CF</div></div>
+                <div class="small-card"><div class="player-name">میلاد</div><div class="player-position">CF</div></div>
+            </div>
+            <!-- خط هافبک -->
+            <div class="pitch-row">
+                <div class="small-card"><div class="player-name">اسماعیلی</div><div class="player-position">CMF</div></div>
+            </div>
+            <!-- خط دفاع (CB چپ و راست) -->
+            <div class="pitch-row">
+                <div class="small-card"><div class="player-name">طاهریان</div><div class="player-position">CB</div></div>
+                <div class="small-card"><div class="player-name">جواد</div><div class="player-position">CB</div></div>
+            </div>
+            <!-- دروازه بان (پایین) -->
+            <div class="pitch-row">
+                <div class="small-card"><div class="player-name">ممد جواد</div><div class="player-position">GK</div></div>
+            </div>
+        </div>
+
+        <!-- نیمکت ذخیره‌ها -->
+        <div class="bench">
+            <h3><i class="fas fa-chair"></i> نیمکت ذخیره‌ها</h3>
+            <div class="bench-grid">
+                <div class="bench-card"><div class="bench-name">عباس</div><div class="bench-pos">GK</div></div>
+                <div class="bench-card"><div class="bench-name">فارس</div><div class="bench-pos">RWF</div></div>
+                <div class="bench-card"><div class="bench-name">ممد امین</div><div class="bench-pos">RWF</div></div>
+                <div class="bench-card"><div class="bench-name">ابی</div><div class="bench-pos">DMF</div></div>
+                <div class="bench-card"><div class="bench-name">رضا</div><div class="bench-pos">AMF</div></div>
+                <div class="bench-card"><div class="bench-name">جایمند</div><div class="bench-pos">CF</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
