@@ -2,374 +2,495 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>گیم‌نت | صفحه رسمی</title>
-    <!-- Font Awesome 6 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروشگاه گیم نت | صفحه اصلی</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Vazirmatn Font -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Vazirmatn', system-ui, sans-serif;
-            background: radial-gradient(circle at 10% 30%, #0b0f1c, #05070f);
-            color: #eef2ff;
-            line-height: 1.6;
-            direction: rtl;
-            padding: 2rem 1.5rem;
-            min-height: 100vh;
+
+        @keyframes rgbYellowOrange {
+            0% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
+            25% { border-color: #ff8c00; box-shadow: 0 0 12px #ff8c00; }
+            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
+            75% { border-color: #ffcc00; box-shadow: 0 0 12px #ffcc00; }
+            100% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
         }
 
-        /* انیمیشن RGB برای حاشیه‌ها (مثل قبل) */
         @keyframes rgbBorderContainer {
-            0% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
-            25% { border-color: #00ff00; box-shadow: 0 0 20px #00ff00; }
-            50% { border-color: #0000ff; box-shadow: 0 0 15px #0000ff; }
-            75% { border-color: #ffff00; box-shadow: 0 0 20px #ffff00; }
-            100% { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; }
+            0% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+            25% { border-color: #ff8c00; box-shadow: 0 0 20px #ff8c00; }
+            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
+            75% { border-color: #ffcc00; box-shadow: 0 0 20px #ffcc00; }
+            100% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
         }
 
-        @keyframes rgbBorderHeaderFooter {
-            0% { border-color: #ff0000; }
-            25% { border-color: #00ff00; }
-            50% { border-color: #0000ff; }
-            75% { border-color: #ffff00; }
-            100% { border-color: #ff00ff; }
+        @keyframes trainOnTextRightToLeft {
+            0% { background-position: 300% 0; }
+            100% { background-position: -300% 0; }
         }
 
-        /* انیمیشن قطار رنگین‌کمانی (مثل قبل) */
-        @keyframes trainRainbow {
-            0% {
-                background-position: 300% 0;
-            }
-            100% {
-                background-position: -300% 0;
-            }
+        @keyframes trainOnTextLeftToRight {
+            0% { background-position: -300% 0; }
+            100% { background-position: 300% 0; }
         }
 
-        @keyframes trainRainbowReverse {
-            0% {
-                background-position: -300% 0;
-            }
-            100% {
-                background-position: 300% 0;
-            }
+        body {
+            font-family: 'Vazirmatn', system-ui;
+            background: #0a0a0f;
+            color: #eef2ff;
+            direction: rtl;
+            padding-bottom: 75px;
         }
-
-        .glass-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(15, 25, 45, 0.55);
-            backdrop-filter: blur(12px);
-            border-radius: 3rem;
-            border: 3px solid;
-            overflow: hidden;
-            animation: rgbBorderContainer 3s linear infinite;
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #111118;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 12px;
+            border-top: 1px solid #222;
+            z-index: 100;
         }
-
-        .hero {
-            background: linear-gradient(125deg, rgba(0, 20, 50, 0.75), rgba(30, 20, 70, 0.7));
-            padding: 2rem;
+        .bottom-nav a {
             text-align: center;
-            border-bottom: 2px solid;
-            animation: rgbBorderHeaderFooter 3s linear infinite;
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 12px;
         }
-
-        .hero h1 {
-            font-size: 3rem;
+        .bottom-nav a i { font-size: 1.3rem; display: block; margin-bottom: 4px; }
+        .bottom-nav a:hover, .bottom-nav a.active { color: #ff6a00; background: #ff6a0010; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 1rem; }
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .logo h1 { 
+            font-size: 1.4rem; 
             font-weight: bold;
             background: linear-gradient(90deg, 
-                #ffffff 0%, #ffffff 15%,
-                #ff0000 25%, #ffaa00 30%, #ffff00 35%,
-                #00ff00 45%, #00ffff 50%, #0000ff 55%,
-                #ff00ff 65%, #ff0000 70%,
-                #ffffff 85%, #ffffff 100%);
+                #ffffff 0%, #ffffff 25%, 
+                #ff6a00 40%, #ffaa00 50%, #ff6a00 60%, 
+                #ffffff 75%, #ffffff 100%);
             background-size: 300% auto;
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            animation: trainRainbow 4s linear infinite;
+            animation: trainOnTextRightToLeft 4s linear infinite;
         }
-
-        .hero h1:hover {
-            animation: trainRainbowReverse 1.5s linear infinite;
+        .logo h1:hover {
+            animation: trainOnTextLeftToRight 1.5s linear infinite;
         }
-
-        .hero-tagline {
-            background: rgba(0,0,0,0.4);
-            display: inline-block;
-            padding: 0.3rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
-        }
-
-        .info-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            padding: 1.5rem;
-            align-items: stretch;
-        }
-
-        .card {
-            background: rgba(10, 20, 35, 0.65);
-            border-radius: 1.5rem;
-            padding: 1rem;
-            flex: 1;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.15);
-            transition: 0.2s;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(100, 150, 255, 0.5);
-        }
-
-        /* دکمه فروشگاه */
-        .shop-btn {
-            background: linear-gradient(135deg, #ff6a00, #ff8c2a);
-            color: #000;
-            font-weight: bold;
-            padding: 0.6rem 1rem;
-            border-radius: 50px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 0.8rem;
-            transition: 0.2s;
-            font-size: 0.9rem;
+        .menu-btn {
+            background: #1a1a22;
             border: none;
+            color: #ff6a00;
+            font-size: 1.4rem;
             cursor: pointer;
+            padding: 0.4rem 0.9rem;
+            border-radius: 12px;
         }
-
-        .shop-btn:hover {
-            transform: scale(1.02);
-            background: linear-gradient(135deg, #ff8c2a, #ffaa44);
-            box-shadow: 0 0 15px rgba(255, 106, 0, 0.5);
-        }
-
-        /* دکمه تیم فوتبال */
-        .team-btn {
-            background: linear-gradient(135deg, #00aa44, #00cc66);
-            color: #fff;
-            font-weight: bold;
-            padding: 0.6rem 1rem;
-            border-radius: 50px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 0.5rem;
-            transition: 0.2s;
-            font-size: 0.9rem;
+        .user-btn {
+            background: #1a1a22;
             border: none;
-            cursor: pointer;
-        }
-
-        .team-btn:hover {
-            transform: scale(1.02);
-            background: linear-gradient(135deg, #00cc66, #00ff88);
-            box-shadow: 0 0 15px rgba(0, 255, 100, 0.5);
-        }
-
-        .device-row {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin: 1.5rem 1rem;
-            padding: 1rem;
-            background: rgba(0,0,0,0.3);
-            border-radius: 2rem;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .device-item {
-            text-align: center;
+            color: #ff6a00;
             font-size: 1.2rem;
-            font-weight: bold;
+            cursor: pointer;
+            padding: 0.4rem 0.9rem;
+            border-radius: 12px;
         }
-
-        .device-item i {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            display: inline-block;
+        .cart-icon {
+            position: relative;
+            background: #1a1a22;
+            border: none;
+            color: #ff6a00;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.4rem 0.9rem;
+            border-radius: 12px;
         }
-
-        .game-types {
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.6rem;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin: 1rem;
         }
-
-        .game-badge {
-            background: #1e2a4e;
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .gallery-flex {
+        .search-box {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 1.5rem;
-            padding: 1.5rem;
+            background: #1a1a22;
+            border-radius: 30px;
+            padding: 0.4rem 1rem;
+            flex: 1;
+            max-width: 260px;
+            border: 1px solid #333;
         }
-
-        .gallery-item {
-            background: #00000066;
+        .search-box input { background: transparent; border: none; padding: 0.4rem; color: white; width: 100%; }
+        .search-box button { background: none; border: none; color: #ff6a00; cursor: pointer; }
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100%;
+            background: #0f0f17f2;
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: 0.3s ease;
+            padding: 2rem 1rem;
+            border-left: 1px solid #ff6a0033;
+            overflow-y: auto;
+        }
+        .side-menu.open { right: 0; }
+        .close-menu {
+            background: none;
+            border: none;
+            color: #ff6a00;
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+        }
+        .side-menu h3 { margin-top: 2rem; margin-bottom: 1rem; color: #ff6a00; border-right: 3px solid #ff6a00; padding-right: 0.8rem; }
+        .side-cat {
+            display: block;
+            padding: 0.7rem 1rem;
+            color: #ddd;
+            border-radius: 12px;
+            margin: 0.3rem 0;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .side-cat:hover { background: #ff6a0022; padding-right: 1.5rem; color: #ff6a00; }
+        .side-cat i { margin-left: 0.8rem; width: 25px; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 999;
+            display: none;
+        }
+        .overlay.show { display: block; }
+        .section-title { font-size: 1.4rem; margin: 1rem 0 1rem; border-right: 4px solid #ff6a00; padding-right: 0.8rem; }
+        
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+        .product-card {
+            background: #111118;
             border-radius: 1.2rem;
             overflow: hidden;
-            text-align: center;
+            border: 2px solid;
             transition: 0.2s;
-            flex: 1 1 auto;
-            max-width: 320px;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid rgba(255,255,255,0.15);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+            animation: rgbYellowOrange 4s linear infinite;
         }
-
-        .gallery-item:hover {
-            transform: scale(1.02);
-            border-color: rgba(100, 150, 255, 0.5);
+        .product-card:hover {
+            transform: translateY(-5px);
+            animation: rgbBorderContainer 1s linear infinite;
         }
-
-        .gallery-item img {
+        .img-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
+        }
+        .product-img {
             width: 100%;
             height: auto;
             display: block;
-            object-fit: contain;
-            background-color: #0a0f1a;
         }
-
-        .channels-list {
-            padding: 1rem;
-            background: rgba(0,0,0,0.3);
-            margin: 1rem;
-            border-radius: 1.2rem;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .channel-item {
+        .product-info { padding: 1rem; text-align: center; }
+        .product-title { font-size: 1rem; font-weight: bold; margin-bottom: 0.5rem; }
+        .platform-icons {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
-            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            margin: 0.5rem 0;
         }
-
-        footer {
+        .platform-icons i { font-size: 1.2rem; }
+        .ps-icon { color: #0099ff; }
+        .xbox-icon { color: #51ff00; }
+        .game-type {
+            background: #ff6a0015;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #ff6a00;
+            display: inline-block;
+            margin-top: 0.3rem;
+        }
+        .view-detail {
+            background: #ff6a00;
+            color: #000;
             text-align: center;
-            padding: 1rem;
-            border-top: 2px solid;
-            font-size: 0.8rem;
-            animation: rgbBorderHeaderFooter 3s linear infinite;
-        }
-
-        .google-album-btn {
-            display: inline-flex;
-            background: #4285f4;
-            padding: 8px 16px;
-            border-radius: 40px;
-            color: white;
-            text-decoration: none;
-            margin: 0 1rem 1rem;
+            padding: 0.5rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-top: 0.8rem;
             transition: 0.2s;
         }
-
-        .google-album-btn:hover {
-            background: #5a9eff;
-            transform: scale(1.02);
+        .product-card:hover .view-detail { background: #ff8c2a; }
+        
+        .subscriptions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
-
-        @media (max-width: 800px) {
-            .gallery-flex {
-                flex-direction: column;
-                align-items: center;
-            }
-            .gallery-item {
-                max-width: 90%;
-            }
+        .sub-card {
+            background: #111118;
+            border-radius: 1.2rem;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid;
+            transition: 0.2s;
+            cursor: pointer;
+            animation: rgbYellowOrange 4s linear infinite;
         }
-
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 2rem; }
-            .device-item i { font-size: 2rem; }
-            .info-grid {
-                flex-direction: column;
-            }
+        .sub-card:hover {
+            transform: translateY(-5px);
+            animation: rgbBorderContainer 1s linear infinite;
         }
+        .sub-icon { font-size: 2.5rem; color: #ff6a00; margin-bottom: 0.8rem; }
+        .sub-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; }
+        .sub-status { font-size: 0.8rem; color: #ff4444; font-weight: bold; margin-top: 0.3rem; }
+        
+        .contact-bar {
+            background: #ff6a00;
+            color: #000;
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 50px;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+        .contact-bar a { color: #000; text-decoration: none; }
+        footer { 
+            margin-top: 2rem; 
+            text-align: center; 
+            padding: 1rem; 
+            color: #888; 
+            font-size: 0.8rem; 
+            border-top: 2px solid; 
+            animation: rgbYellowOrange 3s linear infinite; 
+        }
+        .owner-id { 
+            background: #ff6a0022; 
+            display: inline-block; 
+            padding: 0.4rem 1rem; 
+            border-radius: 50px; 
+            font-size: 0.8rem;
+            border: none;
+        }
+        .owner-id a { color: #ff6a00; text-decoration: none; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #1a1a2e;
+            padding: 2rem;
+            border-radius: 2rem;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border-radius: 30px;
+            border: none;
+            font-family: inherit;
+            background: #0a0a0f;
+            color: white;
+            border: 1px solid #333;
+        }
+        .modal-content button {
+            background: #ff6a00;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        @media (max-width: 650px) { .container { padding: 0.8rem; } .search-box { max-width: 180px; } }
     </style>
 </head>
 <body>
-<div class="glass-container">
-    <div class="hero">
-        <h1>گیم‌نت</h1>
-        <div class="hero-tagline"><i class="fas fa-gamepad"></i> اینجا صفحه رسمی وب گیم نت حامدی فر هست</div>
-    </div>
-
-    <div class="info-grid">
-        <div class="card"><i class="fas fa-clock"></i><h3>ساعات کاری</h3><p>⏰ ۱۰ صبح تا ۱۰ شب</p></div>
-        <div class="card"><i class="fas fa-store"></i><h3>خدمات</h3><p>🎮 نصب بازی آفلاین و آنلاین PS و Xbox</p></div>
-        <div class="card">
-            <i class="fas fa-headset"></i>
-            <h3>پشتیبانی</h3>
-            <p>در روبیکا</p>
-            <a href="index.html" class="shop-btn"><i class="fas fa-store"></i> ورود به فروشگاه</a>
-            <a href="team.html" class="team-btn"><i class="fas fa-futbol"></i> تیم فوتبال گیم نت</a>
+<div class="container">
+    <div class="main-header">
+        <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+        <div class="logo"><h1><i class="fas fa-store"></i> فروشگاه گیم نت</h1></div>
+        <div class="search-box"><input type="text" placeholder="جستجو..."><button><i class="fas fa-search"></i></button></div>
+        <button class="user-btn" id="userBtn"><i class="fas fa-user"></i></button>
+        <div class="cart-icon" onclick="location.href='cart.html'">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
         </div>
     </div>
 
-    <div class="device-row">
-        <div class="device-item">
-            <i class="fab fa-playstation" style="color: #0099ff;"></i><br>
-            PLAYSTATION
-        </div>
-        <div class="device-item">
-            <i class="fab fa-xbox" style="color: #51ff00;"></i><br>
-            XBOX
-        </div>
+    <div class="side-menu" id="sideMenu">
+        <button class="close-menu" id="closeMenu"><i class="fas fa-times"></i></button>
+        <h3><i class="fas fa-gamepad"></i> دسته‌بندی‌ها</h3>
+        <div class="side-cat"><i class="fab fa-xbox"></i> ایکس باکس</div>
+        <div class="side-cat"><i class="fab fa-playstation"></i> پلی استیشن</div>
+        <div class="side-cat"><i class="fas fa-desktop"></i> کامپیوتر</div>
+        <div class="side-cat"><i class="fas fa-microchip"></i> نینتندو سوییچ</div>
+        <div class="side-cat"><i class="fas fa-globe"></i> سایر اشتراک‌ها</div>
+        <div class="side-cat"><i class="fas fa-coins"></i> سکه و جم</div>
+        <div class="side-cat"><i class="fas fa-ticket-alt"></i> گیفت کارت</div>
+        <div class="side-cat"><i class="fas fa-copy"></i> بازی کپی خور</div>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <div class="contact-bar">
+        <i class="fas fa-phone-alt"></i> برای شرایط خرید و اطمینان از منبع تماس بگیرید: 
+        <a href="tel:0933880140">۰۹۳۳۸۸۰۱۴۰</a> | 
+        <a href="tel:09372726142">۰۹۳۷۲۷۲۶۱۴۲</a>
     </div>
 
-    <div class="game-types">
-        <span class="game-badge"><i class="fas fa-user"></i> بازی‌های ۱ نفره</span>
-        <span class="game-badge"><i class="fas fa-user-friends"></i> بازی‌های ۲ نفره</span>
-        <span class="game-badge"><i class="fas fa-users"></i> بازی‌های ۴ نفره</span>
-    </div>
+    <!-- بازی‌های محبوب - با عکس‌های مستقیم از گیت‌هاب -->
+    <h2 class="section-title">بازی‌های محبوب</h2>
+    <div class="games-grid">
+        <!-- PES 2026 جام جهانی -->
+        <a href="game1.html" class="product-card">
+            <div class="img-container">
+                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/PES%20Monster%20PATCH%20WorldCup%202026.jpg" alt="PES 2026 جام جهانی" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
+            </div>
+            <div class="product-info">
+                <div class="product-title">PES 2026 - نسخه جام جهانی</div>
+                <div class="platform-icons"><i class="fab fa-playstation ps-icon"></i></div>
+                <div class="game-type">🎮 کپی خور</div>
+                <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
+            </div>
+        </a>
 
-    <div class="gallery-flex">
-        <div class="gallery-item">
-            <img src="https://raw.githubusercontent.com/javadxpro/Gamenet/main/gang%20beast.jpg" alt="Gang Beast">
-        </div>
-        <div class="gallery-item">
-            <img src="https://raw.githubusercontent.com/javadxpro/Gamenet/main/call%20of%20duty%20black%20ops%20cold%20war.jpg" alt="Call of Duty">
-        </div>
-        <div class="gallery-item">
-            <img src="https://raw.githubusercontent.com/javadxpro/Gamenet/main/PES%20Monster%20PATCH%20WorldCup%202026.jpg" alt="PES Monster Patch">
-        </div>
-    </div>
+        <!-- Call of Duty -->
+        <a href="game2.html" class="product-card">
+            <div class="img-container">
+                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/call%20of%20duty%20black%20ops%20cold%20war.jpg" alt="Call of Duty" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
+            </div>
+            <div class="product-info">
+                <div class="product-title">Call of Duty: Black Ops Cold War</div>
+                <div class="platform-icons"><i class="fab fa-playstation ps-icon"></i><i class="fab fa-xbox xbox-icon"></i></div>
+                <div class="game-type">🎮 کپی خور</div>
+                <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
+            </div>
+        </a>
 
-    <div style="text-align:center;">
-        <a href="https://photos.app.goo.gl/fDSRKWhZyAnd1HVv5" target="_blank" class="google-album-btn">
-            <i class="fab fa-google"></i> آلبوم گیم‌نت 
+        <!-- Gang Beast -->
+        <a href="game3.html" class="product-card">
+            <div class="img-container">
+                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/gang%20beast.jpg" alt="Gang Beast" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
+            </div>
+            <div class="product-info">
+                <div class="product-title">Gang Beast</div>
+                <div class="platform-icons"><i class="fab fa-playstation ps-icon"></i><i class="fab fa-xbox xbox-icon"></i></div>
+                <div class="game-type">🎮 کپی خور</div>
+                <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
+            </div>
+        </a>
+
+        <!-- PES 2026 پچ زمستانی -->
+        <a href="game4.html" class="product-card">
+            <div class="img-container">
+                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Monster%20PATCH%20WINTER%202026.jpg" alt="PES 2026 پچ زمستانی" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
+            </div>
+            <div class="product-info">
+                <div class="product-title">PES 2026 - پچ زمستانی</div>
+                <div class="platform-icons"><i class="fab fa-playstation ps-icon"></i></div>
+                <div class="game-type">🎮 کپی خور</div>
+                <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
+            </div>
         </a>
     </div>
 
-    <div class="channels-list">
-        <div class="channel-item"><i class="fab fa-r-project"></i> کانال: <a href="https://rubika.ir/GAMENETJXP" target="_blank">rubika.ir/GAMENETJXP</a></div>
-        <div class="channel-item"><i class="fas fa-users"></i> چت: <a href="https://rubika.ir/joing/IGBBIDBA0WCZWZPMKJBBNANXIDBOLVUZ" target="_blank">لینک چت روبیکا</a></div>
-        <div class="channel-item"><i class="far fa-comment"></i> نظرات: <a href="https://rubika.ir/javadxpro" target="_blank">rubika.ir/javadxpro</a></div>
+    <h2 class="section-title">اشتراک‌های محبوب</h2>
+    <div class="subscriptions-grid">
+        <div class="sub-card" onclick="alert('اشتراک پلی استیشن پلاس - ناموجود')">
+            <div class="sub-icon"><i class="fab fa-playstation"></i></div>
+            <div class="sub-title">پلی استیشن پلاس</div>
+            <div class="sub-status">ناموجود</div>
+        </div>
+        <div class="sub-card" onclick="alert('اشتراک گیم پس - ناموجود')">
+            <div class="sub-icon"><i class="fab fa-xbox"></i></div>
+            <div class="sub-title">گیم پس</div>
+            <div class="sub-status">ناموجود</div>
+        </div>
+        <div class="sub-card" onclick="alert('رویال پس پابجی - ناموجود')">
+            <div class="sub-icon"><i class="fas fa-crosshairs"></i></div>
+            <div class="sub-title">رویال پس پابجی</div>
+            <div class="sub-status">ناموجود</div>
+        </div>
+        <div class="sub-card" onclick="alert('بتل پس کالاف - ناموجود')">
+            <div class="sub-icon"><i class="fas fa-gun"></i></div>
+            <div class="sub-title">بتل پس کالاف</div>
+            <div class="sub-status">ناموجود</div>
+        </div>
     </div>
 
     <footer>
-        <i class="fas fa-crown"></i> گیم‌نت حامدی فر | ۱۰ صبح تا ۱۰ شب
+        <div class="owner-id"><i class="fab fa-telegram"></i> آیدی مدیریت: <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a></div>
+        <p>فروشگاه گیم نت | تمامی حقوق محفوظ است</p>
     </footer>
 </div>
-</body>
-</html>
+
+<div class="bottom-nav">
+    <a href="index.html" class="active"><i class="fas fa-home"></i> خانه</a>
+    <a href="cart.html"><i class="fas fa-shopping-cart"></i> سبد خرید</a>
+    <a href="offers.html"><i class="fas fa-gift"></i> پیشنهادها</a>
+    <a href="games.html"><i class="fas fa-gamepad"></i> بازی‌ها</a>
+    <a href="giftcard.html"><i class="fas fa-ticket-alt"></i> گیفت کارت</a>
+</div>
+
+<div id="authModal" class="modal">
+    <div class="modal-content">
+        <h3><i class="fas fa-user-plus"></i> ثبت نام / ورود</h3>
+        <input type="text" id="fullName" placeholder="نام و نام خانوادگی" required>
+        <input type="text" id="username" placeholder="نام کاربری (username)" required>
+        <input type="email" id="email" placeholder="ایمیل" required>
+        <input type="tel" id="phone" placeholder="شماره تلفن" required>
+        <div>
+            <button onclick="registerUser()">ثبت نام</button>
+            <button class="close-modal-btn" onclick="closeModal()" style="background:#333;">انصراف</button>
+        </div>
+        <div id="userStatus" style="margin-top: 10px;"></div>
+    </div>
+</div>
+
+<script>
+    let cart = JSON.parse(localStorage.getItem('gameCart')) || [];
+
+    function updateCartCount() {
+       

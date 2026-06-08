@@ -19,7 +19,8 @@
             padding: 2rem 1.5rem;
             min-height: 100vh;
         }
-        /* انیمیشن RGB فقط برای گوشه‌های اصلی */
+
+        /* انیمیشن RGB برای حاشیه‌ها (مثل قبل) */
         @keyframes rgbBorderContainer {
             0% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
             25% { border-color: #00ff00; box-shadow: 0 0 20px #00ff00; }
@@ -27,6 +28,7 @@
             75% { border-color: #ffff00; box-shadow: 0 0 20px #ffff00; }
             100% { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; }
         }
+
         @keyframes rgbBorderHeaderFooter {
             0% { border-color: #ff0000; }
             25% { border-color: #00ff00; }
@@ -34,6 +36,26 @@
             75% { border-color: #ffff00; }
             100% { border-color: #ff00ff; }
         }
+
+        /* انیمیشن قطار رنگین‌کمانی (مثل قبل) */
+        @keyframes trainRainbow {
+            0% {
+                background-position: 300% 0;
+            }
+            100% {
+                background-position: -300% 0;
+            }
+        }
+
+        @keyframes trainRainbowReverse {
+            0% {
+                background-position: -300% 0;
+            }
+            100% {
+                background-position: 300% 0;
+            }
+        }
+
         .glass-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -44,6 +66,7 @@
             overflow: hidden;
             animation: rgbBorderContainer 3s linear infinite;
         }
+
         .hero {
             background: linear-gradient(125deg, rgba(0, 20, 50, 0.75), rgba(30, 20, 70, 0.7));
             padding: 2rem;
@@ -51,13 +74,27 @@
             border-bottom: 2px solid;
             animation: rgbBorderHeaderFooter 3s linear infinite;
         }
+
         .hero h1 {
             font-size: 3rem;
-            background: linear-gradient(135deg, #FFF, #8aadff);
+            font-weight: bold;
+            background: linear-gradient(90deg, 
+                #ffffff 0%, #ffffff 15%,
+                #ff0000 25%, #ffaa00 30%, #ffff00 35%,
+                #00ff00 45%, #00ffff 50%, #0000ff 55%,
+                #ff00ff 65%, #ff0000 70%,
+                #ffffff 85%, #ffffff 100%);
+            background-size: 300% auto;
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
+            animation: trainRainbow 4s linear infinite;
         }
+
+        .hero h1:hover {
+            animation: trainRainbowReverse 1.5s linear infinite;
+        }
+
         .hero-tagline {
             background: rgba(0,0,0,0.4);
             display: inline-block;
@@ -65,6 +102,7 @@
             border-radius: 40px;
             font-size: 0.9rem;
         }
+
         .info-grid {
             display: flex;
             flex-wrap: wrap;
@@ -72,6 +110,7 @@
             padding: 1.5rem;
             align-items: stretch;
         }
+
         .card {
             background: rgba(10, 20, 35, 0.65);
             border-radius: 1.5rem;
@@ -84,10 +123,12 @@
             flex-direction: column;
             justify-content: center;
         }
+
         .card:hover {
             transform: translateY(-3px);
             border-color: rgba(100, 150, 255, 0.5);
         }
+
         /* دکمه فروشگاه */
         .shop-btn {
             background: linear-gradient(135deg, #ff6a00, #ff8c2a);
@@ -103,11 +144,13 @@
             border: none;
             cursor: pointer;
         }
+
         .shop-btn:hover {
             transform: scale(1.02);
             background: linear-gradient(135deg, #ff8c2a, #ffaa44);
             box-shadow: 0 0 15px rgba(255, 106, 0, 0.5);
         }
+
         /* دکمه تیم فوتبال */
         .team-btn {
             background: linear-gradient(135deg, #00aa44, #00cc66);
@@ -123,11 +166,13 @@
             border: none;
             cursor: pointer;
         }
+
         .team-btn:hover {
             transform: scale(1.02);
             background: linear-gradient(135deg, #00cc66, #00ff88);
             box-shadow: 0 0 15px rgba(0, 255, 100, 0.5);
         }
+
         .device-row {
             display: flex;
             justify-content: center;
@@ -139,16 +184,19 @@
             border-radius: 2rem;
             border: 1px solid rgba(255,255,255,0.1);
         }
+
         .device-item {
             text-align: center;
             font-size: 1.2rem;
             font-weight: bold;
         }
+
         .device-item i {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
             display: inline-block;
         }
+
         .game-types {
             display: flex;
             justify-content: center;
@@ -156,6 +204,7 @@
             flex-wrap: wrap;
             margin: 1rem;
         }
+
         .game-badge {
             background: #1e2a4e;
             padding: 0.5rem 1.2rem;
@@ -163,6 +212,7 @@
             font-size: 0.9rem;
             border: 1px solid rgba(255,255,255,0.2);
         }
+
         .gallery-flex {
             display: flex;
             flex-wrap: wrap;
@@ -171,6 +221,7 @@
             gap: 1.5rem;
             padding: 1.5rem;
         }
+
         .gallery-item {
             background: #00000066;
             border-radius: 1.2rem;
@@ -183,10 +234,12 @@
             flex-direction: column;
             border: 1px solid rgba(255,255,255,0.15);
         }
+
         .gallery-item:hover {
             transform: scale(1.02);
             border-color: rgba(100, 150, 255, 0.5);
         }
+
         .gallery-item img {
             width: 100%;
             height: auto;
@@ -194,6 +247,7 @@
             object-fit: contain;
             background-color: #0a0f1a;
         }
+
         .channels-list {
             padding: 1rem;
             background: rgba(0,0,0,0.3);
@@ -201,6 +255,7 @@
             border-radius: 1.2rem;
             border: 1px solid rgba(255,255,255,0.1);
         }
+
         .channel-item {
             display: flex;
             flex-wrap: wrap;
@@ -208,6 +263,7 @@
             margin-bottom: 12px;
             align-items: center;
         }
+
         footer {
             text-align: center;
             padding: 1rem;
@@ -215,6 +271,7 @@
             font-size: 0.8rem;
             animation: rgbBorderHeaderFooter 3s linear infinite;
         }
+
         .google-album-btn {
             display: inline-flex;
             background: #4285f4;
@@ -225,10 +282,12 @@
             margin: 0 1rem 1rem;
             transition: 0.2s;
         }
+
         .google-album-btn:hover {
             background: #5a9eff;
             transform: scale(1.02);
         }
+
         @media (max-width: 800px) {
             .gallery-flex {
                 flex-direction: column;
@@ -238,6 +297,7 @@
                 max-width: 90%;
             }
         }
+
         @media (max-width: 600px) {
             .hero h1 { font-size: 2rem; }
             .device-item i { font-size: 2rem; }
@@ -250,7 +310,7 @@
 <body>
 <div class="glass-container">
     <div class="hero">
-        <h1>🎮 گیم‌نت</h1>
+        <h1>گیم‌نت</h1>
         <div class="hero-tagline"><i class="fas fa-gamepad"></i> اینجا صفحه رسمی وب گیم نت حامدی فر هست</div>
     </div>
 
