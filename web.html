@@ -20,40 +20,35 @@
             min-height: 100vh;
         }
 
-        /* انیمیشن RGB برای حاشیه‌ها (مثل قبل) */
+        /* سرعت RGB کمتر (6 ثانیه) */
         @keyframes rgbBorderContainer {
             0% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
-            25% { border-color: #00ff00; box-shadow: 0 0 20px #00ff00; }
-            50% { border-color: #0000ff; box-shadow: 0 0 15px #0000ff; }
-            75% { border-color: #ffff00; box-shadow: 0 0 20px #ffff00; }
+            17% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+            33% { border-color: #ffff00; box-shadow: 0 0 20px #ffff00; }
+            50% { border-color: #00ff00; box-shadow: 0 0 15px #00ff00; }
+            67% { border-color: #00ffff; box-shadow: 0 0 20px #00ffff; }
+            83% { border-color: #0000ff; box-shadow: 0 0 15px #0000ff; }
             100% { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; }
         }
 
         @keyframes rgbBorderHeaderFooter {
             0% { border-color: #ff0000; }
-            25% { border-color: #00ff00; }
-            50% { border-color: #0000ff; }
-            75% { border-color: #ffff00; }
+            17% { border-color: #ffaa00; }
+            33% { border-color: #ffff00; }
+            50% { border-color: #00ff00; }
+            67% { border-color: #00ffff; }
+            83% { border-color: #0000ff; }
             100% { border-color: #ff00ff; }
         }
 
-        /* انیمیشن قطار رنگین‌کمانی (مثل قبل) */
         @keyframes trainRainbow {
-            0% {
-                background-position: 300% 0;
-            }
-            100% {
-                background-position: -300% 0;
-            }
+            0% { background-position: 300% 0; }
+            100% { background-position: -300% 0; }
         }
 
         @keyframes trainRainbowReverse {
-            0% {
-                background-position: -300% 0;
-            }
-            100% {
-                background-position: 300% 0;
-            }
+            0% { background-position: -300% 0; }
+            100% { background-position: 300% 0; }
         }
 
         .glass-container {
@@ -64,7 +59,7 @@
             border-radius: 3rem;
             border: 3px solid;
             overflow: hidden;
-            animation: rgbBorderContainer 3s linear infinite;
+            animation: rgbBorderContainer 6s linear infinite;
         }
 
         .hero {
@@ -72,7 +67,7 @@
             padding: 2rem;
             text-align: center;
             border-bottom: 2px solid;
-            animation: rgbBorderHeaderFooter 3s linear infinite;
+            animation: rgbBorderHeaderFooter 6s linear infinite;
         }
 
         .hero h1 {
@@ -88,12 +83,10 @@
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            animation: trainRainbow 4s linear infinite;
+            animation: trainRainbow 6s linear infinite;
         }
 
-        .hero h1:hover {
-            animation: trainRainbowReverse 1.5s linear infinite;
-        }
+        .hero h1:hover { animation: trainRainbowReverse 1.5s linear infinite; }
 
         .hero-tagline {
             background: rgba(0,0,0,0.4);
@@ -102,6 +95,46 @@
             border-radius: 40px;
             font-size: 0.9rem;
         }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+            margin-top: 0.5rem;
+        }
+        .btn-shop {
+            background: linear-gradient(135deg, #ff6a00, #ff8c2a);
+            color: #000;
+        }
+        .btn-shop:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 106, 0, 0.4);
+        }
+        .btn-news {
+            background: rgba(255, 106, 0, 0.15);
+            color: #ffaa00;
+            border: 1px solid rgba(255, 106, 0, 0.3);
+        }
+        .btn-news:hover {
+            background: rgba(255, 106, 0, 0.3);
+            transform: scale(1.05);
+        }
+        .btn-team {
+            background: linear-gradient(135deg, #00aa44, #00cc66);
+            color: #fff;
+        }
+        .btn-team:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 200, 80, 0.4);
+        }
+        .btn i { margin-left: 0.5rem; }
 
         .info-grid {
             display: flex;
@@ -114,7 +147,7 @@
         .card {
             background: rgba(10, 20, 35, 0.65);
             border-radius: 1.5rem;
-            padding: 1rem;
+            padding: 1.2rem;
             flex: 1;
             text-align: center;
             border: 1px solid rgba(255,255,255,0.15);
@@ -122,6 +155,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
         }
 
         .card:hover {
@@ -129,49 +163,8 @@
             border-color: rgba(100, 150, 255, 0.5);
         }
 
-        /* دکمه فروشگاه */
-        .shop-btn {
-            background: linear-gradient(135deg, #ff6a00, #ff8c2a);
-            color: #000;
-            font-weight: bold;
-            padding: 0.6rem 1rem;
-            border-radius: 50px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 0.8rem;
-            transition: 0.2s;
-            font-size: 0.9rem;
-            border: none;
-            cursor: pointer;
-        }
-
-        .shop-btn:hover {
-            transform: scale(1.02);
-            background: linear-gradient(135deg, #ff8c2a, #ffaa44);
-            box-shadow: 0 0 15px rgba(255, 106, 0, 0.5);
-        }
-
-        /* دکمه تیم فوتبال */
-        .team-btn {
-            background: linear-gradient(135deg, #00aa44, #00cc66);
-            color: #fff;
-            font-weight: bold;
-            padding: 0.6rem 1rem;
-            border-radius: 50px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 0.5rem;
-            transition: 0.2s;
-            font-size: 0.9rem;
-            border: none;
-            cursor: pointer;
-        }
-
-        .team-btn:hover {
-            transform: scale(1.02);
-            background: linear-gradient(135deg, #00cc66, #00ff88);
-            box-shadow: 0 0 15px rgba(0, 255, 100, 0.5);
-        }
+        .card h3 { margin: 0.3rem 0; }
+        .card p { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
 
         .device-row {
             display: flex;
@@ -269,7 +262,7 @@
             padding: 1rem;
             border-top: 2px solid;
             font-size: 0.8rem;
-            animation: rgbBorderHeaderFooter 3s linear infinite;
+            animation: rgbBorderHeaderFooter 6s linear infinite;
         }
 
         .google-album-btn {
@@ -289,25 +282,20 @@
         }
 
         @media (max-width: 800px) {
-            .gallery-flex {
-                flex-direction: column;
-                align-items: center;
-            }
-            .gallery-item {
-                max-width: 90%;
-            }
+            .gallery-flex { flex-direction: column; align-items: center; }
+            .gallery-item { max-width: 90%; }
         }
 
         @media (max-width: 600px) {
             .hero h1 { font-size: 2rem; }
             .device-item i { font-size: 2rem; }
-            .info-grid {
-                flex-direction: column;
-            }
+            .info-grid { flex-direction: column; }
+            .btn { font-size: 0.8rem; padding: 0.4rem 0.8rem; }
         }
     </style>
 </head>
 <body>
+
 <div class="glass-container">
     <div class="hero">
         <h1>گیم‌نت</h1>
@@ -315,14 +303,28 @@
     </div>
 
     <div class="info-grid">
-        <div class="card"><i class="fas fa-clock"></i><h3>ساعات کاری</h3><p>⏰ ۱۰ صبح تا ۱۰ شب</p></div>
-        <div class="card"><i class="fas fa-store"></i><h3>خدمات</h3><p>🎮 نصب بازی آفلاین و آنلاین PS و Xbox</p></div>
+        <!-- ساعات کاری + دکمه گیم نت -->
+        <div class="card">
+            <i class="fas fa-clock"></i>
+            <h3>ساعات کاری</h3>
+            <p>⏰ ۱۰ صبح تا ۱۰ شب</p>
+            <a href="news.html" class="btn btn-news"><i class="fas fa-newspaper"></i>اخبار مهم گیم نت</a>
+        </div>
+
+        <!-- خدمات + دکمه ورود به فروشگاه -->
+        <div class="card">
+            <i class="fas fa-store"></i>
+            <h3>خدمات</h3>
+            <p>🎮 نصب بازی آفلاین و آنلاین PS و Xbox</p>
+            <a href="index.html" class="btn btn-shop"><i class="fas fa-store"></i> ورود به فروشگاه</a>
+        </div>
+
+        <!-- پشتیبانی + دکمه تیم فوتبال -->
         <div class="card">
             <i class="fas fa-headset"></i>
             <h3>پشتیبانی</h3>
             <p>در روبیکا</p>
-            <a href="index.html" class="shop-btn"><i class="fas fa-store"></i> ورود به فروشگاه</a>
-            <a href="team.html" class="team-btn"><i class="fas fa-futbol"></i> تیم فوتبال گیم نت</a>
+            <a href="team.html" class="btn btn-team"><i class="fas fa-futbol"></i> تیم فوتبال گیم نت</a>
         </div>
     </div>
 
@@ -371,5 +373,6 @@
         <i class="fas fa-crown"></i> گیم‌نت حامدی فر | ۱۰ صبح تا ۱۰ شب
     </footer>
 </div>
+
 </body>
 </html>

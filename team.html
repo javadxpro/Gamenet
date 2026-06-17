@@ -46,6 +46,22 @@
             padding: 0.8rem;
         }
 
+        /* دکمه بازگشت */
+        .back-link {
+            display: inline-block;
+            color: #ff6a00;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            transition: 0.2s;
+            font-size: 0.95rem;
+        }
+        .back-link:hover {
+            color: #ffaa00;
+            transform: translateX(-5px);
+        }
+        .back-link i { margin-left: 0.5rem; }
+
         .team-header {
             text-align: center;
             margin-bottom: 2rem;
@@ -192,6 +208,9 @@
 <body>
 
 <div class="container">
+    <!-- دکمه بازگشت به صفحه اصلی -->
+    <a href="web.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی</a>
+
     <div class="team-header">
         <div class="logo"><h1><i class="fas fa-futbol"></i> تیم فوتبال راه ابریشم <i class="fas fa-futbol"></i></h1></div>
         <div class="team-badge"><i class="fas fa-trophy"></i> لیگ خوزستان </div>
