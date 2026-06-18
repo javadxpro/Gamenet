@@ -21,6 +21,17 @@ body {
     pointer-events: none;
 }
 
+.btn-test {
+    background: rgba(0, 200, 255, 0.15);
+    color: #00ddff;
+    border: 1px solid rgba(0, 200, 255, 0.2);
+}
+.btn-test:hover {
+    background: rgba(0, 200, 255, 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0, 200, 255, 0.2);
+}
+
 .glass-container {
     position: relative;
     z-index: 1;
