@@ -8,133 +8,74 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Vazirmatn Font -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <!-- Three.js (WebGL) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Vazirmatn', system-ui, sans-serif;
-            background: radial-gradient(circle at 10% 30%, #0b0f1c, #05070f);
+            background: #05050a;
             color: #eef2ff;
-            line-height: 1.6;
             direction: rtl;
             padding: 2rem 1.5rem;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* سرعت RGB کمتر (6 ثانیه) */
-        @keyframes rgbBorderContainer {
-            0% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
-            17% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
-            33% { border-color: #ffff00; box-shadow: 0 0 20px #ffff00; }
-            50% { border-color: #00ff00; box-shadow: 0 0 15px #00ff00; }
-            67% { border-color: #00ffff; box-shadow: 0 0 20px #00ffff; }
-            83% { border-color: #0000ff; box-shadow: 0 0 15px #0000ff; }
-            100% { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; }
-        }
-
-        @keyframes rgbBorderHeaderFooter {
-            0% { border-color: #ff0000; }
-            17% { border-color: #ffaa00; }
-            33% { border-color: #ffff00; }
-            50% { border-color: #00ff00; }
-            67% { border-color: #00ffff; }
-            83% { border-color: #0000ff; }
-            100% { border-color: #ff00ff; }
-        }
-
-        @keyframes trainRainbow {
-            0% { background-position: 300% 0; }
-            100% { background-position: -300% 0; }
-        }
-
-        @keyframes trainRainbowReverse {
-            0% { background-position: -300% 0; }
-            100% { background-position: 300% 0; }
+        /* ========== WebGL Canvas - ثابت در پس‌زمینه ========== */
+        #webglCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .glass-container {
+            position: relative;
+            z-index: 1;
             max-width: 1200px;
             margin: 0 auto;
-            background: rgba(15, 25, 45, 0.55);
-            backdrop-filter: blur(12px);
+            background: rgba(5, 5, 15, 0.25);
             border-radius: 3rem;
-            border: 3px solid;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             overflow: hidden;
-            animation: rgbBorderContainer 6s linear infinite;
+            backdrop-filter: blur(0px);
         }
 
         .hero {
-            background: linear-gradient(125deg, rgba(0, 20, 50, 0.75), rgba(30, 20, 70, 0.7));
+            background: rgba(0, 0, 0, 0.15);
             padding: 2rem;
             text-align: center;
-            border-bottom: 2px solid;
-            animation: rgbBorderHeaderFooter 6s linear infinite;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
-
         .hero h1 {
             font-size: 3rem;
-            font-weight: bold;
-            background: linear-gradient(90deg, 
-                #ffffff 0%, #ffffff 15%,
-                #ff0000 25%, #ffaa00 30%, #ffff00 35%,
-                #00ff00 45%, #00ffff 50%, #0000ff 55%,
-                #ff00ff 65%, #ff0000 70%,
-                #ffffff 85%, #ffffff 100%);
-            background-size: 300% auto;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6a00, #ff00ff, #00ffff);
+            background-size: 300% 300%;
+            animation: neonShift 4s ease-in-out infinite;
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            animation: trainRainbow 6s linear infinite;
+            text-shadow: 0 0 30px rgba(255, 106, 0, 0.2);
         }
-
-        .hero h1:hover { animation: trainRainbowReverse 1.5s linear infinite; }
-
+        @keyframes neonShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
         .hero-tagline {
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.3);
             display: inline-block;
             padding: 0.3rem 1.2rem;
             border-radius: 40px;
             font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-
-        .btn {
-            display: inline-block;
-            padding: 0.6rem 1.2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.9rem;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: inherit;
-            margin-top: 0.5rem;
-        }
-        .btn-shop {
-            background: linear-gradient(135deg, #ff6a00, #ff8c2a);
-            color: #000;
-        }
-        .btn-shop:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 106, 0, 0.4);
-        }
-        .btn-news {
-            background: rgba(255, 106, 0, 0.15);
-            color: #ffaa00;
-            border: 1px solid rgba(255, 106, 0, 0.3);
-        }
-        .btn-news:hover {
-            background: rgba(255, 106, 0, 0.3);
-            transform: scale(1.05);
-        }
-        .btn-team {
-            background: linear-gradient(135deg, #00aa44, #00cc66);
-            color: #fff;
-        }
-        .btn-team:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(0, 200, 80, 0.4);
-        }
-        .btn i { margin-left: 0.5rem; }
 
         .info-grid {
             display: flex;
@@ -143,28 +84,107 @@
             padding: 1.5rem;
             align-items: stretch;
         }
-
         .card {
-            background: rgba(10, 20, 35, 0.65);
+            background: rgba(0, 0, 0, 0.15);
             border-radius: 1.5rem;
-            padding: 1.2rem;
+            padding: 1rem;
             flex: 1;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.15);
-            transition: 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: 0.3s;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
-
         .card:hover {
+            border-color: rgba(255, 106, 0, 0.2);
+            background: rgba(0, 0, 0, 0.3);
             transform: translateY(-3px);
-            border-color: rgba(100, 150, 255, 0.5);
+        }
+        .card i {
+            font-size: 2rem;
+            color: #ff6a00;
+            margin-bottom: 0.3rem;
+            filter: drop-shadow(0 0 10px rgba(255,106,0,0.1));
+        }
+        .card h3 { margin: 0.3rem 0; font-size: 1.1rem; }
+        .card p { color: rgba(255,255,255,0.4); font-size: 0.9rem; }
+
+        .btn {
+            position: relative;
+            display: inline-block;
+            padding: 0.6rem 1.4rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-family: inherit;
+            margin-top: 0.5rem;
+            border: none;
+            overflow: visible;
+            background: rgba(255, 255, 255, 0.03);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .btn:active { transform: scale(0.95); }
+
+        .btn .burst {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: burstEffect 0.5s ease-out forwards;
+            z-index: -1;
+        }
+        .btn .ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+            animation: ringEffect 0.5s ease-out forwards;
+            z-index: -1;
         }
 
-        .card h3 { margin: 0.3rem 0; }
-        .card p { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+        @keyframes burstEffect {
+            0% { transform: scale(0.5) translate(0, 0); opacity: 1; }
+            100% { transform: scale(1.8) translate(var(--tx), var(--ty)); opacity: 0; }
+        }
+        @keyframes ringEffect {
+            0% { transform: scale(0.8); opacity: 0.8; border-width: 4px; }
+            100% { transform: scale(2.5); opacity: 0; border-width: 0px; }
+        }
+
+        .btn-shop {
+            background: rgba(255, 106, 0, 0.15);
+            color: #ffaa00;
+            border: 1px solid rgba(255, 106, 0, 0.15);
+        }
+        .btn-shop:hover { background: rgba(255, 106, 0, 0.25); transform: scale(1.05); }
+
+        .btn-team {
+            background: rgba(0, 255, 100, 0.1);
+            color: #66ffaa;
+            border: 1px solid rgba(0, 255, 100, 0.15);
+        }
+        .btn-team:hover { background: rgba(0, 255, 100, 0.2); transform: scale(1.05); }
+
+        .btn-news {
+            background: rgba(255, 106, 0, 0.08);
+            color: #ffaa44;
+            border: 1px solid rgba(255, 106, 0, 0.1);
+        }
+        .btn-news:hover { background: rgba(255, 106, 0, 0.2); transform: scale(1.05); }
+
+        .btn i { margin-left: 0.4rem; }
 
         .device-row {
             display: flex;
@@ -173,129 +193,108 @@
             flex-wrap: wrap;
             margin: 1.5rem 1rem;
             padding: 1rem;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.1);
             border-radius: 2rem;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.03);
         }
-
         .device-item {
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
+            transition: 0.3s;
         }
-
         .device-item i {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
-            display: inline-block;
+            display: block;
+            transition: 0.3s;
         }
-
-        .game-types {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin: 1rem;
-        }
-
-        .game-badge {
-            background: #1e2a4e;
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            border: 1px solid rgba(255,255,255,0.2);
+        .device-item:hover i {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 20px rgba(255, 106, 0, 0.2));
         }
 
         .gallery-flex {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            align-items: flex-start;
             gap: 1.5rem;
             padding: 1.5rem;
         }
-
         .gallery-item {
-            background: #00000066;
+            background: rgba(0,0,0,0.15);
             border-radius: 1.2rem;
             overflow: hidden;
-            text-align: center;
-            transition: 0.2s;
-            flex: 1 1 auto;
+            flex: 1 1 280px;
             max-width: 320px;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: 0.3s;
         }
-
         .gallery-item:hover {
             transform: scale(1.02);
-            border-color: rgba(100, 150, 255, 0.5);
+            border-color: rgba(255, 106, 0, 0.15);
         }
-
         .gallery-item img {
             width: 100%;
             height: auto;
             display: block;
             object-fit: contain;
-            background-color: #0a0f1a;
+            background: transparent;
         }
 
         .channels-list {
             padding: 1rem;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.1);
             margin: 1rem;
             border-radius: 1.2rem;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.03);
         }
-
         .channel-item {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             align-items: center;
+            padding: 0.3rem 0.5rem;
+            border-radius: 0.5rem;
+            transition: 0.2s;
         }
+        .channel-item:hover {
+            background: rgba(255, 106, 0, 0.03);
+        }
+        .channel-item a {
+            color: #8aadff;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .channel-item a:hover { color: #ff6a00; }
 
         footer {
             text-align: center;
             padding: 1rem;
-            border-top: 2px solid;
+            border-top: 1px solid rgba(255,255,255,0.03);
             font-size: 0.8rem;
-            animation: rgbBorderHeaderFooter 6s linear infinite;
-        }
-
-        .google-album-btn {
-            display: inline-flex;
-            background: #4285f4;
-            padding: 8px 16px;
-            border-radius: 40px;
-            color: white;
-            text-decoration: none;
-            margin: 0 1rem 1rem;
-            transition: 0.2s;
-        }
-
-        .google-album-btn:hover {
-            background: #5a9eff;
-            transform: scale(1.02);
+            color: rgba(255,255,255,0.15);
         }
 
         @media (max-width: 800px) {
             .gallery-flex { flex-direction: column; align-items: center; }
             .gallery-item { max-width: 90%; }
         }
-
         @media (max-width: 600px) {
             .hero h1 { font-size: 2rem; }
-            .device-item i { font-size: 2rem; }
             .info-grid { flex-direction: column; }
-            .btn { font-size: 0.8rem; padding: 0.4rem 0.8rem; }
+            .device-item i { font-size: 2rem; }
+            .btn { font-size: 0.75rem; padding: 0.4rem 0.8rem; }
         }
     </style>
 </head>
 <body>
 
+<!-- ========== WebGL Canvas ========== -->
+<div id="webglCanvas"></div>
+
+<!-- ========== محتوای اصلی ========== -->
 <div class="glass-container">
     <div class="hero">
         <h1>گیم‌نت</h1>
@@ -303,64 +302,41 @@
     </div>
 
     <div class="info-grid">
-        <!-- ساعات کاری + دکمه گیم نت -->
         <div class="card">
             <i class="fas fa-clock"></i>
             <h3>ساعات کاری</h3>
             <p>⏰ ۱۰ صبح تا ۱۰ شب</p>
-            <a href="news.html" class="btn btn-news"><i class="fas fa-newspaper"></i>اخبار مهم گیم نت</a>
+            <a href="news.html" class="btn btn-news" onclick="burstEffectHandler(event, this)"><i class="fas fa-newspaper"></i> اخبار</a>
         </div>
-
-        <!-- خدمات + دکمه ورود به فروشگاه -->
         <div class="card">
             <i class="fas fa-store"></i>
             <h3>خدمات</h3>
             <p>🎮 نصب بازی آفلاین و آنلاین PS و Xbox</p>
-            <a href="index.html" class="btn btn-shop"><i class="fas fa-store"></i> ورود به فروشگاه</a>
+            <a href="index.html" class="btn btn-shop" onclick="burstEffectHandler(event, this)"><i class="fas fa-store"></i> ورود به فروشگاه</a>
         </div>
-
-        <!-- پشتیبانی + دکمه تیم فوتبال -->
         <div class="card">
             <i class="fas fa-headset"></i>
             <h3>پشتیبانی</h3>
             <p>در روبیکا</p>
-            <a href="team.html" class="btn btn-team"><i class="fas fa-futbol"></i> تیم فوتبال گیم نت</a>
+            <a href="team.html" class="btn btn-team" onclick="burstEffectHandler(event, this)"><i class="fas fa-futbol"></i> تیم فوتبال گیم نت</a>
         </div>
     </div>
 
     <div class="device-row">
         <div class="device-item">
-            <i class="fab fa-playstation" style="color: #0099ff;"></i><br>
+            <i class="fab fa-playstation" style="color: #0099ff;"></i>
             PLAYSTATION
         </div>
         <div class="device-item">
-            <i class="fab fa-xbox" style="color: #51ff00;"></i><br>
+            <i class="fab fa-xbox" style="color: #51ff00;"></i>
             XBOX
         </div>
     </div>
 
-    <div class="game-types">
-        <span class="game-badge"><i class="fas fa-user"></i> بازی‌های ۱ نفره</span>
-        <span class="game-badge"><i class="fas fa-user-friends"></i> بازی‌های ۲ نفره</span>
-        <span class="game-badge"><i class="fas fa-users"></i> بازی‌های ۴ نفره</span>
-    </div>
-
     <div class="gallery-flex">
-        <div class="gallery-item">
-            <img src="https://raw.githubusercontent.com/javadxpro/Gamenet/main/gang%20beast.jpg" alt="Gang Beast">
-        </div>
-        <div class="gallery-item">
-            <img src="https://raw.githubusercontent.com/javadxpro/Gamenet/main/call%20of%20duty%20black%20ops%20cold%20war.jpg" alt="Call of Duty">
-        </div>
-        <div class="gallery-item">
-            <img src="https://raw.githubusercontent.com/javadxpro/Gamenet/main/PES%20Monster%20PATCH%20WorldCup%202026.jpg" alt="PES Monster Patch">
-        </div>
-    </div>
-
-    <div style="text-align:center;">
-        <a href="https://photos.app.goo.gl/fDSRKWhZyAnd1HVv5" target="_blank" class="google-album-btn">
-            <i class="fab fa-google"></i> آلبوم گیم‌نت 
-        </a>
+        <div class="gallery-item"><img src="https://raw.githubusercontent.com/javadxpro/Gamenet/main/gang%20beast.jpg" alt="Gang Beast"></div>
+        <div class="gallery-item"><img src="https://raw.githubusercontent.com/javadxpro/Gamenet/main/call%20of%20duty%20black%20ops%20cold%20war.jpg" alt="Call of Duty"></div>
+        <div class="gallery-item"><img src="https://raw.githubusercontent.com/javadxpro/Gamenet/main/PES%20Monster%20PATCH%20WorldCup%202026.jpg" alt="PES Monster Patch"></div>
     </div>
 
     <div class="channels-list">
@@ -374,5 +350,188 @@
     </footer>
 </div>
 
+<script>
+    // ============================================================
+    //  WebGL - تیله‌های دورانی با Three.js (ساده و قابل دیدن)
+    // ============================================================
+    (function() {
+        const container = document.getElementById('webglCanvas');
+        if (!container) return;
+
+        // ========== صحنه، دوربین، رندرر ==========
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x05050a);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+        camera.position.z = 500;
+
+        const renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x05050a, 1);
+        container.appendChild(renderer.domElement);
+
+        // ========== نورها ==========
+        const ambientLight = new THREE.AmbientLight(0x404060);
+        scene.add(ambientLight);
+
+        const light1 = new THREE.PointLight(0xff6a00, 1, 800);
+        light1.position.set(200, 200, 300);
+        scene.add(light1);
+
+        const light2 = new THREE.PointLight(0x00ffff, 0.8, 800);
+        light2.position.set(-200, -200, 300);
+        scene.add(light2);
+
+        const light3 = new THREE.PointLight(0xff00ff, 0.6, 800);
+        light3.position.set(0, 300, -200);
+        scene.add(light3);
+
+        // ========== تیله‌های سه‌بعدی ==========
+        const balls = [];
+        const NUM_BALLS = 60;
+        const colors = [
+            0xff6a00, 0xff00ff, 0x00ffff, 0xffff00,
+            0x00ff88, 0xff4444, 0x8800ff, 0xff8800
+        ];
+
+        for (let i = 0; i < NUM_BALLS; i++) {
+            const radius = 120 + Math.random() * 180;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+
+            const size = 3 + Math.random() * 12;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            const geometry = new THREE.SphereGeometry(size, 24, 24);
+            const material = new THREE.MeshPhongMaterial({
+                color: color,
+                emissive: color,
+                emissiveIntensity: 0.2,
+                shininess: 80,
+                specular: 0xffffff,
+            });
+
+            const ball = new THREE.Mesh(geometry, material);
+            ball.position.set(
+                radius * Math.sin(phi) * Math.cos(theta),
+                radius * Math.cos(phi),
+                radius * Math.sin(phi) * Math.sin(theta)
+            );
+            ball.userData = {
+                radius: radius,
+                theta: theta,
+                phi: phi,
+                speed: 0.001 + Math.random() * 0.002,
+                rotSpeed: (Math.random() - 0.5) * 0.02,
+                size: size,
+                color: color
+            };
+
+            scene.add(ball);
+            balls.push(ball);
+        }
+
+        // ========== حلقه انیمیشن ==========
+        let time = 0;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.01;
+
+            balls.forEach((ball, index) => {
+                const data = ball.userData;
+                data.theta += data.speed * 0.8;
+                data.phi += data.speed * 0.3;
+
+                const r = data.radius + Math.sin(time + index) * 10;
+                ball.position.x = r * Math.sin(data.phi) * Math.cos(data.theta);
+                ball.position.y = r * Math.cos(data.phi) + Math.sin(time * 0.5 + index) * 15;
+                ball.position.z = r * Math.sin(data.phi) * Math.sin(data.theta);
+
+                ball.rotation.x += data.rotSpeed;
+                ball.rotation.y += data.rotSpeed * 0.7;
+
+                if (index % 2 === 0) {
+                    const hue = (time * 0.02 + index * 0.01) % 1;
+                    const color = new THREE.Color().setHSL(hue, 0.8, 0.6);
+                    ball.material.color.set(color);
+                    ball.material.emissive.set(color);
+                }
+            });
+
+            scene.rotation.y += 0.0008;
+            scene.rotation.x = Math.sin(time * 0.0005) * 0.05;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // ========== ریسپانسیو ==========
+        window.addEventListener('resize', () => {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        });
+
+        // ========== گاربریج ==========
+        window.addEventListener('beforeunload', () => {
+            renderer.dispose();
+        });
+    })();
+
+    // ============================================================
+    //  انیمیشن کلیک دکمه
+    // ============================================================
+    function burstEffectHandler(event, element) {
+        event.preventDefault();
+        const rect = element.getBoundingClientRect();
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+
+        for (let i = 0; i < 3; i++) {
+            const ring = document.createElement('span');
+            ring.className = 'ring';
+            ring.style.width = (20 + i * 15) + 'px';
+            ring.style.height = (20 + i * 15) + 'px';
+            ring.style.borderColor = ['#ff6a00', '#ff00ff', '#00ffff'][i];
+            ring.style.animationDelay = (i * 0.08) + 's';
+            element.appendChild(ring);
+        }
+
+        const colors = ['#ff6a00', '#ff00ff', '#00ffff', '#ffff00', '#ff8800', '#00ff88'];
+        for (let i = 0; i < 20; i++) {
+            const burst = document.createElement('span');
+            burst.className = 'burst';
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 40 + Math.random() * 60;
+            burst.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+            burst.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+            burst.style.left = cx + 'px';
+            burst.style.top = cy + 'px';
+            const size = 4 + Math.random() * 12;
+            burst.style.width = size + 'px';
+            burst.style.height = size + 'px';
+            burst.style.background = colors[Math.floor(Math.random() * colors.length)];
+            burst.style.boxShadow = `0 0 ${size * 2}px ${burst.style.background}`;
+            burst.style.animationDelay = (Math.random() * 0.15) + 's';
+            element.appendChild(burst);
+        }
+
+        setTimeout(() => {
+            element.querySelectorAll('.burst, .ring').forEach(el => el.remove());
+        }, 700);
+
+        setTimeout(() => {
+            window.location.href = element.getAttribute('href');
+        }, 300);
+    }
+</script>
 </body>
 </html>
