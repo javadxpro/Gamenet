@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>گیم‌نت | صفحه رسمی</title>
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Vazirmatn Font -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-    <!-- Three.js (WebGL) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- ========== استایل‌ها ========== -->
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -23,7 +22,6 @@
             overflow-x: hidden;
         }
 
-        /* ========== WebGL Canvas - ثابت در پس‌زمینه ========== */
         #webglCanvas {
             position: fixed;
             top: 0;
@@ -43,7 +41,6 @@
             border-radius: 3rem;
             border: 1px solid rgba(255, 255, 255, 0.05);
             overflow: hidden;
-            backdrop-filter: blur(0px);
         }
 
         .hero {
@@ -112,8 +109,10 @@
         .card p { color: rgba(255,255,255,0.4); font-size: 0.9rem; }
 
         .btn {
-            position: relative;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             padding: 0.6rem 1.4rem;
             border-radius: 50px;
             text-decoration: none;
@@ -124,12 +123,42 @@
             font-family: inherit;
             margin-top: 0.5rem;
             border: none;
+            position: relative;
             overflow: visible;
             background: rgba(255, 255, 255, 0.03);
             color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
+        .btn i { font-size: 1rem; line-height: 1; }
         .btn:active { transform: scale(0.95); }
+
+        .btn-news {
+            background: rgba(255, 0, 0, 0.12);
+            color: #ff3333;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+        }
+        .btn-news:hover { background: rgba(255, 0, 0, 0.25); transform: scale(1.05); }
+
+        .btn-shop {
+            background: rgba(255, 106, 0, 0.15);
+            color: #ffaa00;
+            border: 1px solid rgba(255, 106, 0, 0.2);
+        }
+        .btn-shop:hover { background: rgba(255, 106, 0, 0.25); transform: scale(1.05); }
+
+        .btn-team {
+            background: rgba(0, 255, 100, 0.1);
+            color: #66ffaa;
+            border: 1px solid rgba(0, 255, 100, 0.15);
+        }
+        .btn-team:hover { background: rgba(0, 255, 100, 0.2); transform: scale(1.05); }
+
+        .btn-gallery {
+            background: rgba(255, 100, 200, 0.12);
+            color: #ff88dd;
+            border: 1px solid rgba(255, 100, 200, 0.15);
+        }
+        .btn-gallery:hover { background: rgba(255, 100, 200, 0.25); transform: scale(1.05); }
 
         .btn .burst {
             position: absolute;
@@ -162,29 +191,6 @@
             0% { transform: scale(0.8); opacity: 0.8; border-width: 4px; }
             100% { transform: scale(2.5); opacity: 0; border-width: 0px; }
         }
-
-        .btn-shop {
-            background: rgba(255, 106, 0, 0.15);
-            color: #ffaa00;
-            border: 1px solid rgba(255, 106, 0, 0.15);
-        }
-        .btn-shop:hover { background: rgba(255, 106, 0, 0.25); transform: scale(1.05); }
-
-        .btn-team {
-            background: rgba(0, 255, 100, 0.1);
-            color: #66ffaa;
-            border: 1px solid rgba(0, 255, 100, 0.15);
-        }
-        .btn-team:hover { background: rgba(0, 255, 100, 0.2); transform: scale(1.05); }
-
-        .btn-news {
-            background: rgba(255, 106, 0, 0.08);
-            color: #ffaa44;
-            border: 1px solid rgba(255, 106, 0, 0.1);
-        }
-        .btn-news:hover { background: rgba(255, 106, 0, 0.2); transform: scale(1.05); }
-
-        .btn i { margin-left: 0.4rem; }
 
         .device-row {
             display: flex;
@@ -259,9 +265,7 @@
             border-radius: 0.5rem;
             transition: 0.2s;
         }
-        .channel-item:hover {
-            background: rgba(255, 106, 0, 0.03);
-        }
+        .channel-item:hover { background: rgba(255, 106, 0, 0.03); }
         .channel-item a {
             color: #8aadff;
             text-decoration: none;
@@ -322,6 +326,12 @@
         </div>
     </div>
 
+    <div style="display: flex; justify-content: center; padding: 0 1.5rem 0.5rem 1.5rem;">
+        <a href="https://photos.app.goo.gl/fDSRKWhZyAnd1HVv5" target="_blank" class="btn btn-gallery" onclick="burstEffectHandler(event, this)">
+            <i class="fas fa-images"></i> آلبوم گیم نت
+        </a>
+    </div>
+
     <div class="device-row">
         <div class="device-item">
             <i class="fab fa-playstation" style="color: #0099ff;"></i>
@@ -344,217 +354,18 @@
         <div class="channel-item"><i class="fas fa-users"></i> چت: <a href="https://rubika.ir/joing/IGBBIDBA0WCZWZPMKJBBNANXIDBOLVUZ" target="_blank">لینک چت روبیکا</a></div>
         <div class="channel-item"><i class="far fa-comment"></i> نظرات: <a href="https://rubika.ir/javadxpro" target="_blank">rubika.ir/javadxpro</a></div>
     </div>
-<!-- نمایشگر FPS -->
-<div id="fpsDisplay" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999; background: rgba(0,0,0,0.6); color: #4ade80; padding: 6px 12px; border-radius: 8px; font-family: monospace; font-size: 14px; border: 1px solid #4ade8033; backdrop-filter: blur(4px); pointer-events: none; user-select: none;">
-    FPS: <span id="fpsValue">0</span>
-</div>
 
-<script>
-    // ========== نمایشگر FPS ==========
-    let frameCount = 0;
-    let lastFpsUpdate = performance.now();
-
-    function updateFPS() {
-        frameCount++;
-        const now = performance.now();
-        if (now - lastFpsUpdate >= 1000) {
-            const fps = Math.round(frameCount * 1000 / (now - lastFpsUpdate));
-            document.getElementById('fpsValue').textContent = fps;
-            frameCount = 0;
-            lastFpsUpdate = now;
-        }
-        requestAnimationFrame(updateFPS);
-    }
-    updateFPS();
-</script>
+    <div id="fpsDisplay" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999; background: rgba(0,0,0,0.6); color: #4ade80; padding: 6px 12px; border-radius: 8px; font-family: monospace; font-size: 14px; border: 1px solid #4ade8033; backdrop-filter: blur(4px); pointer-events: none; user-select: none;">
+        FPS: <span id="fpsValue">0</span>
+    </div>
 
     <footer>
         <i class="fas fa-crown"></i> گیم‌نت حامدی فر | ۱۰ صبح تا ۱۰ شب
     </footer>
 </div>
 
-<script>
-    // ============================================================
-    //  WebGL - تیله‌های دورانی با Three.js (ساده و قابل دیدن)
-    // ============================================================
-    (function() {
-        const container = document.getElementById('webglCanvas');
-        if (!container) return;
+<!-- ========== اسکریپت‌ها از فایل خارجی ========== -->
+<script src="web-res.js"></script>
 
-        // ========== صحنه، دوربین، رندرر ==========
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x05050a);
-
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
-        camera.position.z = 500;
-
-        const renderer = new THREE.WebGLRenderer({
-            antialias: true,
-            alpha: true
-        });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setClearColor(0x05050a, 1);
-        container.appendChild(renderer.domElement);
-
-        // ========== نورها ==========
-        const ambientLight = new THREE.AmbientLight(0x404060);
-        scene.add(ambientLight);
-
-        const light1 = new THREE.PointLight(0xff6a00, 1, 800);
-        light1.position.set(200, 200, 300);
-        scene.add(light1);
-
-        const light2 = new THREE.PointLight(0x00ffff, 0.8, 800);
-        light2.position.set(-200, -200, 300);
-        scene.add(light2);
-
-        const light3 = new THREE.PointLight(0xff00ff, 0.6, 800);
-        light3.position.set(0, 300, -200);
-        scene.add(light3);
-
-        // ========== تیله‌های سه‌بعدی ==========
-        const balls = [];
-        const NUM_BALLS = 60;
-        const colors = [
-            0xff6a00, 0xff00ff, 0x00ffff, 0xffff00,
-            0x00ff88, 0xff4444, 0x8800ff, 0xff8800
-        ];
-
-        for (let i = 0; i < NUM_BALLS; i++) {
-            const radius = 120 + Math.random() * 180;
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.acos(2 * Math.random() - 1);
-
-            const size = 3 + Math.random() * 12;
-            const color = colors[Math.floor(Math.random() * colors.length)];
-
-            const geometry = new THREE.SphereGeometry(size, 24, 24);
-            const material = new THREE.MeshPhongMaterial({
-                color: color,
-                emissive: color,
-                emissiveIntensity: 0.2,
-                shininess: 80,
-                specular: 0xffffff,
-            });
-
-            const ball = new THREE.Mesh(geometry, material);
-            ball.position.set(
-                radius * Math.sin(phi) * Math.cos(theta),
-                radius * Math.cos(phi),
-                radius * Math.sin(phi) * Math.sin(theta)
-            );
-            ball.userData = {
-                radius: radius,
-                theta: theta,
-                phi: phi,
-                speed: 0.001 + Math.random() * 0.002,
-                rotSpeed: (Math.random() - 0.5) * 0.02,
-                size: size,
-                color: color
-            };
-
-            scene.add(ball);
-            balls.push(ball);
-        }
-
-        // ========== حلقه انیمیشن ==========
-        let time = 0;
-
-        function animate() {
-            requestAnimationFrame(animate);
-            time += 0.01;
-
-            balls.forEach((ball, index) => {
-                const data = ball.userData;
-                data.theta += data.speed * 0.8;
-                data.phi += data.speed * 0.3;
-
-                const r = data.radius + Math.sin(time + index) * 10;
-                ball.position.x = r * Math.sin(data.phi) * Math.cos(data.theta);
-                ball.position.y = r * Math.cos(data.phi) + Math.sin(time * 0.5 + index) * 15;
-                ball.position.z = r * Math.sin(data.phi) * Math.sin(data.theta);
-
-                ball.rotation.x += data.rotSpeed;
-                ball.rotation.y += data.rotSpeed * 0.7;
-
-                if (index % 2 === 0) {
-                    const hue = (time * 0.02 + index * 0.01) % 1;
-                    const color = new THREE.Color().setHSL(hue, 0.8, 0.6);
-                    ball.material.color.set(color);
-                    ball.material.emissive.set(color);
-                }
-            });
-
-            scene.rotation.y += 0.0008;
-            scene.rotation.x = Math.sin(time * 0.0005) * 0.05;
-
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        // ========== ریسپانسیو ==========
-        window.addEventListener('resize', () => {
-            const w = window.innerWidth;
-            const h = window.innerHeight;
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
-            renderer.setSize(w, h);
-        });
-
-        // ========== گاربریج ==========
-        window.addEventListener('beforeunload', () => {
-            renderer.dispose();
-        });
-    })();
-
-    // ============================================================
-    //  انیمیشن کلیک دکمه
-    // ============================================================
-    function burstEffectHandler(event, element) {
-        event.preventDefault();
-        const rect = element.getBoundingClientRect();
-        const cx = rect.width / 2;
-        const cy = rect.height / 2;
-
-        for (let i = 0; i < 3; i++) {
-            const ring = document.createElement('span');
-            ring.className = 'ring';
-            ring.style.width = (20 + i * 15) + 'px';
-            ring.style.height = (20 + i * 15) + 'px';
-            ring.style.borderColor = ['#ff6a00', '#ff00ff', '#00ffff'][i];
-            ring.style.animationDelay = (i * 0.08) + 's';
-            element.appendChild(ring);
-        }
-
-        const colors = ['#ff6a00', '#ff00ff', '#00ffff', '#ffff00', '#ff8800', '#00ff88'];
-        for (let i = 0; i < 20; i++) {
-            const burst = document.createElement('span');
-            burst.className = 'burst';
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 40 + Math.random() * 60;
-            burst.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
-            burst.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
-            burst.style.left = cx + 'px';
-            burst.style.top = cy + 'px';
-            const size = 4 + Math.random() * 12;
-            burst.style.width = size + 'px';
-            burst.style.height = size + 'px';
-            burst.style.background = colors[Math.floor(Math.random() * colors.length)];
-            burst.style.boxShadow = `0 0 ${size * 2}px ${burst.style.background}`;
-            burst.style.animationDelay = (Math.random() * 0.15) + 's';
-            element.appendChild(burst);
-        }
-
-        setTimeout(() => {
-            element.querySelectorAll('.burst, .ring').forEach(el => el.remove());
-        }, 700);
-
-        setTimeout(() => {
-            window.location.href = element.getAttribute('href');
-        }, 300);
-    }
-</script>
 </body>
 </html>
