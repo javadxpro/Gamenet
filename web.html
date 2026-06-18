@@ -344,6 +344,29 @@
         <div class="channel-item"><i class="fas fa-users"></i> چت: <a href="https://rubika.ir/joing/IGBBIDBA0WCZWZPMKJBBNANXIDBOLVUZ" target="_blank">لینک چت روبیکا</a></div>
         <div class="channel-item"><i class="far fa-comment"></i> نظرات: <a href="https://rubika.ir/javadxpro" target="_blank">rubika.ir/javadxpro</a></div>
     </div>
+<!-- نمایشگر FPS -->
+<div id="fpsDisplay" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999; background: rgba(0,0,0,0.6); color: #4ade80; padding: 6px 12px; border-radius: 8px; font-family: monospace; font-size: 14px; border: 1px solid #4ade8033; backdrop-filter: blur(4px); pointer-events: none; user-select: none;">
+    FPS: <span id="fpsValue">0</span>
+</div>
+
+<script>
+    // ========== نمایشگر FPS ==========
+    let frameCount = 0;
+    let lastFpsUpdate = performance.now();
+
+    function updateFPS() {
+        frameCount++;
+        const now = performance.now();
+        if (now - lastFpsUpdate >= 1000) {
+            const fps = Math.round(frameCount * 1000 / (now - lastFpsUpdate));
+            document.getElementById('fpsValue').textContent = fps;
+            frameCount = 0;
+            lastFpsUpdate = now;
+        }
+        requestAnimationFrame(updateFPS);
+    }
+    updateFPS();
+</script>
 
     <footer>
         <i class="fas fa-crown"></i> گیم‌نت حامدی فر | ۱۰ صبح تا ۱۰ شب
