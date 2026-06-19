@@ -1,15 +1,421 @@
-/* ========== استایل‌های اصلی ========== */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* ============================================================
+   استایل‌های پایه و ریست
+   ============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
     font-family: 'Vazirmatn', system-ui, sans-serif;
-    background: #05050a;
+    background: #0a0a0f;
     color: #eef2ff;
     direction: rtl;
-    padding: 2rem 1.5rem;
+    padding-bottom: 75px;
     min-height: 100vh;
     overflow-x: hidden;
 }
+
+/* ============================================================
+   انیمیشن‌های اصلی
+   ============================================================ */
+
+@keyframes trainOnTextRightToLeft {
+    0% { background-position: 300% 0; }
+    100% { background-position: -300% 0; }
+}
+
+@keyframes trainOnTextLeftToRight {
+    0% { background-position: -300% 0; }
+    100% { background-position: 300% 0; }
+}
+
+@keyframes rgbYellowOrange {
+    0%   { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
+    25%  { border-color: #ff8c00; box-shadow: 0 0 12px #ff8c00; }
+    50%  { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
+    75%  { border-color: #ffcc00; box-shadow: 0 0 12px #ffcc00; }
+    100% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
+}
+
+@keyframes rgbBorderContainer {
+    0%   { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+    25%  { border-color: #ff8c00; box-shadow: 0 0 20px #ff8c00; }
+    50%  { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
+    75%  { border-color: #ffcc00; box-shadow: 0 0 20px #ffcc00; }
+    100% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+}
+
+@keyframes burstEffect {
+    0% { transform: scale(0.5) translate(0, 0); opacity: 1; }
+    100% { transform: scale(1.8) translate(var(--tx), var(--ty)); opacity: 0; }
+}
+
+@keyframes ringEffect {
+    0% { transform: scale(0.8) translate(-50%, -50%); opacity: 0.8; border-width: 4px; }
+    100% { transform: scale(2.5) translate(-50%, -50%); opacity: 0; border-width: 0px; }
+}
+
+@keyframes neonShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ============================================================
+   منوی پایین (Bottom Navigation)
+   ============================================================ */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #111118;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 12px;
+    border-top: 1px solid #222;
+    z-index: 100;
+}
+
+.bottom-nav a {
+    text-align: center;
+    color: #aaa;
+    text-decoration: none;
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.bottom-nav a i {
+    font-size: 1.3rem;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.bottom-nav a:hover,
+.bottom-nav a.active {
+    color: #ff6a00;
+    background: rgba(255, 106, 0, 0.06);
+}
+
+/* ============================================================
+   کانتینر و هدر
+   ============================================================ */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.logo h1 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    background: linear-gradient(90deg, 
+        #ffffff 0%, 
+        #ffffff 25%, 
+        #ff6a00 40%, 
+        #ffaa00 50%, 
+        #ff6a00 60%, 
+        #ffffff 75%, 
+        #ffffff 100%
+    );
+    background-size: 300% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: trainOnTextRightToLeft 4s linear infinite;
+}
+
+.logo h1:hover {
+    animation: trainOnTextLeftToRight 1.5s linear infinite;
+}
+
+.back-link {
+    display: inline-block;
+    color: #ff6a00;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    transition: 0.2s;
+    font-size: 0.95rem;
+    padding: 0.4rem 1rem;
+    border-radius: 30px;
+    background: rgba(255, 106, 0, 0.06);
+    border: 1px solid rgba(255, 106, 0, 0.1);
+}
+
+.back-link i {
+    margin-left: 0.5rem;
+}
+
+.back-link:hover {
+    color: #ffaa00;
+    transform: translateX(-5px);
+    background: rgba(255, 106, 0, 0.12);
+}
+/* ============================================================
+   دکمه‌ها
+   ============================================================ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.6rem 1.4rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    background: rgba(255, 255, 255, 0.03);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn i {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.btn-news {
+    background: rgba(255, 0, 0, 0.12);
+    color: #ff3333;
+    border: 1px solid rgba(255, 0, 0, 0.2);
+}
+.btn-news:hover {
+    background: rgba(255, 0, 0, 0.25);
+    transform: scale(1.05);
+}
+
+.btn-shop {
+    background: rgba(255, 106, 0, 0.15);
+    color: #ffaa00;
+    border: 1px solid rgba(255, 106, 0, 0.2);
+}
+.btn-shop:hover {
+    background: rgba(255, 106, 0, 0.25);
+    transform: scale(1.05);
+}
+
+.btn-team {
+    background: rgba(0, 255, 100, 0.10);
+    color: #66ffaa;
+    border: 1px solid rgba(0, 255, 100, 0.15);
+}
+.btn-team:hover {
+    background: rgba(0, 255, 100, 0.20);
+    transform: scale(1.05);
+}
+
+.btn-gallery {
+    background: rgba(255, 100, 200, 0.12);
+    color: #ff88dd;
+    border: 1px solid rgba(255, 100, 200, 0.15);
+}
+.btn-gallery:hover {
+    background: rgba(255, 100, 200, 0.25);
+    transform: scale(1.05);
+}
+
+.btn-test {
+    background: rgba(0, 200, 255, 0.15);
+    color: #00ddff;
+    border: 1px solid rgba(0, 200, 255, 0.2);
+}
+.btn-test:hover {
+    background: rgba(0, 200, 255, 0.30);
+    transform: scale(1.05);
+}
+
+.btn-status {
+    background: rgba(0, 200, 255, 0.15);
+    color: #00ddff;
+    border: 1px solid rgba(0, 200, 255, 0.2);
+}
+.btn-status:hover {
+    background: rgba(0, 200, 255, 0.3);
+    transform: scale(1.05);
+}
+
+/* ============================================================
+   عنوان بخش
+   ============================================================ */
+
+.section-title {
+    font-size: 1.4rem;
+    margin: 1rem 0 1rem;
+    border-right: 4px solid #ff6a00;
+    padding-right: 0.8rem;
+}
+
+/* ============================================================
+   کارت‌های بازی (گالری)
+   ============================================================ */
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.product-card {
+    background: #111118;
+    border-radius: 1.2rem;
+    overflow: hidden;
+    border: 2px solid;
+    transition: 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+    animation: rgbYellowOrange 4s linear infinite;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    animation: rgbBorderContainer 1s linear infinite;
+}
+
+.img-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 1rem;
+    text-align: center;
+}
+
+.product-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.platform-icons {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    margin: 0.5rem 0;
+}
+
+.platform-icons i {
+    font-size: 1.2rem;
+}
+
+.ps-icon {
+    color: #0099ff;
+}
+
+.xbox-icon {
+    color: #51ff00;
+}
+
+.game-type {
+    background: rgba(255, 106, 0, 0.08);
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    color: #ff6a00;
+    display: inline-block;
+    margin-top: 0.3rem;
+}
+
+.view-detail {
+    background: #ff6a00;
+    color: #000;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-top: 0.8rem;
+    transition: 0.2s;
+}
+
+.product-card:hover .view-detail {
+    background: #ff8c2a;
+}
+/* ============================================================
+   نوار تماس
+   ============================================================ */
+
+.contact-bar {
+    background: #ff6a00;
+    color: #000;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 50px;
+    margin: 1rem 0;
+    font-weight: bold;
+}
+
+.contact-bar a {
+    color: #000;
+    text-decoration: none;
+}
+
+/* ============================================================
+   فوتر
+   ============================================================ */
+
+footer {
+    margin-top: 2rem;
+    text-align: center;
+    padding: 1rem;
+    color: #888;
+    font-size: 0.8rem;
+    border-top: 2px solid;
+    animation: rgbYellowOrange 3s linear infinite;
+}
+
+.owner-id {
+    background: rgba(255, 106, 0, 0.13);
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    border: none;
+}
+
+.owner-id a {
+    color: #ff6a00;
+    text-decoration: none;
+}
+
+/* ============================================================
+   صفحه اصلی - WebGL (گلس‌مورفیسم)
+   ============================================================ */
 
 #webglCanvas {
     position: fixed;
@@ -19,17 +425,6 @@ body {
     height: 100%;
     z-index: 0;
     pointer-events: none;
-}
-
-.btn-test {
-    background: rgba(0, 200, 255, 0.15);
-    color: #00ddff;
-    border: 1px solid rgba(0, 200, 255, 0.2);
-}
-.btn-test:hover {
-    background: rgba(0, 200, 255, 0.3);
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(0, 200, 255, 0.2);
 }
 
 .glass-container {
@@ -44,13 +439,13 @@ body {
     padding: 2rem;
 }
 
-/* ========== هدر ========== */
 .hero {
     text-align: center;
     padding: 1rem 0 2rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     margin-bottom: 2rem;
 }
+
 .hero h1 {
     font-size: 3rem;
     font-weight: 900;
@@ -62,13 +457,9 @@ body {
     color: transparent;
     text-shadow: 0 0 30px rgba(255, 106, 0, 0.2);
 }
-@keyframes neonShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+
 .hero-tagline {
-    background: rgba(0,0,0,0.3);
+    background: rgba(0, 0, 0, 0.3);
     display: inline-block;
     padding: 0.3rem 1.2rem;
     border-radius: 40px;
@@ -77,7 +468,10 @@ body {
     margin-top: 0.5rem;
 }
 
-/* ========== ردیف اول: ساعات کاری + عکس ========== */
+/* ============================================================
+   ردیف اول: ساعات کاری + عکس
+   ============================================================ */
+
 .row-top {
     display: flex;
     gap: 1.5rem;
@@ -95,24 +489,29 @@ body {
     flex-direction: column;
     justify-content: center;
 }
+
 .card-hours .hours-header {
     display: flex;
     align-items: center;
     gap: 12px;
 }
+
 .card-hours .hours-header i {
     font-size: 2rem;
     color: #ff6a00;
 }
+
 .card-hours .hours-header h3 {
     font-size: 1.1rem;
     margin: 0;
 }
+
 .card-hours .hours-header p {
-    color: rgba(255,255,255,0.4);
+    color: rgba(255, 255, 255, 0.4);
     font-size: 0.9rem;
     margin: 0;
 }
+
 .card-hours .btn-news {
     margin-top: 0.5rem;
     align-self: flex-start;
@@ -129,14 +528,17 @@ body {
     overflow: hidden;
     padding: 0.5rem;
 }
+
 .card-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 1rem;
 }
+/* ============================================================
+   ردیف دوم: خدمات
+   ============================================================ */
 
-/* ========== ردیف دوم: خدمات ========== */
 .row-middle {
     display: flex;
     gap: 1.5rem;
@@ -154,40 +556,56 @@ body {
     flex-direction: column;
     justify-content: center;
 }
+
 .card-services .services-header {
     display: flex;
     align-items: center;
     gap: 12px;
 }
+
 .card-services .services-header i {
     font-size: 2rem;
     color: #ff6a00;
 }
+
 .card-services .services-header h3 {
     font-size: 1.1rem;
     margin: 0;
 }
+
 .card-services .services-header p {
-    color: rgba(255,255,255,0.4);
+    color: rgba(255, 255, 255, 0.4);
     font-size: 0.9rem;
     margin: 0;
 }
+
 .card-services .platform-icons {
     display: flex;
     gap: 15px;
     margin-top: 0.5rem;
 }
+
 .card-services .platform-icons i {
     font-size: 2rem;
 }
-.card-services .platform-icons .ps { color: #0099ff; }
-.card-services .platform-icons .xbox { color: #51ff00; }
+
+.card-services .platform-icons .ps {
+    color: #0099ff;
+}
+
+.card-services .platform-icons .xbox {
+    color: #51ff00;
+}
+
 .card-services .btn-shop {
     margin-top: 0.5rem;
     align-self: flex-start;
 }
 
-/* ========== ردیف سوم: دکمه‌ها ========== */
+/* ============================================================
+   ردیف سوم: دکمه‌ها
+   ============================================================ */
+
 .row-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -196,102 +614,21 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* ========== دکمه‌ها ========== */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 0.6rem 1.4rem;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-    cursor: pointer;
-    font-family: inherit;
-    border: none;
-    position: relative;
-    overflow: visible;
-    background: rgba(255, 255, 255, 0.03);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-.btn i { font-size: 1rem; line-height: 1; }
-.btn:active { transform: scale(0.95); }
+/* ============================================================
+   کانال‌ها
+   ============================================================ */
 
-.btn-news {
-    background: rgba(255, 0, 0, 0.12);
-    color: #ff3333;
-    border: 1px solid rgba(255, 0, 0, 0.2);
-}
-.btn-news:hover { background: rgba(255, 0, 0, 0.25); transform: scale(1.05); }
-
-.btn-shop {
-    background: rgba(255, 106, 0, 0.15);
-    color: #ffaa00;
-    border: 1px solid rgba(255, 106, 0, 0.2);
-}
-.btn-shop:hover { background: rgba(255, 106, 0, 0.25); transform: scale(1.05); }
-
-.btn-team {
-    background: rgba(0, 255, 100, 0.1);
-    color: #66ffaa;
-    border: 1px solid rgba(0, 255, 100, 0.15);
-}
-.btn-team:hover { background: rgba(0, 255, 100, 0.2); transform: scale(1.05); }
-
-.btn-gallery {
-    background: rgba(255, 100, 200, 0.12);
-    color: #ff88dd;
-    border: 1px solid rgba(255, 100, 200, 0.15);
-}
-.btn-gallery:hover { background: rgba(255, 100, 200, 0.25); transform: scale(1.05); }
-
-/* ========== انیمیشن کلیک ========== */
-.btn .burst {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    pointer-events: none;
-    animation: burstEffect 0.5s ease-out forwards;
-    z-index: -1;
-}
-.btn .ring {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    pointer-events: none;
-    animation: ringEffect 0.5s ease-out forwards;
-    z-index: -1;
-}
-
-@keyframes burstEffect {
-    0% { transform: scale(0.5) translate(0, 0); opacity: 1; }
-    100% { transform: scale(1.8) translate(var(--tx), var(--ty)); opacity: 0; }
-}
-@keyframes ringEffect {
-    0% { transform: scale(0.8); opacity: 0.8; border-width: 4px; }
-    100% { transform: scale(2.5); opacity: 0; border-width: 0px; }
-}
-
-/* ========== کانال‌ها ========== */
 .channels-list {
     padding: 1rem;
-    background: rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 1.2rem;
-    border: 1px solid rgba(255,255,255,0.03);
+    border: 1px solid rgba(255, 255, 255, 0.03);
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
 }
+
 .channel-item {
     display: flex;
     align-items: center;
@@ -300,51 +637,1364 @@ body {
     border-radius: 0.5rem;
     transition: 0.2s;
 }
-.channel-item:hover { background: rgba(255, 106, 0, 0.03); }
+
+.channel-item:hover {
+    background: rgba(255, 106, 0, 0.03);
+}
+
 .channel-item a {
     color: #8aadff;
     text-decoration: none;
     transition: 0.2s;
 }
-.channel-item a:hover { color: #ff6a00; }
-.channel-item i { color: #ff6a00; }
 
-footer {
-    text-align: center;
+.channel-item a:hover {
+    color: #ff6a00;
+}
+
+.channel-item i {
+    color: #ff6a00;
+}
+/* ============================================================
+   سبد خرید
+   ============================================================ */
+
+.cart-item {
+    background: #111118;
+    border-radius: 1rem;
     padding: 1rem;
-    border-top: 1px solid rgba(255,255,255,0.03);
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.15);
-    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    border: 2px solid;
+    animation: rgbYellowOrange 4s linear infinite;
 }
 
-#fpsDisplay {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 9999;
-    background: rgba(0,0,0,0.6);
+.cart-item:hover {
+    animation: rgbBorderContainer 1s linear infinite;
+}
+
+.item-title {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.item-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.price-tag {
     color: #4ade80;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-family: monospace;
-    font-size: 14px;
-    border: 1px solid #4ade8033;
-    backdrop-filter: blur(4px);
-    pointer-events: none;
-    user-select: none;
+    font-weight: bold;
 }
 
-/* ========== ریسپانسیو ========== */
-@media (max-width: 800px) {
-    .row-top { flex-direction: column; }
-    .card-image { flex: 0 0 150px; }
-    .row-middle { flex-direction: column; }
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #1a1a22;
+    padding: 0.2rem 0.5rem;
+    border-radius: 30px;
 }
+
+.quantity-control button {
+    background: none;
+    border: none;
+    color: #ff6a00;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 28px;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: #ff4444;
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.cart-summary {
+    background: #111118;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    border: 2px solid;
+    animation: rgbYellowOrange 4s linear infinite;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.8rem 0;
+}
+
+.total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-top: 1px solid #333;
+    padding-top: 0.8rem;
+}
+
+.checkout-btn {
+    background: #4ade80;
+    color: #000;
+    font-weight: bold;
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 50px;
+    margin-top: 1rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.checkout-btn:hover {
+    background: #22c55e;
+    transform: scale(1.02);
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 2rem;
+    background: #111118;
+    border-radius: 1rem;
+}
+
+.order-code {
+    background: #1a1a2e;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    border: 2px solid #4ade80;
+}
+
+.copy-btn {
+    background: #ff6a00;
+    color: #000;
+    border: none;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    font-size: 0.7rem;
+}
+
+.copy-success {
+    color: #4ade80;
+    font-size: 0.7rem;
+    margin-top: 0.3rem;
+}
+
+.order-details {
+    background: #0a0a0f;
+    border-radius: 0.8rem;
+    padding: 0.8rem;
+    margin-top: 0.8rem;
+    text-align: right;
+    font-size: 0.8rem;
+}
+
+/* ============================================================
+   گیفت کارت
+   ============================================================ */
+
+.gift-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.2rem;
+}
+
+.gift-card {
+    background: #111118;
+    border-radius: 1rem;
+    padding: 1rem;
+    text-align: center;
+    border: 2px solid;
+    transition: 0.2s;
+    cursor: pointer;
+    animation: rgbYellowOrange 4s linear infinite;
+}
+
+.gift-card:hover {
+    transform: translateY(-5px);
+    animation: rgbBorderContainer 1s linear infinite;
+}
+
+.gift-icon {
+    font-size: 2rem;
+    color: #ff6a00;
+    margin-bottom: 0.5rem;
+}
+
+.gift-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+
+.gift-region {
+    font-size: 0.7rem;
+    color: #aaa;
+}
+
+.gift-price {
+    color: #4ade80;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+/* ============================================================
+   صفحه اخبار
+   ============================================================ */
+
+.news-item {
+    background: rgba(17, 17, 24, 0.6);
+    backdrop-filter: blur(5px);
+    border-radius: 1.2rem;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid rgba(255, 106, 0, 0.15);
+    transition: 0.2s;
+}
+
+.news-item:hover {
+    border-color: rgba(255, 106, 0, 0.4);
+}
+
+.news-item .title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #ffaa00;
+    margin-bottom: 0.5rem;
+}
+
+.news-item .text {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 2.2;
+    white-space: pre-line;
+}
+
+.news-item .highlight {
+    background: rgba(255, 106, 0, 0.08);
+    border-right: 3px solid #ff6a00;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.5rem;
+    margin: 0.5rem 0;
+}
+
+.news-item .highlight-red {
+    background: rgba(255, 0, 0, 0.06);
+    border-right: 3px solid #ff4444;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.5rem;
+    margin: 0.5rem 0;
+}
+
+/* ============================================================
+   تقویم
+   ============================================================ */
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    background: rgba(17, 17, 24, 0.4);
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 106, 0, 0.1);
+}
+
+.calendar-nav-btn {
+    background: rgba(255, 106, 0, 0.15);
+    border: 1px solid rgba(255, 106, 0, 0.3);
+    color: #ffaa00;
+    padding: 0.3rem 0.8rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.calendar-nav-btn:hover {
+    background: rgba(255, 106, 0, 0.3);
+}
+
+.calendar-month-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    background: rgba(17, 17, 24, 0.4);
+    border-radius: 1.2rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 106, 0, 0.1);
+}
+
+.calendar-day-header {
+    text-align: center;
+    font-weight: bold;
+    color: #ffaa00;
+    font-size: 0.8rem;
+    padding: 0.3rem;
+}
+
+.calendar-day {
+    text-align: center;
+    padding: 0.6rem 0.3rem;
+    border-radius: 0.8rem;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 0.85rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid transparent;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.calendar-day:hover {
+    background: rgba(255, 106, 0, 0.2);
+    border-color: #ff6a00;
+    color: #fff;
+}
+
+.calendar-day.has-event {
+    border-color: #ff6a00;
+    color: #ffaa00;
+    font-weight: bold;
+}
+
+.calendar-day.active {
+    background: #ff6a00;
+    color: #000;
+    font-weight: bold;
+}
+
+.calendar-day.empty {
+    background: transparent;
+    cursor: default;
+}
+
+.calendar-day.other-month {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.event-list {
+    margin-top: 1rem;
+    background: rgba(17, 17, 24, 0.4);
+    border-radius: 1.2rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 106, 0, 0.1);
+    min-height: 60px;
+}
+
+.event-list-title {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-bottom: 0.5rem;
+}
+
+.event-item {
+    background: rgba(255, 106, 0, 0.1);
+    border-right: 3px solid #ff6a00;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.no-event {
+    color: #666;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+}
+/* ============================================================
+   تیم فوتبال
+   ============================================================ */
+
+.team-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.team-header .logo h1 {
+    font-size: 2rem;
+    background: linear-gradient(90deg, #ffffff 0%, #ff6a00 50%, #ffffff 100%);
+    background-size: 300% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: trainOnTextRightToLeft 4s linear infinite;
+    display: inline-block;
+    padding: 0.5rem;
+}
+
+.team-badge {
+    background: #ff6a00;
+    display: inline-block;
+    padding: 0.3rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    color: #000;
+    font-weight: bold;
+}
+
+.section-card {
+    background: rgba(17, 17, 24, 0.67);
+    backdrop-filter: blur(8px);
+    border-radius: 1.8rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border: 2px solid;
+    animation: rgbBorderContainer 4s linear infinite;
+}
+
+.section-title {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+    border-right: 3px solid #ff6a00;
+    padding-right: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title i {
+    color: #ff6a00;
+    font-size: 1.2rem;
+}
+
+.lineup-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pitch-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.player-card {
+    background: rgba(0, 0, 0, 0.67);
+    backdrop-filter: blur(8px);
+    border-radius: 1.5rem;
+    padding: 0.5rem 1rem;
+    min-width: 100px;
+    text-align: center;
+    border: 2px solid;
+    animation: rgbYellowOrange 4s linear infinite;
+    transition: 0.2s;
+}
+
+.player-card:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 106, 0, 0.8);
+    border-color: #fff;
+}
+
+.player-name {
+    font-weight: bold;
+    margin: 0.3rem 0;
+    font-size: 0.85rem;
+}
+
+.player-position {
+    font-size: 0.65rem;
+    color: #ffcc88;
+    margin-bottom: 0.2rem;
+}
+
+.small-card {
+    background: rgba(0, 0, 0, 0.67);
+    backdrop-filter: blur(8px);
+    border-radius: 1.5rem;
+    padding: 0.5rem 1rem;
+    min-width: 100px;
+    text-align: center;
+    border: 2px solid;
+    animation: rgbYellowOrange 4s linear infinite;
+    transition: 0.2s;
+}
+
+.small-card:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 106, 0, 0.8);
+    border-color: #fff;
+}
+
+.bench {
+    margin-top: 1.2rem;
+    background: rgba(26, 26, 46, 0.67);
+    border-radius: 1.5rem;
+    padding: 1rem;
+}
+
+.bench h3 {
+    text-align: center;
+    margin-bottom: 0.8rem;
+    color: #ffcc88;
+    font-size: 1rem;
+}
+
+.bench-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.bench-card {
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 1.2rem;
+    padding: 0.3rem 0.7rem;
+    min-width: 100px;
+    text-align: center;
+    border: 1px solid #ffaa55;
+}
+
+.bench-name {
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin: 0.2rem 0;
+}
+
+.bench-pos {
+    font-size: 0.6rem;
+    color: #aaa;
+    margin-bottom: 0.1rem;
+}
+/* ============================================================
+   جدول اطلاعات تیم (team-info.html)
+   ============================================================ */
+
+.team-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 1.2rem;
+    overflow: hidden;
+    font-size: 0.85rem;
+    border: 2px solid #ff6a00;
+    box-shadow: 0 0 20px rgba(255, 106, 0, 0.15);
+}
+
+.team-info-table th {
+    background: rgba(255, 106, 0, 0.25);
+    color: #ffaa00;
+    padding: 0.8rem 0.5rem;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 2px solid #ff6a00;
+}
+
+.team-info-table td {
+    padding: 0.7rem 0.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+}
+
+.team-info-table tr:hover td {
+    background: rgba(255, 106, 0, 0.06);
+}
+
+.team-info-table .pos-badge {
+    background: rgba(255, 106, 0, 0.18);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    color: #ffaa00;
+    display: inline-block;
+    margin: 0.1rem;
+    border: 1px solid rgba(255, 106, 0, 0.1);
+}
+
+.team-info-table .role-badge {
+    background: rgba(0, 200, 255, 0.15);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.65rem;
+    color: #66ddff;
+    display: inline-block;
+    margin: 0.1rem;
+    border: 1px solid rgba(0, 200, 255, 0.1);
+}
+
+.team-info-table .gk-badge {
+    background: rgba(255, 200, 0, 0.15);
+    color: #ffcc44;
+}
+
+.team-info-table .status-coming {
+    color: #4ade80;
+    font-weight: bold;
+}
+
+/* ========== خلاصه آمار ========== */
+
+.team-stats-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 1.2rem;
+    border: 1px solid rgba(255, 106, 0, 0.1);
+}
+
+.stat-box {
+    background: rgba(17, 17, 24, 0.6);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    text-align: center;
+    border: 1px solid rgba(255, 106, 0, 0.15);
+    min-width: 100px;
+}
+
+.stat-box span {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffaa00;
+}
+
+.stat-box small {
+    font-size: 0.7rem;
+    color: #aaa;
+}
+
+/* ============================================================
+   جزئیات بازی
+   ============================================================ */
+
+.game-detail {
+    background: #111118;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    border: 1px solid #222;
+}
+
+.game-img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+.game-info {
+    padding: 1.5rem;
+}
+
+.game-title {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.game-platform {
+    color: #aaa;
+    margin-bottom: 1rem;
+}
+
+.game-description {
+    line-height: 1.8;
+    margin: 1rem 0;
+    color: #ccc;
+}
+
+.game-size {
+    background: #1a1a2e;
+    padding: 0.5rem;
+    border-radius: 30px;
+    display: inline-block;
+    margin: 0.5rem 0;
+}
+
+.patch-date {
+    background: rgba(255, 106, 0, 0.08);
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+    display: inline-block;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    font-size: 0.8rem;
+    color: #ff6a00;
+}
+
+.type-selector {
+    background: #1a1a2e;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.type-buttons {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+}
+
+.type-btn {
+    background: #0a0a0f;
+    border: 1px solid #ff6a00;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #fff;
+}
+
+.type-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #666;
+}
+
+.type-btn.selected {
+    background: #ff6a00;
+    color: #000;
+    font-weight: bold;
+}
+
+.price-display {
+    background: rgba(255, 106, 0, 0.08);
+    padding: 1rem;
+    border-radius: 1rem;
+    text-align: center;
+    margin: 1rem 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4ade80;
+}
+
+.add-to-cart {
+    background: #ff6a00;
+    color: #000;
+    font-weight: bold;
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 50px;
+    margin-top: 1rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.add-to-cart:hover {
+    background: #ff8c2a;
+    transform: scale(1.02);
+}
+/* ============================================================
+   منو (همبرگری)
+   ============================================================ */
+
+.menu-btn {
+    background: #1a1a22;
+    border: none;
+    color: #ff6a00;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 0.4rem 0.9rem;
+    border-radius: 12px;
+}
+
+.user-btn {
+    background: #1a1a22;
+    border: none;
+    color: #ff6a00;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.4rem 0.9rem;
+    border-radius: 12px;
+}
+
+.cart-icon {
+    position: relative;
+    background: #1a1a22;
+    border: none;
+    color: #ff6a00;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.4rem 0.9rem;
+    border-radius: 12px;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4444;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-box {
+    display: flex;
+    background: #1a1a22;
+    border-radius: 30px;
+    padding: 0.4rem 1rem;
+    flex: 1;
+    max-width: 260px;
+    border: 1px solid #333;
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    padding: 0.4rem;
+    color: white;
+    width: 100%;
+}
+
+.search-box button {
+    background: none;
+    border: none;
+    color: #ff6a00;
+    cursor: pointer;
+}
+
+/* ========== منوی کناری ========== */
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100%;
+    background: rgba(15, 15, 23, 0.95);
+    backdrop-filter: blur(20px);
+    z-index: 1000;
+    transition: 0.3s ease;
+    padding: 2rem 1rem;
+    border-left: 1px solid rgba(255, 106, 0, 0.2);
+    overflow-y: auto;
+}
+
+.side-menu.open {
+    right: 0;
+}
+
+.close-menu {
+    background: none;
+    border: none;
+    color: #ff6a00;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+}
+
+.side-menu h3 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #ff6a00;
+    border-right: 3px solid #ff6a00;
+    padding-right: 0.8rem;
+}
+
+.side-cat {
+    display: block;
+    padding: 0.7rem 1rem;
+    color: #ddd;
+    border-radius: 12px;
+    margin: 0.3rem 0;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.side-cat:hover {
+    background: rgba(255, 106, 0, 0.13);
+    padding-right: 1.5rem;
+    color: #ff6a00;
+}
+
+.side-cat i {
+    margin-left: 0.8rem;
+    width: 25px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 999;
+    display: none;
+}
+
+.overlay.show {
+    display: block;
+}
+
+/* ========== مودال ثبت نام ========== */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #1a1a2e;
+    padding: 2rem;
+    border-radius: 2rem;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border-radius: 30px;
+    border: none;
+    font-family: inherit;
+    background: #0a0a0f;
+    color: white;
+    border: 1px solid #333;
+}
+
+.modal-content button {
+    background: #ff6a00;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0.5rem;
+}
+/* ============================================================
+   مودال رمز (password-modal)
+   ============================================================ */
+
+.password-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(8px);
+}
+
+.password-modal.show {
+    display: flex;
+}
+
+.password-box {
+    background: #1a1a2e;
+    border-radius: 2rem;
+    padding: 2.5rem 2rem;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    border: 2px solid #ff6a00;
+    box-shadow: 0 0 50px rgba(255, 106, 0, 0.15);
+}
+
+.password-box h3 {
+    color: #ffaa00;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.password-box p {
+    color: #aaa;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+}
+
+.password-box input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 50px;
+    border: 1px solid #333;
+    background: #0a0a0f;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    text-align: center;
+    direction: ltr;
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+    transition: 0.3s;
+}
+
+.password-box input:focus {
+    border-color: #ff6a00;
+    outline: none;
+    box-shadow: 0 0 20px rgba(255, 106, 0, 0.1);
+}
+
+.password-box .btn-row {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+}
+
+.password-box .btn-row button {
+    padding: 0.6rem 1.8rem;
+    border-radius: 50px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: inherit;
+    transition: 0.3s;
+}
+
+.password-box .btn-confirm {
+    background: #ff6a00;
+    color: #000;
+}
+
+.password-box .btn-confirm:hover {
+    background: #ff8c2a;
+    transform: scale(1.05);
+}
+
+.password-box .btn-cancel {
+    background: rgba(255, 255, 255, 0.05);
+    color: #aaa;
+    border: 1px solid #333;
+}
+
+.password-box .btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.password-error {
+    color: #ff4444;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    display: none;
+}
+
+.password-error.show {
+    display: block;
+}
+
+/* ============================================================
+   صفحه پیشنهادها (offers.html)
+   ============================================================ */
+
+.offers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.offer-card {
+    background: #111118;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 2px solid;
+    transition: 0.3s;
+    cursor: pointer;
+    animation: rgbYellowOrange 4s linear infinite;
+    display: flex;
+    flex-direction: column;
+}
+
+.offer-card:hover {
+    transform: translateY(-5px);
+    animation: rgbBorderContainer 1s linear infinite;
+}
+
+.offer-card .img-container {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.offer-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.offer-info {
+    padding: 1rem;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+.offer-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.offer-status {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #ff4444;
+}
+
+.offer-status.available {
+    color: #4ade80;
+}
+
+.offer-price {
+    font-size: 0.9rem;
+    color: #ffaa00;
+    font-weight: bold;
+    margin-top: 0.2rem;
+}
+
+/* ========== وبلاگ ========== */
+
+.blog-section {
+    margin-top: 2rem;
+    background: #111118;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid rgba(255, 106, 0, 0.1);
+}
+
+.blog-section i {
+    color: #ff6a00;
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+}
+
+.blog-section p {
+    color: #888;
+    font-size: 0.8rem;
+}
+/* ============================================================
+   اشتراک‌ها
+   ============================================================ */
+
+.subscriptions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.sub-card {
+    background: #111118;
+    border-radius: 1.2rem;
+    padding: 1.5rem;
+    text-align: center;
+    border: 2px solid;
+    transition: 0.2s;
+    cursor: pointer;
+    animation: rgbYellowOrange 4s linear infinite;
+}
+
+.sub-card:hover {
+    transform: translateY(-5px);
+    animation: rgbBorderContainer 1s linear infinite;
+}
+
+.sub-icon {
+    font-size: 2.5rem;
+    color: #ff6a00;
+    margin-bottom: 0.8rem;
+}
+
+.sub-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.sub-status {
+    font-size: 0.8rem;
+    color: #ff4444;
+    font-weight: bold;
+    margin-top: 0.3rem;
+}
+
+/* ============================================================
+   ریسپانسیو (موبایل و تبلت)
+   ============================================================ */
+
+@media (max-width: 800px) {
+    .row-top {
+        flex-direction: column;
+    }
+    .card-image {
+        flex: 0 0 150px;
+    }
+    .row-middle {
+        flex-direction: column;
+    }
+    .gift-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .player-card {
+        min-width: 80px;
+        padding: 0.3rem 0.6rem;
+    }
+    .player-name {
+        font-size: 0.7rem;
+    }
+    .player-position {
+        font-size: 0.55rem;
+    }
+    .small-card {
+        min-width: 80px;
+    }
+    .bench-card {
+        min-width: 80px;
+    }
+    .pitch-row {
+        gap: 0.6rem;
+    }
+    .container {
+        padding: 0.3rem;
+    }
+    .team-header .logo h1 {
+        font-size: 1.4rem;
+    }
+    .team-info-table {
+        font-size: 0.7rem;
+    }
+    .team-info-table th,
+    .team-info-table td {
+        padding: 0.4rem 0.2rem;
+    }
+    .stat-box {
+        min-width: 70px;
+        padding: 0.3rem 0.8rem;
+    }
+    .stat-box span {
+        font-size: 1.1rem;
+    }
+}
+
 @media (max-width: 600px) {
-    .hero h1 { font-size: 2rem; }
-    .row-buttons { flex-direction: column; align-items: center; }
-    .btn { width: 100%; justify-content: center; }
-    .channels-list { flex-direction: column; align-items: center; }
-    .card-image { flex: 0 0 120px; }
+    .hero h1 {
+        font-size: 2rem;
+    }
+    .row-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .channels-list {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card-image {
+        flex: 0 0 120px;
+    }
+    .gift-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+    .game-title {
+        font-size: 1.3rem;
+    }
+    .calendar-grid {
+        gap: 0.3rem;
+        padding: 0.5rem;
+    }
+    .calendar-day {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.2rem;
+    }
+    .calendar-day-header {
+        font-size: 0.65rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .player-card {
+        min-width: 60px;
+        padding: 0.2rem 0.4rem;
+    }
+    .player-name {
+        font-size: 0.6rem;
+    }
+    .player-position {
+        font-size: 0.5rem;
+    }
+    .small-card {
+        min-width: 60px;
+    }
+    .bench-card {
+        min-width: 60px;
+        padding: 0.2rem 0.4rem;
+    }
+    .bench-name {
+        font-size: 0.6rem;
+    }
+    .bench-pos {
+        font-size: 0.5rem;
+    }
+    .section-card {
+        padding: 0.8rem;
+    }
+    .section-title {
+        font-size: 1rem;
+    }
+    .back-link {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.8rem;
+    }
+    .password-box {
+        padding: 1.5rem 1rem;
+    }
+    .password-box h3 {
+        font-size: 1rem;
+    }
 }

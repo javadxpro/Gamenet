@@ -4,305 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title> ترکیب تیم فوتبال راه ابریشم</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        @keyframes rgbYellowOrange {
-            0% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
-            25% { border-color: #ff8c00; box-shadow: 0 0 12px #ff8c00; }
-            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
-            75% { border-color: #ffcc00; box-shadow: 0 0 12px #ffcc00; }
-            100% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
-        }
-
-        @keyframes rgbBorderContainer {
-            0% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
-            25% { border-color: #ff8c00; box-shadow: 0 0 20px #ff8c00; }
-            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
-            75% { border-color: #ffcc00; box-shadow: 0 0 20px #ffcc00; }
-            100% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
-        }
-
-        @keyframes trainOnTextRightToLeft {
-            0% { background-position: 300% 0; }
-            100% { background-position: -300% 0; }
-        }
-
-        body {
-            font-family: 'Vazirmatn', system-ui;
-            background: #0a0a0f;
-            color: #eef2ff;
-            direction: rtl;
-            min-height: 100vh;
-            padding: 1.5rem;
-            padding-bottom: 2rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0.8rem;
-        }
-
-        /* دکمه بازگشت */
-        .back-link {
-            display: inline-block;
-            color: #ff6a00;
-            text-decoration: none;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-            transition: 0.2s;
-            font-size: 0.95rem;
-        }
-        .back-link:hover {
-            color: #ffaa00;
-            transform: translateX(-5px);
-        }
-        .back-link i { margin-left: 0.5rem; }
-
-        .team-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .logo h1 {
-            font-size: 1.8rem;
-            background: linear-gradient(90deg, #ffffff 0%, #ff6a00 50%, #ffffff 100%);
-            background-size: 300% auto;
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: trainOnTextRightToLeft 4s linear infinite;
-            display: inline-block;
-            padding: 0.5rem;
-        }
-        .team-badge {
-            background: #ff6a00;
-            display: inline-block;
-            padding: 0.3rem 1.5rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
-            color: #000;
-            font-weight: bold;
-        }
-
-        .section-card {
-            background: #111118aa;
-            backdrop-filter: blur(8px);
-            border-radius: 1.8rem;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            border: 2px solid;
-            animation: rgbBorderContainer 4s linear infinite;
-        }
-        .section-title {
-            font-size: 1.3rem;
-            margin-bottom: 1.2rem;
-            border-right: 3px solid #ff6a00;
-            padding-right: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .section-title i { color: #ff6a00; font-size: 1.2rem; }
-
-        .lineup-vertical {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-        .pitch-row {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .player-card {
-            background: #000000aa;
-            backdrop-filter: blur(8px);
-            border-radius: 1.5rem;
-            padding: 0.5rem 1rem;
-            min-width: 100px;
-            text-align: center;
-            border: 2px solid;
-            animation: rgbYellowOrange 4s linear infinite;
-            transition: 0.2s;
-        }
-        .player-card:hover {
-            transform: translateY(-3px);
-            background: #ff6a00cc;
-            border-color: #fff;
-        }
-        .player-name {
-            font-weight: bold;
-            margin: 0.3rem 0;
-            font-size: 0.85rem;
-        }
-        .player-position {
-            font-size: 0.65rem;
-            color: #ffcc88;
-            margin-bottom: 0.2rem;
-        }
-
-        .small-card {
-            background: #000000aa;
-            border-radius: 1.5rem;
-            padding: 0.5rem 1rem;
-            min-width: 100px;
-            text-align: center;
-            border: 2px solid;
-            animation: rgbYellowOrange 4s linear infinite;
-        }
-
-        .bench {
-            margin-top: 1.2rem;
-            background: #1a1a2eaa;
-            border-radius: 1.5rem;
-            padding: 1rem;
-        }
-        .bench h3 {
-            text-align: center;
-            margin-bottom: 0.8rem;
-            color: #ffcc88;
-            font-size: 1rem;
-        }
-        .bench-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.6rem;
-        }
-        .bench-card {
-            background: #00000099;
-            border-radius: 1.2rem;
-            padding: 0.3rem 0.7rem;
-            min-width: 100px;
-            text-align: center;
-            border: 1px solid #ffaa55;
-        }
-        .bench-name {
-            font-size: 0.75rem;
-            font-weight: bold;
-            margin: 0.2rem 0;
-        }
-        .bench-pos {
-            font-size: 0.6rem;
-            color: #aaa;
-            margin-bottom: 0.1rem;
-        }
-
-        @media (max-width: 700px) {
-            .player-card { min-width: 80px; padding: 0.3rem 0.6rem; }
-            .player-name { font-size: 0.7rem; }
-            .player-position { font-size: 0.55rem; }
-            .small-card { min-width: 80px; }
-            .bench-card { min-width: 80px; }
-            .pitch-row { gap: 0.6rem; }
-            .container { padding: 0.3rem; }
-        }
-    </style>
+    
+    <link rel="stylesheet" href="Webstyle.css">
 </head>
 <body>
 
-<div class="container">
-    <!-- دکمه بازگشت به صفحه اصلی -->
-    <a href="web.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی</a>
+    <div class="container">
 
-    <div class="team-header">
-        <div class="logo"><h1><i class="fas fa-futbol"></i> تیم فوتبال راه ابریشم <i class="fas fa-futbol"></i></h1></div>
-        <div class="team-badge"><i class="fas fa-trophy"></i> لیگ خوزستان </div>
+        <a href="web.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی</a>
+
+        <div class="team-header">
+            <div class="logo"><h1><i class="fas fa-futbol"></i> تیم فوتبال راه ابریشم <i class="fas fa-futbol"></i></h1></div>
+            <div class="team-badge"><i class="fas fa-trophy"></i> لیگ خوزستان</div>
+        </div>
+
+        <div class="row-buttons">
+            <a href="#" class="btn btn-status" onclick="openPasswordModal(event)">
+                <i class="fas fa-clipboard-list"></i>پروژه محرمانه تاکتیکی و استراتژیک گیم نت
+            </a>
+        </div>
+
+        <!-- زمین بزرگ -->
+        <div class="section-card">
+            <div class="section-title"><i class="fas fa-tree"></i> زمین بزرگ (۱۱ نفره)</div>
+            <div class="lineup-vertical">
+                <div class="pitch-row">
+                    <div class="player-card"><div class="player-name">امیر عباس</div><div class="player-position">مهاجم راست</div></div>
+                    <div class="player-card"><div class="player-name">جایمند</div><div class="player-position">نوک</div></div>
+                    <div class="player-card"><div class="player-name">یوسف</div><div class="player-position">مهاجم چپ</div></div>
+                </div>
+                <div class="pitch-row">
+                    <div class="player-card"><div class="player-name">میلاد</div><div class="player-position">هافبک هجومی</div></div>
+                </div>
+                <div class="pitch-row">
+                    <div class="player-card"><div class="player-name">فارس</div><div class="player-position">هافبک میانی</div></div>
+                    <div class="player-card"><div class="player-name">صادق</div><div class="player-position">هافبک دفاعی</div></div>
+                </div>
+                <div class="pitch-row">
+                    <div class="player-card"><div class="player-name">حمود</div><div class="player-position">دفاع راست</div></div>
+                    <div class="player-card"><div class="player-name">امید</div><div class="player-position">دفاع وسط</div></div>
+                    <div class="player-card"><div class="player-name">جواد</div><div class="player-position">دفاع وسط / کاپیتان</div></div>
+                    <div class="player-card"><div class="player-name">عباس</div><div class="player-position">دفاع چپ</div></div>
+                </div>
+                <div class="pitch-row">
+                    <div class="player-card"><div class="player-name">علی</div><div class="player-position">دروازه بان</div></div>
+                </div>
+            </div>
+            <div class="bench">
+                <h3><i class="fas fa-chair"></i> نیمکت ذخیره‌ها</h3>
+                <div class="bench-grid">
+                    <div class="bench-card"><div class="bench-name">رضا</div><div class="bench-pos">هافبک هجومی</div></div>
+                    <div class="bench-card"><div class="bench-name">ابی</div><div class="bench-pos">دروازه بان و هافبک</div></div>
+                    <div class="bench-card"><div class="bench-name">حسین چعب</div><div class="bench-pos">نوک و هافبک</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- فوتسال -->
+        <div class="section-card">
+            <div class="section-title"><i class="fas fa-building"></i> فوتسال (۵ نفره)</div>
+            <div class="lineup-vertical">
+                <div class="pitch-row">
+                    <div class="small-card"><div class="player-name">یوسف</div><div class="player-position">مهاجم</div></div>
+                    <div class="small-card"><div class="player-name">میلاد</div><div class="player-position">مهاجم</div></div>
+                </div>
+                <div class="pitch-row">
+                    <div class="small-card"><div class="player-name">صادق</div><div class="player-position">هافبک</div></div>
+                </div>
+                <div class="pitch-row">
+                    <div class="small-card"><div class="player-name">جواد</div><div class="player-position">دفاع / کاپیتان</div></div>
+                </div>
+                <div class="pitch-row">
+                    <div class="small-card"><div class="player-name">علی</div><div class="player-position">دروازه بان</div></div>
+                </div>
+            </div>
+            <div class="bench">
+                <h3><i class="fas fa-chair"></i> نیمکت ذخیره‌ها</h3>
+                <div class="bench-grid">
+                    <div class="bench-card"><div class="bench-name">فارس</div><div class="bench-pos">مهاجم راست</div></div>
+                    <div class="bench-card"><div class="bench-name">ابی طرفی</div><div class="bench-pos">هافبک و دروازه‌بان</div></div>
+                    <div class="bench-card"><div class="bench-name">رضا طرفی</div><div class="bench-pos">هافبک هجومی</div></div>
+                    <div class="bench-card"><div class="bench-name">جایمند</div><div class="bench-pos">نوک</div></div>
+                    <div class="bench-card"><div class="bench-name">امیر عباس</div><div class="bench-pos">نوک</div></div>
+                    <div class="bench-card"><div class="bench-name">حمود</div><div class="bench-pos">دروازه‌بان و دفاع</div></div>
+                    <div class="bench-card"><div class="bench-name">حسین چعب</div><div class="bench-pos">نوک و هافبک</div></div>
+                    <div class="bench-card"><div class="bench-name">حسین جنادله</div><div class="bench-pos">نوک و هافبک</div></div>
+                    <div class="bench-card"><div class="bench-name">امید</div><div class="bench-pos">دفاع</div></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- ========== زمین بزرگ (۱۱ نفره) ========== -->
-    <div class="section-card">
-        <div class="section-title">
-            <i class="fas fa-tree"></i> زمین بزرگ (۱۱ نفره)
-        </div>
-        <div class="lineup-vertical">
-            <!-- خط حمله -->
-            <div class="pitch-row">
-                <div class="player-card"><div class="player-name">امیر عباس</div><div class="player-position">مهاجم راست</div></div>
-                <div class="player-card"><div class="player-name">جایمند</div><div class="player-position">نوک</div></div>
-                <div class="player-card"><div class="player-name">یوسف</div><div class="player-position">مهاجم چپ</div></div>
-            </div>
-            <!-- خط هافبک هجومی -->
-            <div class="pitch-row">
-                <div class="player-card"><div class="player-name">میلاد</div><div class="player-position">هافبک هجومی</div></div>
-            </div>
-            <!-- خط هافبک -->
-            <div class="pitch-row">
-                <div class="player-card"><div class="player-name">فارس</div><div class="player-position">هافبک میانی</div></div>
-                <div class="player-card"><div class="player-name">صادق</div><div class="player-position">هافبک دفاعی</div></div>
-            </div>
-            <!-- خط دفاع (یک ردیف) -->
-            <div class="pitch-row">
-                <div class="player-card"><div class="player-name">حمود</div><div class="player-position">دفاع راست</div></div>
-                <div class="player-card"><div class="player-name">امید</div><div class="player-position">دفاع وسط</div></div>
-                <div class="player-card"><div class="player-name">جواد</div><div class="player-position">دفاع وسط / کاپیتان</div></div>
-                <div class="player-card"><div class="player-name">عباس</div><div class="player-position">دفاع چپ</div></div>
-            </div>
-            <!-- دروازه بان -->
-            <div class="pitch-row">
-                <div class="player-card"><div class="player-name">علی</div><div class="player-position">دروازه بان</div></div>
-            </div>
-        </div>
-
-        <!-- نیمکت ذخیره‌ها -->
-        <div class="bench">
-            <h3><i class="fas fa-chair"></i> نیمکت ذخیره‌ها</h3>
-            <div class="bench-grid">
-                <div class="bench-card"><div class="bench-name">رضا</div><div class="bench-pos">هافبک هجومی</div></div>
-                <div class="bench-card"><div class="bench-name">ابی</div><div class="bench-pos">دروازه بان و هافبک</div></div>
-                <div class="bench-card"><div class="bench-name">حسین چعب</div><div class="bench-pos">نوک و هافبک</div></div>
+    <!-- مودال رمز -->
+    <div class="password-modal" id="passwordModal">
+        <div class="password-box">
+            <h3><i class="fas fa-lock" style="color:#ff6a00;"></i>پروژه محرمانه تاکتیکی و استراتژیک گیم نت</h3>
+            <p>برای مشاهده اطلاعات کامل بازیکنان، رمز عبور را وارد کنید</p>
+            <input type="password" id="passwordInput" placeholder="****" maxlength="10" autocomplete="off">
+            <div class="password-error" id="passwordError">❌ رمز اشتباه است! دوباره تلاش کنید.</div>
+            <div class="btn-row">
+                <button class="btn-confirm" onclick="checkPassword()">✅ تأیید</button>
+                <button class="btn-cancel" onclick="closePasswordModal()">✖ انصراف</button>
             </div>
         </div>
     </div>
 
-    <!-- ========== سالنی (۵ نفره) ========== -->
-    <div class="section-card">
-        <div class="section-title">
-            <i class="fas fa-building"></i> فوتسال (۵ نفره)
-        </div>
-        <div class="lineup-vertical">
-            <!-- خط حمله -->
-            <div class="pitch-row">
-                <div class="small-card"><div class="player-name">یوسف</div><div class="player-position">مهاجم</div></div>
-                <div class="small-card"><div class="player-name">میلاد</div><div class="player-position">مهاجم</div></div>
-            </div>
-            <!-- خط هافبک -->
-            <div class="pitch-row">
-                <div class="small-card"><div class="player-name">صادق</div><div class="player-position">هافبک</div></div>
-            </div>
-            <!-- خط دفاع -->
-            <div class="pitch-row">
-                <div class="small-card"><div class="player-name">جواد</div><div class="player-position">دفاع / کاپیتان</div></div>
-            </div>
-            <!-- دروازه بان -->
-            <div class="pitch-row">
-                <div class="small-card"><div class="player-name">علی</div><div class="player-position">دروازه بان</div></div>
-            </div>
-        </div>
+    <script src="script.js"></script>
+    <script>
+        const TEAM_PASSWORD = '7289';
 
-        <!-- نیمکت ذخیره‌ها -->
-        <div class="bench">
-            <h3><i class="fas fa-chair"></i> نیمکت ذخیره‌ها</h3>
-            <div class="bench-grid">
-                <div class="bench-card"><div class="bench-name">فارس</div><div class="bench-pos">مهاجم راست</div></div>
-                <div class="bench-card"><div class="bench-name">ابی طرفی</div><div class="bench-pos">هافبک و دروازه‌بان</div></div>
-                <div class="bench-card"><div class="bench-name">رضا طرفی</div><div class="bench-pos">هافبک هجومی</div></div>
-                <div class="bench-card"><div class="bench-name">جایمند</div><div class="bench-pos">نوک</div></div>
-                <div class="bench-card"><div class="bench-name">امیر عباس</div><div class="bench-pos">نوک</div></div>
-                <div class="bench-card"><div class="bench-name">حمود</div><div class="bench-pos">دروازه‌بان و دفاع</div></div>
-                <div class="bench-card"><div class="bench-name">حسین چعب</div><div class="bench-pos">نوک و هافبک</div></div>
-                <div class="bench-card"><div class="bench-name">حسین جنادله</div><div class="bench-pos">نوک و هافبک</div></div>
-                <div class="bench-card"><div class="bench-name">امید</div><div class="bench-pos">دفاع</div></div>
-            </div>
-        </div>
-    </div>
-</div>
+        function openPasswordModal(event) {
+            event.preventDefault();
+            document.getElementById('passwordModal').classList.add('show');
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordError').classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('passwordInput').focus();
+            }, 100);
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').classList.remove('show');
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value.trim();
+            const errorEl = document.getElementById('passwordError');
+            if (input === TEAM_PASSWORD) {
+                closePasswordModal();
+                window.location.href = 'team-info.html';
+            } else {
+                errorEl.classList.add('show');
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        document.getElementById('passwordModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePasswordModal();
+            }
+        });
+
+        function burstEffectHandler(event, element) {
+            event.preventDefault();
+            const href = element.getAttribute('href');
+            if (href && href !== '#') {
+                window.location.href = href;
+            }
+        }
+    </script>
 
 </body>
 </html>

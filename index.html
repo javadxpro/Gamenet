@@ -4,355 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>فروشگاه گیم نت | صفحه اصلی</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        @keyframes rgbYellowOrange {
-            0% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
-            25% { border-color: #ff8c00; box-shadow: 0 0 12px #ff8c00; }
-            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
-            75% { border-color: #ffcc00; box-shadow: 0 0 12px #ffcc00; }
-            100% { border-color: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
-        }
-
-        @keyframes rgbBorderContainer {
-            0% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
-            25% { border-color: #ff8c00; box-shadow: 0 0 20px #ff8c00; }
-            50% { border-color: #ff6a00; box-shadow: 0 0 15px #ff6a00; }
-            75% { border-color: #ffcc00; box-shadow: 0 0 20px #ffcc00; }
-            100% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
-        }
-
-        @keyframes trainOnTextRightToLeft {
-            0% { background-position: 300% 0; }
-            100% { background-position: -300% 0; }
-        }
-
-        @keyframes trainOnTextLeftToRight {
-            0% { background-position: -300% 0; }
-            100% { background-position: 300% 0; }
-        }
-
-        body {
-            font-family: 'Vazirmatn', system-ui;
-            background: #0a0a0f;
-            color: #eef2ff;
-            direction: rtl;
-            padding-bottom: 75px;
-        }
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #111118;
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 12px;
-            border-top: 1px solid #222;
-            z-index: 100;
-        }
-        .bottom-nav a {
-            text-align: center;
-            color: #aaa;
-            text-decoration: none;
-            font-size: 0.7rem;
-            padding: 4px 8px;
-            border-radius: 12px;
-        }
-        .bottom-nav a i { font-size: 1.3rem; display: block; margin-bottom: 4px; }
-        .bottom-nav a:hover, .bottom-nav a.active { color: #ff6a00; background: #ff6a0010; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 1rem; }
-        .main-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .logo h1 { 
-            font-size: 1.4rem; 
-            font-weight: bold;
-            background: linear-gradient(90deg, 
-                #ffffff 0%, #ffffff 25%, 
-                #ff6a00 40%, #ffaa00 50%, #ff6a00 60%, 
-                #ffffff 75%, #ffffff 100%);
-            background-size: 300% auto;
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: trainOnTextRightToLeft 4s linear infinite;
-        }
-        .logo h1:hover {
-            animation: trainOnTextLeftToRight 1.5s linear infinite;
-        }
-        .menu-btn {
-            background: #1a1a22;
-            border: none;
-            color: #ff6a00;
-            font-size: 1.4rem;
-            cursor: pointer;
-            padding: 0.4rem 0.9rem;
-            border-radius: 12px;
-        }
-        .user-btn {
-            background: #1a1a22;
-            border: none;
-            color: #ff6a00;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.4rem 0.9rem;
-            border-radius: 12px;
-        }
-        .cart-icon {
-            position: relative;
-            background: #1a1a22;
-            border: none;
-            color: #ff6a00;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.4rem 0.9rem;
-            border-radius: 12px;
-        }
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff4444;
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 0.6rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .search-box {
-            display: flex;
-            background: #1a1a22;
-            border-radius: 30px;
-            padding: 0.4rem 1rem;
-            flex: 1;
-            max-width: 260px;
-            border: 1px solid #333;
-        }
-        .search-box input { background: transparent; border: none; padding: 0.4rem; color: white; width: 100%; }
-        .search-box button { background: none; border: none; color: #ff6a00; cursor: pointer; }
-        .side-menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 280px;
-            height: 100%;
-            background: #0f0f17f2;
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            transition: 0.3s ease;
-            padding: 2rem 1rem;
-            border-left: 1px solid #ff6a0033;
-            overflow-y: auto;
-        }
-        .side-menu.open { right: 0; }
-        .close-menu {
-            background: none;
-            border: none;
-            color: #ff6a00;
-            font-size: 1.5rem;
-            cursor: pointer;
-            position: absolute;
-            left: 1rem;
-            top: 1rem;
-        }
-        .side-menu h3 { margin-top: 2rem; margin-bottom: 1rem; color: #ff6a00; border-right: 3px solid #ff6a00; padding-right: 0.8rem; }
-        .side-cat {
-            display: block;
-            padding: 0.7rem 1rem;
-            color: #ddd;
-            border-radius: 12px;
-            margin: 0.3rem 0;
-            transition: 0.2s;
-            cursor: pointer;
-        }
-        .side-cat:hover { background: #ff6a0022; padding-right: 1.5rem; color: #ff6a00; }
-        .side-cat i { margin-left: 0.8rem; width: 25px; }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 999;
-            display: none;
-        }
-        .overlay.show { display: block; }
-        .section-title { font-size: 1.4rem; margin: 1rem 0 1rem; border-right: 4px solid #ff6a00; padding-right: 0.8rem; }
-        
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
-        .product-card {
-            background: #111118;
-            border-radius: 1.2rem;
-            overflow: hidden;
-            border: 2px solid;
-            transition: 0.2s;
-            cursor: pointer;
-            text-decoration: none;
-            display: block;
-            color: inherit;
-            animation: rgbYellowOrange 4s linear infinite;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            animation: rgbBorderContainer 1s linear infinite;
-        }
-        .img-container {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
-        }
-        .product-img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        .product-info { padding: 1rem; text-align: center; }
-        .product-title { font-size: 1rem; font-weight: bold; margin-bottom: 0.5rem; }
-        .platform-icons {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            margin: 0.5rem 0;
-        }
-        .platform-icons i { font-size: 1.2rem; }
-        .ps-icon { color: #0099ff; }
-        .xbox-icon { color: #51ff00; }
-        .game-type {
-            background: #ff6a0015;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: #ff6a00;
-            display: inline-block;
-            margin-top: 0.3rem;
-        }
-        .view-detail {
-            background: #ff6a00;
-            color: #000;
-            text-align: center;
-            padding: 0.5rem;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-top: 0.8rem;
-            transition: 0.2s;
-        }
-        .product-card:hover .view-detail { background: #ff8c2a; }
-        
-        .subscriptions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .sub-card {
-            background: #111118;
-            border-radius: 1.2rem;
-            padding: 1.5rem;
-            text-align: center;
-            border: 2px solid;
-            transition: 0.2s;
-            cursor: pointer;
-            animation: rgbYellowOrange 4s linear infinite;
-        }
-        .sub-card:hover {
-            transform: translateY(-5px);
-            animation: rgbBorderContainer 1s linear infinite;
-        }
-        .sub-icon { font-size: 2.5rem; color: #ff6a00; margin-bottom: 0.8rem; }
-        .sub-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; }
-        .sub-status { font-size: 0.8rem; color: #ff4444; font-weight: bold; margin-top: 0.3rem; }
-        
-        .contact-bar {
-            background: #ff6a00;
-            color: #000;
-            text-align: center;
-            padding: 0.5rem;
-            border-radius: 50px;
-            margin: 1rem 0;
-            font-weight: bold;
-        }
-        .contact-bar a { color: #000; text-decoration: none; }
-        footer { 
-            margin-top: 2rem; 
-            text-align: center; 
-            padding: 1rem; 
-            color: #888; 
-            font-size: 0.8rem; 
-            border-top: 2px solid; 
-            animation: rgbYellowOrange 3s linear infinite; 
-        }
-        .owner-id { 
-            background: #ff6a0022; 
-            display: inline-block; 
-            padding: 0.4rem 1rem; 
-            border-radius: 50px; 
-            font-size: 0.8rem;
-            border: none;
-        }
-        .owner-id a { color: #ff6a00; text-decoration: none; }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: #1a1a2e;
-            padding: 2rem;
-            border-radius: 2rem;
-            text-align: center;
-            max-width: 450px;
-            width: 90%;
-        }
-        .modal-content input {
-            width: 100%;
-            padding: 0.8rem;
-            margin: 0.5rem 0;
-            border-radius: 30px;
-            border: none;
-            font-family: inherit;
-            background: #0a0a0f;
-            color: white;
-            border: 1px solid #333;
-        }
-        .modal-content button {
-            background: #ff6a00;
-            border: none;
-            padding: 0.6rem 1.5rem;
-            border-radius: 30px;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 0.5rem;
-        }
-        @media (max-width: 650px) { .container { padding: 0.8rem; } .search-box { max-width: 180px; } }
-    </style>
+    
+    <link rel="stylesheet" href="Webstyle.css">
 </head>
 <body>
+
+<!-- ========== کانتینر اصلی ========== -->
 <div class="container">
+
+    <!-- ========== هدر ========== -->
     <div class="main-header">
         <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
         <div class="logo"><h1><i class="fas fa-store"></i> فروشگاه گیم نت</h1></div>
-        <div class="search-box"><input type="text" placeholder="جستجو..."><button><i class="fas fa-search"></i></button></div>
+        <div class="search-box">
+            <input type="text" placeholder="جستجو...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
         <button class="user-btn" id="userBtn"><i class="fas fa-user"></i></button>
         <div class="cart-icon" onclick="location.href='cart.html'">
             <i class="fas fa-shopping-cart"></i>
@@ -360,6 +30,7 @@
         </div>
     </div>
 
+    <!-- ========== منو (همبرگری) ========== -->
     <div class="side-menu" id="sideMenu">
         <button class="close-menu" id="closeMenu"><i class="fas fa-times"></i></button>
         <h3><i class="fas fa-gamepad"></i> دسته‌بندی‌ها</h3>
@@ -374,17 +45,19 @@
     </div>
     <div class="overlay" id="overlay"></div>
 
+    <!-- ========== نوار تماس ========== -->
     <div class="contact-bar">
-        <i class="fas fa-phone-alt"></i> برای شرایط خرید و اطمینان از منبع تماس بگیرید: 
-        <a href="tel:0933880140">۰۹۳۳۸۸۰۱۴۰</a> | 
+        <i class="fas fa-phone-alt"></i> برای شرایط خرید و اطمینان از منبع تماس بگیرید:
+        <a href="tel:0933880140">۰۹۳۳۸۸۰۱۴۰</a> |
         <a href="tel:09372726142">۰۹۳۷۲۷۲۶۱۴۲</a>
     </div>
 
-    <!-- بازی‌های محبوب - با عکس‌های مستقیم از گیت‌هاب -->
-    <h2 class="section-title">بازی‌های محبوب</h2>
+    <!-- ========== بازی‌های محبوب ========== -->
+    <h2 class="section-title">🎮 بازی‌های محبوب</h2>
     <div class="games-grid">
+
         <!-- PES 2026 جام جهانی -->
-        <a href="game1.html" class="product-card">
+        <a href="game1.html" class="product-card" onclick="burstEffectHandler(event, this)">
             <div class="img-container">
                 <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/PES%20Monster%20PATCH%20WorldCup%202026.jpg" alt="PES 2026 جام جهانی" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
             </div>
@@ -397,7 +70,7 @@
         </a>
 
         <!-- Call of Duty -->
-        <a href="game2.html" class="product-card">
+        <a href="game2.html" class="product-card" onclick="burstEffectHandler(event, this)">
             <div class="img-container">
                 <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/call%20of%20duty%20black%20ops%20cold%20war.jpg" alt="Call of Duty" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
             </div>
@@ -410,7 +83,7 @@
         </a>
 
         <!-- Gang Beast -->
-        <a href="game3.html" class="product-card">
+        <a href="game3.html" class="product-card" onclick="burstEffectHandler(event, this)">
             <div class="img-container">
                 <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/gang%20beast.jpg" alt="Gang Beast" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
             </div>
@@ -423,7 +96,7 @@
         </a>
 
         <!-- PES 2026 پچ زمستانی -->
-        <a href="game4.html" class="product-card">
+        <a href="game4.html" class="product-card" onclick="burstEffectHandler(event, this)">
             <div class="img-container">
                 <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/main/Monster%20PATCH%20WINTER%202026.jpg" alt="PES 2026 پچ زمستانی" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
             </div>
@@ -434,9 +107,11 @@
                 <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
             </div>
         </a>
+
     </div>
 
-    <h2 class="section-title">اشتراک‌های محبوب</h2>
+    <!-- ========== اشتراک‌های محبوب ========== -->
+    <h2 class="section-title">📡 اشتراک‌های محبوب</h2>
     <div class="subscriptions-grid">
         <div class="sub-card" onclick="alert('اشتراک پلی استیشن پلاس - ناموجود')">
             <div class="sub-icon"><i class="fab fa-playstation"></i></div>
@@ -460,12 +135,14 @@
         </div>
     </div>
 
+    <!-- ========== فوتر ========== -->
     <footer>
         <div class="owner-id"><i class="fab fa-telegram"></i> آیدی مدیریت: <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a></div>
         <p>فروشگاه گیم نت | تمامی حقوق محفوظ است</p>
     </footer>
 </div>
 
+<!-- ========== منوی پایین ========== -->
 <div class="bottom-nav">
     <a href="index.html" class="active"><i class="fas fa-home"></i> خانه</a>
     <a href="cart.html"><i class="fas fa-shopping-cart"></i> سبد خرید</a>
@@ -474,7 +151,8 @@
     <a href="giftcard.html"><i class="fas fa-ticket-alt"></i> گیفت کارت</a>
 </div>
 
-<div id="authModal" class="modal">
+<!-- ========== مودال ثبت نام ========== -->
+<div id="authModal" class="modal" style="display: none;">
     <div class="modal-content">
         <h3><i class="fas fa-user-plus"></i> ثبت نام / ورود</h3>
         <input type="text" id="fullName" placeholder="نام و نام خانوادگی" required>
@@ -483,14 +161,125 @@
         <input type="tel" id="phone" placeholder="شماره تلفن" required>
         <div>
             <button onclick="registerUser()">ثبت نام</button>
-            <button class="close-modal-btn" onclick="closeModal()" style="background:#333;">انصراف</button>
+            <button onclick="closeModal()" style="background:#333;">انصراف</button>
         </div>
         <div id="userStatus" style="margin-top: 10px;"></div>
     </div>
 </div>
 
-<script>
-    let cart = JSON.parse(localStorage.getItem('gameCart')) || [];
+<!-- ========== اسکریپت‌ها ========== -->
+<script src="script.js"></script>
 
-    function updateCartCount() {
-       
+<script>
+// ========== اضافه کردن استایل‌های گم‌شده ==========
+document.addEventListener('DOMContentLoaded', function() {
+    // ========== جستجو ==========
+    const searchBox = document.querySelector('.search-box input');
+    const searchBtn = document.querySelector('.search-box button');
+    
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function() {
+            const query = searchBox.value.trim().toLowerCase();
+            if (query) {
+                const cards = document.querySelectorAll('.product-card');
+                let found = false;
+                cards.forEach(card => {
+                    const title = card.querySelector('.product-title')?.textContent?.toLowerCase() || '';
+                    if (title.includes(query)) {
+                        card.style.display = 'block';
+                        found = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                if (!found) {
+                    alert('هیچ بازی با این نام پیدا نشد!');
+                }
+            }
+        });
+    }
+    
+    if (searchBox) {
+        searchBox.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchBtn.click();
+            }
+        });
+    }
+    
+    // ========== منو ==========
+    const menuBtn = document.getElementById('menuBtn');
+    const closeMenuBtn = document.getElementById('closeMenu');
+    const overlay = document.getElementById('overlay');
+    const sideMenu = document.getElementById('sideMenu');
+    
+    if (menuBtn) {
+        menuBtn.addEventListener('click', function() {
+            sideMenu.classList.add('open');
+            overlay.classList.add('show');
+        });
+    }
+    
+    if (closeMenuBtn) {
+        closeMenuBtn.addEventListener('click', function() {
+            sideMenu.classList.remove('open');
+            overlay.classList.remove('show');
+        });
+    }
+    
+    if (overlay) {
+        overlay.addEventListener('click', function() {
+            sideMenu.classList.remove('open');
+            overlay.classList.remove('show');
+        });
+    }
+    
+    // ========== دکمه کاربر ==========
+    const userBtn = document.getElementById('userBtn');
+    if (userBtn) {
+        userBtn.addEventListener('click', function() {
+            const user = JSON.parse(localStorage.getItem('gameUser'));
+            if (user) {
+                alert(`👤 ${user.fullName}\n🆔 ${user.username}\n📞 ${user.phone}\n📧 ${user.email}`);
+            } else {
+                document.getElementById('authModal').style.display = 'flex';
+            }
+        });
+    }
+});
+
+// ========== ثبت نام ==========
+function registerUser() {
+    const fullName = document.getElementById('fullName');
+    const username = document.getElementById('username');
+    const email = document.getElementById('email');
+    const phone = document.getElementById('phone');
+    const statusEl = document.getElementById('userStatus');
+    
+    if (!fullName.value || !username.value || !email.value || !phone.value) {
+        statusEl.innerHTML = '<span style="color:#ff4444;">❌ همه فیلدها را پر کنید!</span>';
+        return;
+    }
+    
+    const user = {
+        fullName: fullName.value,
+        username: username.value,
+        email: email.value,
+        phone: phone.value
+    };
+    
+    localStorage.setItem('gameUser', JSON.stringify(user));
+    statusEl.innerHTML = `<span style="color:#4ade80;">✅ ${fullName.value} عزیز ثبت نام شدید!</span>`;
+    
+    setTimeout(() => {
+        document.getElementById('authModal').style.display = 'none';
+    }, 1500);
+}
+
+function closeModal() {
+    document.getElementById('authModal').style.display = 'none';
+}
+</script>
+
+</body>
+</html>

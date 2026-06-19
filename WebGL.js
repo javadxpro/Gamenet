@@ -1,4 +1,7 @@
-// ========== نمایشگر FPS ==========
+// ============================================================
+//  نمایشگر FPS
+// ============================================================
+
 let frameCount = 0;
 let lastFpsUpdate = performance.now();
 
@@ -7,7 +10,8 @@ function updateFPS() {
     const now = performance.now();
     if (now - lastFpsUpdate >= 1000) {
         const fps = Math.round(frameCount * 1000 / (now - lastFpsUpdate));
-        document.getElementById('fpsValue').textContent = fps;
+        const el = document.getElementById('fpsValue');
+        if (el) el.textContent = fps;
         frameCount = 0;
         lastFpsUpdate = now;
     }
@@ -16,34 +20,40 @@ function updateFPS() {
 updateFPS();
 
 // ============================================================
-//  WebGL - تیله‌های دورانی با Three.js
+//  WebGL - تیله‌های سه‌بعدی
 // ============================================================
+
 (function() {
+    'use strict';
+
+    // ========== گرفتن المان ==========
     const container = document.getElementById('webglCanvas');
-    if (!container) return;
+    if (!container) {
+        console.error('❌ webglCanvas پیدا نشد!');
+        return;
+    }
 
     // ========== تنظیمات کیفیت ==========
-    let quality = 'high';
+    let quality = sessionStorage.getItem('quality') || 'high';
     let testMode = false;
 
     const qualityConfig = {
-        high: { balls: 60, size: 12, pixelRatio: 2 },
-        medium: { balls: 35, size: 10, pixelRatio: 1.5 },
-        low: { balls: 20, size: 8, pixelRatio: 1 }
+        high: { balls: 60, size: 12, pixelRatio: 2, lights: 4 },
+        medium: { balls: 35, size: 10, pixelRatio: 1.5, lights: 2 },
+        low: { balls: 20, size: 8, pixelRatio: 1, lights: 1 }
     };
-
-    if (window.getQuality) {
-        quality = window.getQuality();
-    }
 
     const config = qualityConfig[quality] || qualityConfig.high;
 
+    // ========== صحنه ==========
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x05050a);
 
+    // ========== دوربین ==========
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
     camera.position.z = 500;
 
+    // ========== رندرر ==========
     const renderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true
@@ -53,23 +63,52 @@ updateFPS();
     renderer.setClearColor(0x05050a, 1);
     container.appendChild(renderer.domElement);
 
-    // ========== نورها ==========
-    const ambientLight = new THREE.AmbientLight(0x404060);
+    // ============================================================
+    //  تصویر پس‌زمینه (Skybox)
+    // ============================================================
+
+    const textureLoader = new THREE.TextureLoader();
+    const imageUrl = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80';
+
+    textureLoader.load(imageUrl, function(texture) {
+        const skyGeo = new THREE.SphereGeometry(900, 32, 32);
+        const skyMat = new THREE.MeshPhongMaterial({
+            map: texture,
+            side: THREE.BackSide,
+            emissive: 0x222244,
+            emissiveIntensity: 0.1
+        });
+        const sky = new THREE.Mesh(skyGeo, skyMat);
+        sky.position.set(0, 0, 0);
+        scene.add(sky);
+    });
+
+    // ============================================================
+    //  نورها
+    // ============================================================
+
+    const ambientLight = new THREE.AmbientLight(0x404060, 0.5);
     scene.add(ambientLight);
 
-    const light1 = new THREE.PointLight(0xff6a00, 1, 800);
+    const light1 = new THREE.PointLight(0xff6a00, 1.2, 800);
     light1.position.set(200, 200, 300);
     scene.add(light1);
 
-    const light2 = new THREE.PointLight(0x00ffff, 0.8, 800);
+    const light2 = new THREE.PointLight(0x00ffff, 1.0, 800);
     light2.position.set(-200, -200, 300);
     scene.add(light2);
 
-    const light3 = new THREE.PointLight(0xff00ff, 0.6, 800);
+    const light3 = new THREE.PointLight(0xff00ff, 0.8, 800);
     light3.position.set(0, 300, -200);
     scene.add(light3);
 
-    // ========== توابع ساخت ==========
+    const hemiLight = new THREE.HemisphereLight(0x4488ff, 0x442200, 0.6);
+    scene.add(hemiLight);
+
+    // ============================================================
+    //  ساخت تیله‌ها
+    // ============================================================
+
     function createBalls(count, sizeConfig) {
         const items = [];
         const colors = [
@@ -88,9 +127,9 @@ updateFPS();
             const material = new THREE.MeshPhongMaterial({
                 color: color,
                 emissive: color,
-                emissiveIntensity: 0.2,
+                emissiveIntensity: 0.3,
                 shininess: 80,
-                specular: 0xffffff,
+                specular: 0xffffff
             });
 
             const ball = new THREE.Mesh(geometry, material);
@@ -115,6 +154,10 @@ updateFPS();
         return items;
     }
 
+    // ============================================================
+    //  ساخت چراغ‌ها (حالت تست)
+    // ============================================================
+
     function createLights(count) {
         const items = [];
         const lightColors = [
@@ -136,7 +179,7 @@ updateFPS();
                 emissive: color,
                 emissiveIntensity: 2.0,
                 shininess: 100,
-                specular: 0xffffff,
+                specular: 0xffffff
             });
             const core = new THREE.Mesh(coreGeo, coreMat);
             core.position.set(
@@ -150,7 +193,8 @@ updateFPS();
                 phi: phi,
                 speed: 0.001 + Math.random() * 0.002,
                 rotSpeed: (Math.random() - 0.5) * 0.02,
-                baseColor: color
+                baseColor: color,
+                size: 8 + Math.random() * 15
             };
             scene.add(core);
             items.push(core);
@@ -163,7 +207,7 @@ updateFPS();
                 emissiveIntensity: 1.0,
                 transparent: true,
                 opacity: 0.3,
-                shininess: 50,
+                shininess: 50
             });
             const glow = new THREE.Mesh(glowGeo, glowMat);
             glow.position.copy(core.position);
@@ -184,18 +228,24 @@ updateFPS();
         return items;
     }
 
-    // ========== ساخت اشیاء اولیه ==========
+    // ============================================================
+    //  مدیریت اشیاء
+    // ============================================================
+
     let objects = [];
 
     function rebuildScene(mode) {
+        // حذف اشیاء قبلی
         objects.forEach(obj => {
             if (obj.parent) obj.parent.remove(obj);
             scene.remove(obj);
         });
         objects = [];
 
+        const config = qualityConfig[quality] || qualityConfig.high;
+
         if (mode) {
-            objects = createLights(35);
+            objects = createLights(config.lights);
         } else {
             objects = createBalls(config.balls, config.size);
         }
@@ -203,11 +253,14 @@ updateFPS();
 
     rebuildScene(false);
 
-    // ========== تابع تغییر حالت ==========
+    // ============================================================
+    //  تغییر حالت تست
+    // ============================================================
+
     window.toggleTestMode = function() {
         testMode = !testMode;
         rebuildScene(testMode);
-        
+
         const btn = document.querySelector('.btn-test');
         if (btn) {
             if (testMode) {
@@ -222,49 +275,74 @@ updateFPS();
         }
     };
 
-    // ========== گوش دادن به تغییرات کیفیت ==========
-    window.addEventListener('message', function(event) {
-        if (event.data.type === 'qualityChange') {
-            quality = event.data.quality;
-            location.reload();
-        }
-    });
+    // ============================================================
+    //  تغییر کیفیت
+    // ============================================================
 
-    // ========== انیمیشن ==========
+    window.qualityChange = function(level) {
+        quality = level;
+        sessionStorage.setItem('quality', level);
+
+        const qualityNames = {
+            high: '🔴 بالا',
+            medium: '🟡 متوسط',
+            low: '🟢 کم مصرف'
+        };
+        const qualityColors = {
+            high: '#4ade80',
+            medium: '#fbbf24',
+            low: '#f87171'
+        };
+
+        const el = document.getElementById('qualityText');
+        if (el) {
+            el.textContent = qualityNames[level] || 'بالا';
+            el.style.color = qualityColors[level] || '#fbbf24';
+        }
+
+        rebuildScene(testMode);
+    };
+
+    // ============================================================
+    //  انیمیشن
+    // ============================================================
+
     let time = 0;
 
     function animate() {
         requestAnimationFrame(animate);
         time += 0.01;
 
-        objects.forEach((obj, index) => {
-            if (obj.userData && obj.userData.radius !== undefined) {
-                const data = obj.userData;
-                data.theta += data.speed * 0.8;
-                data.phi += data.speed * 0.3;
+        const items = objects.filter(obj => obj.userData && obj.userData.radius !== undefined);
 
-                const r = data.radius + Math.sin(time + index) * 10;
-                obj.position.x = r * Math.sin(data.phi) * Math.cos(data.theta);
-                obj.position.y = r * Math.cos(data.phi) + Math.sin(time * 0.5 + index) * 15;
-                obj.position.z = r * Math.sin(data.phi) * Math.sin(data.theta);
+        items.forEach((obj, index) => {
+            const data = obj.userData;
+            data.theta += data.speed * 0.8;
+            data.phi += data.speed * 0.3;
 
-                obj.rotation.x += data.rotSpeed || 0;
-                obj.rotation.y += (data.rotSpeed || 0) * 0.7;
+            const r = data.radius + Math.sin(time + index) * 10;
+            obj.position.x = r * Math.sin(data.phi) * Math.cos(data.theta);
+            obj.position.y = r * Math.cos(data.phi) + Math.sin(time * 0.5 + index) * 15;
+            obj.position.z = r * Math.sin(data.phi) * Math.sin(data.theta);
 
-                // تغییر رنگ چراغ‌ها (حالت تست)
-                if (testMode && obj.material && obj.material.emissive) {
-                    const hue = (time * 0.03 + index * 0.005) % 1;
-                    const color = new THREE.Color().setHSL(hue, 1, 0.6);
-                    obj.material.color.set(color);
-                    obj.material.emissive.set(color);
-                    
-                    if (obj.material.emissiveIntensity) {
-                        obj.material.emissiveIntensity = 1.5 + Math.sin(time * 2 + index) * 0.8;
-                    }
+            obj.rotation.x += data.rotSpeed || 0;
+            obj.rotation.y += (data.rotSpeed || 0) * 0.7;
+
+            // تغییر رنگ در حالت تست
+            if (testMode && obj.material && obj.material.emissive) {
+                const hue = (time * 0.03 + index * 0.005) % 1;
+                const color = new THREE.Color().setHSL(hue, 1, 0.6);
+                obj.material.color.set(color);
+                obj.material.emissive.set(color);
+
+                if (obj.material.emissiveIntensity) {
+                    obj.material.emissiveIntensity = 1.5 + Math.sin(time * 2 + index) * 0.8;
                 }
             }
+        });
 
-            // به‌روزرسانی هاله‌ها
+        // به‌روزرسانی هاله‌ها
+        objects.forEach(obj => {
             if (obj.userData && obj.userData.parent) {
                 const parent = obj.userData.parent;
                 obj.position.copy(parent.position);
@@ -274,13 +352,12 @@ updateFPS();
                     obj.material.opacity = 0.2 + Math.sin(time * 1.2 + obj.userData.phase) * 0.15;
                 }
             }
-
-            // به‌روزرسانی نورهای نقطه‌ای
             if (obj.isLight && obj.userData && obj.userData.parent) {
                 obj.position.copy(obj.userData.parent.position);
             }
         });
 
+        // چرخش آرام صحنه
         scene.rotation.y += 0.0006;
         scene.rotation.x = Math.sin(time * 0.0003) * 0.03;
 
@@ -289,7 +366,11 @@ updateFPS();
 
     animate();
 
-    window.addEventListener('resize', () => {
+    // ============================================================
+    //  ریسپانسیو
+    // ============================================================
+
+    window.addEventListener('resize', function() {
         const w = window.innerWidth;
         const h = window.innerHeight;
         camera.aspect = w / h;
@@ -297,20 +378,26 @@ updateFPS();
         renderer.setSize(w, h);
     });
 
-    window.addEventListener('beforeunload', () => {
+    window.addEventListener('beforeunload', function() {
         renderer.dispose();
     });
+
+    console.log('✅ WebGL راه‌اندازی شد!');
+    console.log('📊 کیفیت:', quality, '| تعداد تیله:', config.balls);
+
 })();
 
 // ============================================================
-//  انیمیشن کلیک دکمه
+//  انیمیشن کلیک (برای همه صفحات)
 // ============================================================
+
 function burstEffectHandler(event, element) {
     event.preventDefault();
     const rect = element.getBoundingClientRect();
     const cx = rect.width / 2;
     const cy = rect.height / 2;
 
+    // حلقه‌های نورانی
     for (let i = 0; i < 3; i++) {
         const ring = document.createElement('span');
         ring.className = 'ring';
@@ -318,32 +405,51 @@ function burstEffectHandler(event, element) {
         ring.style.height = (20 + i * 15) + 'px';
         ring.style.borderColor = ['#ff6a00', '#ff00ff', '#00ffff'][i];
         ring.style.animationDelay = (i * 0.08) + 's';
+        ring.style.position = 'absolute';
+        ring.style.top = '50%';
+        ring.style.left = '50%';
+        ring.style.transform = 'translate(-50%, -50%)';
+        ring.style.borderRadius = '50%';
+        ring.style.border = '4px solid';
+        ring.style.pointerEvents = 'none';
+        ring.style.animation = 'ringEffect 0.5s ease-out forwards';
+        ring.style.zIndex = '-1';
         element.appendChild(ring);
     }
 
+    // جرقه‌های رنگی
     const colors = ['#ff6a00', '#ff00ff', '#00ffff', '#ffff00', '#ff8800', '#00ff88'];
     for (let i = 0; i < 20; i++) {
         const burst = document.createElement('span');
         burst.className = 'burst';
         const angle = Math.random() * Math.PI * 2;
         const distance = 40 + Math.random() * 60;
+
         burst.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
         burst.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+        burst.style.position = 'absolute';
         burst.style.left = cx + 'px';
         burst.style.top = cy + 'px';
+
         const size = 4 + Math.random() * 12;
         burst.style.width = size + 'px';
         burst.style.height = size + 'px';
+        burst.style.borderRadius = '50%';
         burst.style.background = colors[Math.floor(Math.random() * colors.length)];
         burst.style.boxShadow = `0 0 ${size * 2}px ${burst.style.background}`;
+        burst.style.pointerEvents = 'none';
+        burst.style.animation = 'burstEffect 0.5s ease-out forwards';
         burst.style.animationDelay = (Math.random() * 0.15) + 's';
+        burst.style.zIndex = '-1';
         element.appendChild(burst);
     }
 
+    // حذف المان‌های انیمیشن
     setTimeout(() => {
         element.querySelectorAll('.burst, .ring').forEach(el => el.remove());
     }, 700);
 
+    // هدایت به لینک
     setTimeout(() => {
         const href = element.getAttribute('href');
         if (href && href !== '#') {
