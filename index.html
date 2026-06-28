@@ -15,15 +15,20 @@
 <!-- ========== کانتینر اصلی ========== -->
 <div class="container">
 
-    <!-- ========== هدر ========== -->
+    <!-- ========== هدر (بدون جستجو) ========== -->
     <div class="main-header">
         <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
         <div class="logo"><h1><i class="fas fa-store"></i> فروشگاه گیم نت</h1></div>
-        <div class="search-box">
-            <input type="text" placeholder="جستجو...">
-            <button><i class="fas fa-search"></i></button>
-        </div>
+        
+        <!-- ====== دکمه کاربر ====== -->
         <button class="user-btn" id="userBtn"><i class="fas fa-user"></i></button>
+        
+        <!-- ====== دکمه بازگشت ====== -->
+        <a href="web.html" class="back-link" style="margin:0; padding:0.3rem 0.8rem; font-size:0.8rem; display:inline-flex; align-items:center; gap:0.3rem;">
+            <i class="fas fa-arrow-right"></i> بازگشت
+        </a>
+        
+        <!-- ====== سبد خرید ====== -->
         <div class="cart-icon" onclick="location.href='cart.html'">
             <i class="fas fa-shopping-cart"></i>
             <span class="cart-count" id="cartCount">0</span>
@@ -152,7 +157,7 @@
 </div>
 
 <!-- ========== مودال ثبت نام ========== -->
-<div id="authModal" class="modal" style="display: none;">
+<div id="authModal" class="modal" style="display: none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:2000; justify-content:center; align-items:center;">
     <div class="modal-content">
         <h3><i class="fas fa-user-plus"></i> ثبت نام / ورود</h3>
         <input type="text" id="fullName" placeholder="نام و نام خانوادگی" required>
@@ -171,42 +176,11 @@
 <script src="script.js"></script>
 
 <script>
-// ========== اضافه کردن استایل‌های گم‌شده ==========
+// ============================================================
+//  مدیریت حساب کاربری
+// ============================================================
+
 document.addEventListener('DOMContentLoaded', function() {
-    // ========== جستجو ==========
-    const searchBox = document.querySelector('.search-box input');
-    const searchBtn = document.querySelector('.search-box button');
-    
-    if (searchBtn) {
-        searchBtn.addEventListener('click', function() {
-            const query = searchBox.value.trim().toLowerCase();
-            if (query) {
-                const cards = document.querySelectorAll('.product-card');
-                let found = false;
-                cards.forEach(card => {
-                    const title = card.querySelector('.product-title')?.textContent?.toLowerCase() || '';
-                    if (title.includes(query)) {
-                        card.style.display = 'block';
-                        found = true;
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-                if (!found) {
-                    alert('هیچ بازی با این نام پیدا نشد!');
-                }
-            }
-        });
-    }
-    
-    if (searchBox) {
-        searchBox.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchBtn.click();
-            }
-        });
-    }
-    
     // ========== منو ==========
     const menuBtn = document.getElementById('menuBtn');
     const closeMenuBtn = document.getElementById('closeMenu');
@@ -248,7 +222,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// ========== ثبت نام ==========
+// ============================================================
+//  ثبت نام کاربر
+// ============================================================
 function registerUser() {
     const fullName = document.getElementById('fullName');
     const username = document.getElementById('username');
@@ -256,21 +232,20 @@ function registerUser() {
     const phone = document.getElementById('phone');
     const statusEl = document.getElementById('userStatus');
     
-    if (!fullName.value || !username.value || !email.value || !phone.value) {
-        statusEl.innerHTML = '<span style="color:#ff4444;">❌ همه فیلدها را پر کنید!</span>';
+    if (!fullName || !username || !email || !phone) {
+        if (statusEl) statusEl.innerHTML = '<span style="color:#ff4444;">❌ همه فیلدها را پر کنید!</span>';
         return;
     }
     
-    const user = {
-        fullName: fullName.value,
-        username: username.value,
-        email: email.value,
-        phone: phone.value
-    };
+    if (!fullName.value || !username.value || !email.value || !phone.value) {
+        if (statusEl) statusEl.innerHTML = '<span style="color:#ff4444;">❌ همه فیلدها را پر کنید!</span>';
+        return;
+    }
     
+    const user = { fullName: fullName.value, username: username.value, email: email.value, phone: phone.value };
     localStorage.setItem('gameUser', JSON.stringify(user));
-    statusEl.innerHTML = `<span style="color:#4ade80;">✅ ${fullName.value} عزیز ثبت نام شدید!</span>`;
     
+    if (statusEl) statusEl.innerHTML = `<span style="color:#4ade80;">✅ ${fullName.value} عزیز ثبت نام شدید!</span>`;
     setTimeout(() => {
         document.getElementById('authModal').style.display = 'none';
     }, 1500);
@@ -278,6 +253,17 @@ function registerUser() {
 
 function closeModal() {
     document.getElementById('authModal').style.display = 'none';
+}
+
+// ============================================================
+//  انیمیشن کلیک
+// ============================================================
+function burstEffectHandler(event, element) {
+    event.preventDefault();
+    const href = element.getAttribute('href');
+    if (href && href !== '#') {
+        window.location.href = href;
+    }
 }
 </script>
 

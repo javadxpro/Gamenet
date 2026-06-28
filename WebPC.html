@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گیم‌نت | گرافیک فراکهکشانی - RTX 6000 Ti SUPER</title>
+    
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Vazirmatn', system-ui, sans-serif;
+            background: #000001;
+            color: #fff;
+            direction: rtl;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+        
+        #webglCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        /* ========== HUD ناسا ========== */
+        #systemInfo {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            padding: 14px 25px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #666;
+            pointer-events: none;
+            user-select: none;
+            box-shadow: 0 0 50px rgba(255, 106, 0, 0.03);
+        }
+        #systemInfo .row { display: flex; gap: 35px; }
+        #systemInfo .fps { color: #4ade80; font-weight: bold; }
+        #systemInfo .quality { color: #ff88dd; font-weight: bold; }
+        #systemInfo .galaxy { color: #66ddff; font-weight: bold; }
+        #systemInfo .gpu { color: #fbbf24; font-weight: bold; }
+        #systemInfo .rtx { color: #ff6a00; font-weight: bold; }
+        
+        /* ========== دکمه‌های کیفیت ========== */
+        #qualitySelector {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .quality-btn {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 12px 22px;
+            color: #888;
+            font-family: 'Vazirmatn', system-ui;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            min-width: 170px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .quality-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,106,0,0.05), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        .quality-btn:hover::before { transform: translateX(100%); }
+        .quality-btn:hover {
+            border-color: #ff6a00;
+            color: #fff;
+            transform: scale(1.05) translateX(-5px);
+            box-shadow: 0 0 40px rgba(255, 106, 0, 0.08);
+        }
+        .quality-btn.active {
+            border-color: #ff6a00;
+            color: #ffaa00;
+            background: rgba(255, 106, 0, 0.08);
+            box-shadow: 0 0 60px rgba(255, 106, 0, 0.05);
+        }
+        .quality-btn .badge {
+            font-size: 0.5rem;
+            opacity: 0.4;
+            display: block;
+            margin-top: 3px;
+            font-family: monospace;
+        }
+        .quality-btn .icon { margin-left: 8px; }
+        
+        /* ========== بارگذاری ========== */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000001;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            transition: opacity 1.5s ease;
+        }
+        .loading-screen h1 {
+            font-size: 4.5rem;
+            background: linear-gradient(135deg, #ff6a00, #ff00ff, #00ffff, #ff6a00);
+            background-size: 400% 400%;
+            animation: gradShift 4s ease-in-out infinite;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            font-weight: 900;
+            text-shadow: 0 0 100px rgba(255,106,0,0.1);
+        }
+        @keyframes gradShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .loading-bar {
+            width: 550px;
+            height: 4px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(255, 106, 0, 0.05);
+        }
+        .loading-bar .fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff6a00, #ffaa00, #ff6a00);
+            background-size: 200% 100%;
+            animation: loadPulse 1.5s ease-in-out infinite;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        @keyframes loadPulse {
+            0%, 100% { background-position: 0% 0%; }
+            50% { background-position: 100% 0%; }
+        }
+        .loading-text { color: #666; font-size: 0.9rem; font-family: monospace; }
+        .loading-sub { color: #333; font-size: 0.7rem; font-family: monospace; margin-top: 5px; }
+        
+        @media (max-width: 768px) {
+            #qualitySelector { bottom: 80px; right: 10px; }
+            .quality-btn { min-width: 120px; font-size: 0.65rem; padding: 8px 12px; }
+            #systemInfo { font-size: 10px; padding: 6px 12px; }
+            #systemInfo .row { gap: 15px; }
+            .loading-bar { width: 280px; }
+            .loading-screen h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+<body>
+    <!-- ========== بارگذاری ========== -->
+    <div class="loading-screen" id="loadingScreen">
+        <h1>🚀 گیم‌نت</h1>
+        <div class="loading-bar"><div class="fill" id="loadingFill"></div></div>
+        <div class="loading-text" id="loadingText">[RTX 6000 Ti SUPER] راه‌اندازی موتور فراکهکشانی...</div>
+        <div class="loading-sub">NASA QUANTUM RENDER v4.0 | 16K ULTRA</div>
+    </div>
+
+    <!-- ========== WebGL ========== -->
+    <div id="webglCanvas"></div>
+
+    <!-- ========== HUD ناسا ========== -->
+    <div id="systemInfo">
+        <div class="row">
+            <span>🎮 <span class="fps" id="fpsDisplay">0</span> FPS</span>
+            <span>🖥️ <span class="gpu" id="gpuDisplay">RTX 6000 Ti SUPER</span></span>
+            <span>⚡ <span class="quality" id="qualityDisplay">فراکهکشانی</span></span>
+            <span>🌌 <span class="galaxy" id="galaxyDisplay">راه شیری</span></span>
+            <span>💎 <span class="rtx" id="rtxDisplay">16K</span></span>
+        </div>
+    </div>
+
+    <!-- ========== دکمه‌های کیفیت ========== -->
+    <div id="qualitySelector">
+        <button class="quality-btn" data-quality="high" onclick="setQuality('high')">
+            <span class="icon">🪐</span> کهکشانی <span class="badge">(8K | RTX 4090)</span>
+        </button>
+        <button class="quality-btn active" data-quality="nasa" onclick="setQuality('nasa')">
+            <span class="icon">🌌</span> فراکهکشانی <span class="badge">(16K | RTX 6000 Ti SUPER)</span>
+        </button>
+    </div>
+
+    <script>
+        // ============================================================
+        //  تنظیمات کیفیت - مخصوص RTX 6000 Ti SUPER
+        // ============================================================
+        
+        let currentQuality = 'nasa';
+        let scene, camera, renderer;
+        let galaxyGroup, starField, nebulaParticles, blackHole;
+        let spheres = [], rings = [], lights = [], beamGroup, haloGroup;
+        let time = 0, frameCount = 0, lastFpsUpdate = performance.now();
+        
+        const configs = {
+            high: {
+                name: 'کهکشانی',
+                starCount: 50000,
+                sphereCount: 120,
+                ringCount: 16,
+                lightCount: 12,
+                nebulaCount: 6000,
+                shadowRes: 8192,
+                pixelRatio: 2,
+                fogDensity: 0.0006,
+                exposure: 1.5,
+                sphereSize: 1.5,
+                ringSize: 0.8,
+                starSize: 1.5,
+                haloCount: 20,
+                beamCount: 12,
+                galaxyStars: 12000,
+                galaxyArms: 6
+            },
+            nasa: {
+                name: 'فراکهکشانی',
+                starCount: 120000,
+                sphereCount: 200,
+                ringCount: 24,
+                lightCount: 20,
+                nebulaCount: 12000,
+                shadowRes: 16384,
+                pixelRatio: 2.5,
+                fogDensity: 0.0003,
+                exposure: 2.0,
+                sphereSize: 2.5,
+                ringSize: 1.2,
+                starSize: 2.0,
+                haloCount: 40,
+                beamCount: 24,
+                galaxyStars: 25000,
+                galaxyArms: 8
+            }
+        };
+        
+        function setQuality(level) {
+            currentQuality = level;
+            document.querySelectorAll('.quality-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`[data-quality="${level}"]`).classList.add('active');
+            document.getElementById('qualityDisplay').textContent = configs[level].name;
+            document.getElementById('rtxDisplay').textContent = level === 'nasa' ? '16K' : '8K';
+            rebuildScene(level);
+        }
+        
+        function rebuildScene(level) {
+            if (scene) {
+                while(scene.children.length > 0) scene.remove(scene.children[0]);
+            }
+            spheres = []; rings = []; lights = [];
+            initScene(level);
+        }
+// ============================================================
+//  صحنه فراکهکشانی
+// ============================================================
+
+function initScene(level) {
+    const container = document.getElementById('webglCanvas');
+    const cfg = configs[level];
+    const isNasa = level === 'nasa';
+    
+    // ========== صحنه ==========
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000002);
+    scene.fog = new THREE.FogExp2(0x000002, cfg.fogDensity);
+    
+    // ========== دوربین ==========
+    camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.01, 5000);
+    camera.position.set(0, isNasa ? 30 : 40, isNasa ? 150 : 200);
+    camera.lookAt(0, 0, 0);
+    
+    // ========== رندرر RTX ==========
+    renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        powerPreference: "high-performance",
+        stencil: false,
+        depth: true
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, cfg.pixelRatio));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = cfg.exposure;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.shadowMap.bias = 0.00005;
+    
+    while(container.firstChild) container.removeChild(container.firstChild);
+    container.appendChild(renderer.domElement);
+    
+    // ============================================================
+    //  نورهای فراکهکشانی
+    // ============================================================
+    
+    // ========== نور محیطی کوانتومی ==========
+    const ambient = new THREE.AmbientLight(0x404080, isNasa ? 1.2 : 0.8);
+    scene.add(ambient);
+    
+    // ========== نور اصلی خورشیدی ==========
+    const mainLight = new THREE.DirectionalLight(0xff8844, isNasa ? 3.5 : 2.5);
+    mainLight.position.set(100, 200, 150);
+    mainLight.castShadow = true;
+    mainLight.shadow.mapSize.width = cfg.shadowRes;
+    mainLight.shadow.mapSize.height = cfg.shadowRes;
+    mainLight.shadow.camera.near = 0.5;
+    mainLight.shadow.camera.far = 600;
+    mainLight.shadow.camera.left = -300;
+    mainLight.shadow.camera.right = 300;
+    mainLight.shadow.camera.top = 300;
+    mainLight.shadow.camera.bottom = -300;
+    scene.add(mainLight);
+    
+    // ========== نورهای نقطه‌ای کوانتومی ==========
+    const lightColors = isNasa ? 
+        [0xff6a00, 0xff00ff, 0x00ffff, 0x4ade80, 0xff8800, 0xaa44ff, 0xff4466, 0x44ffaa, 0x0066ff, 0xffaa44, 0x44ff88, 0xff44aa, 0x88ff44, 0xaa44ff, 0x44aaff, 0xff6644, 0x44ff66, 0xff4488, 0x88ff44, 0x4488ff] :
+        [0xff6a00, 0xff00ff, 0x00ffff, 0x4ade80, 0xff8800, 0xaa44ff, 0xff4466, 0x44ffaa, 0x0066ff, 0xffaa44, 0x44ff88, 0xff44aa];
+    
+    lightColors.forEach((color, i) => {
+        const light = new THREE.PointLight(color, isNasa ? 5 : 3.5, isNasa ? 800 : 500);
+        const angle = (i / lightColors.length) * Math.PI * 2;
+        const radius = isNasa ? 180 : 120;
+        light.position.set(
+            Math.cos(angle) * radius,
+            isNasa ? 60 + Math.sin(i * 1.7) * 40 : 45 + Math.sin(i * 1.5) * 25,
+            Math.sin(angle) * radius
+        );
+        light.castShadow = isNasa;
+        if (isNasa) {
+            light.shadow.mapSize.width = 2048;
+            light.shadow.mapSize.height = 2048;
+        }
+        scene.add(light);
+        lights.push({ 
+            light, 
+            angle, 
+            speed: (isNasa ? 0.0006 : 0.001) + i * 0.00015, 
+            radius: radius,
+            height: isNasa ? 60 : 45,
+            phase: i * 1.3,
+            color: color
+        });
+    });
+    
+    // ========== نور کهکشانی ==========
+    const galaxyLight = new THREE.PointLight(0xff6600, isNasa ? 8 : 4, isNasa ? 600 : 350);
+    galaxyLight.position.set(0, -10, 0);
+    scene.add(galaxyLight);
+    lights.push({ light: galaxyLight, angle: 0, speed: 0, radius: 0, height: 0, phase: 0, isGalaxy: true });
+// ============================================================
+//  کهکشان راه شیری 16K
+// ============================================================
+
+galaxyGroup = new THREE.Group();
+
+// ========== هسته کهکشان ==========
+const coreGeo = new THREE.SphereGeometry(isNasa ? 15 : 10, 64, 64);
+const coreMat = new THREE.MeshPhongMaterial({
+    color: 0xffaa44,
+    emissive: 0xff6600,
+    emissiveIntensity: isNasa ? 4 : 2.5,
+    shininess: 150,
+    specular: 0xffffff
+});
+const core = new THREE.Mesh(coreGeo, coreMat);
+core.castShadow = true;
+galaxyGroup.add(core);
+
+// ========== هاله هسته ==========
+const glowCoreGeo = new THREE.SphereGeometry(isNasa ? 35 : 22, 48, 48);
+const glowCoreMat = new THREE.MeshPhongMaterial({
+    color: 0xff8844,
+    emissive: 0xff4400,
+    emissiveIntensity: isNasa ? 1.5 : 0.8,
+    transparent: true,
+    opacity: isNasa ? 0.15 : 0.1,
+    side: THREE.BackSide
+});
+const glowCore = new THREE.Mesh(glowCoreGeo, glowCoreMat);
+galaxyGroup.add(glowCore);
+
+// ========== بازوهای کهکشان ==========
+const armCount = isNasa ? 8 : 6;
+const starCount = isNasa ? 25000 : 12000;
+const positions = new Float32Array(starCount * 3);
+const colors = new Float32Array(starCount * 3);
+const sizes = new Float32Array(starCount);
+
+for (let i = 0; i < starCount; i++) {
+    const arm = Math.floor(Math.random() * armCount);
+    const armAngle = (arm / armCount) * Math.PI * 2;
+    const dist = isNasa ? 5 + Math.random() * 120 : 8 + Math.random() * 90;
+    const spread = dist * (isNasa ? 0.12 : 0.15) + Math.random() * (isNasa ? 8 : 5);
+    const angle = armAngle + (dist / (isNasa ? 150 : 120)) * (isNasa ? 4 : 3) + (Math.random() - 0.5) * spread * 0.2;
+    
+    const x = Math.cos(angle) * dist + (Math.random() - 0.5) * spread;
+    const z = Math.sin(angle) * dist + (Math.random() - 0.5) * spread;
+    const y = (Math.random() - 0.5) * spread * (isNasa ? 0.2 : 0.25);
+    
+    positions[i * 3] = x;
+    positions[i * 3 + 1] = y;
+    positions[i * 3 + 2] = z;
+    
+    const brightness = 0.2 + (1 - dist / (isNasa ? 130 : 100)) * 0.8;
+    const hue = 0.06 + (dist / (isNasa ? 150 : 120)) * 0.04 + Math.random() * 0.02;
+    const color = new THREE.Color().setHSL(hue, 0.5 + brightness * 0.3, 0.2 + brightness * 0.6);
+    colors[i * 3] = color.r;
+    colors[i * 3 + 1] = color.g;
+    colors[i * 3 + 2] = color.b;
+    
+    sizes[i] = isNasa ? 0.2 + Math.random() * 1.8 : 0.3 + Math.random() * 1.4;
+}
+
+const geo = new THREE.BufferGeometry();
+geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+const mat = new THREE.PointsMaterial({
+    size: isNasa ? 1.0 : 0.8,
+    vertexColors: true,
+    transparent: true,
+    opacity: isNasa ? 0.95 : 0.9,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true
+});
+
+const galaxyPoints = new THREE.Points(geo, mat);
+galaxyGroup.add(galaxyPoints);
+
+// ========== حلقه‌های کهکشانی ==========
+for (let i = 0; i < (isNasa ? 8 : 4); i++) {
+    const radius = isNasa ? 20 + i * 15 : 25 + i * 12;
+    const ringGeo = new THREE.TorusGeometry(radius, isNasa ? 0.8 : 0.5, 24, isNasa ? 200 : 120);
+    const ringMat = new THREE.MeshPhongMaterial({
+        color: new THREE.Color().setHSL(0.08 + i * 0.01, 0.6, 0.3 + i * 0.02),
+        emissive: new THREE.Color().setHSL(0.08 + i * 0.01, 0.6, 0.15),
+        transparent: true,
+        opacity: isNasa ? 0.2 - i * 0.015 : 0.15 - i * 0.015,
+        side: THREE.DoubleSide
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = Math.PI / 2 + (Math.random() - 0.5) * 0.3;
+    ring.rotation.z = Math.random() * Math.PI * 2;
+    ring.position.y = (Math.random() - 0.5) * 5;
+    galaxyGroup.add(ring);
+}
+
+galaxyGroup.position.y = isNasa ? -15 : -10;
+scene.add(galaxyGroup);
+// ============================================================
+//  ستاره‌های 16K
+// ============================================================
+
+const starCount = isNasa ? 120000 : 50000;
+const starPos = new Float32Array(starCount * 3);
+const starCol = new Float32Array(starCount * 3);
+const starSiz = new Float32Array(starCount);
+
+for (let i = 0; i < starCount; i++) {
+    const radius = isNasa ? 100 + Math.random() * 1000 : 200 + Math.random() * 700;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    
+    starPos[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+    starPos[i * 3 + 1] = radius * Math.cos(phi) * 0.25;
+    starPos[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
+    
+    const c = new THREE.Color().setHSL(0.04 + Math.random() * 0.12, 0.2, 0.2 + Math.random() * 0.8);
+    starCol[i * 3] = c.r;
+    starCol[i * 3 + 1] = c.g;
+    starCol[i * 3 + 2] = c.b;
+    
+    starSiz[i] = isNasa ? 0.2 + Math.random() * 3.5 : 0.3 + Math.random() * 2.5;
+}
+
+const starGeo = new THREE.BufferGeometry();
+starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+starGeo.setAttribute('color', new THREE.BufferAttribute(starCol, 3));
+starGeo.setAttribute('size', new THREE.BufferAttribute(starSiz, 1));
+
+const starMat = new THREE.PointsMaterial({
+    size: isNasa ? 1.5 : 1.2,
+    vertexColors: true,
+    transparent: true,
+    opacity: isNasa ? 0.98 : 0.95,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true
+});
+
+starField = new THREE.Points(starGeo, starMat);
+scene.add(starField);
+
+// ============================================================
+//  سحابی‌های 16K
+// ============================================================
+
+nebulaParticles = new THREE.Group();
+const nebCount = isNasa ? 12000 : 6000;
+const nebPos = new Float32Array(nebCount * 3);
+const nebCol = new Float32Array(nebCount * 3);
+const nebSiz = new Float32Array(nebCount);
+
+const nebulaColors = isNasa ? [
+    new THREE.Color(0xff4488), new THREE.Color(0x4488ff),
+    new THREE.Color(0xff8844), new THREE.Color(0x44ff88),
+    new THREE.Color(0x8844ff), new THREE.Color(0xff44aa),
+    new THREE.Color(0x44ffaa), new THREE.Color(0xaa44ff),
+    new THREE.Color(0xff6644), new THREE.Color(0x44aaff)
+] : [
+    new THREE.Color(0xff4488), new THREE.Color(0x4488ff),
+    new THREE.Color(0xff8844), new THREE.Color(0x44ff88),
+    new THREE.Color(0x8844ff)
+];
+
+for (let i = 0; i < nebCount; i++) {
+    const radius = isNasa ? 20 + Math.random() * 150 : 30 + Math.random() * 100;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    
+    nebPos[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+    nebPos[i * 3 + 1] = radius * Math.cos(phi) * 0.2 + (isNasa ? 30 : 20);
+    nebPos[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
+    
+    const c = nebulaColors[Math.floor(Math.random() * nebulaColors.length)].clone();
+    c.multiplyScalar(0.2 + Math.random() * 0.8);
+    nebCol[i * 3] = c.r;
+    nebCol[i * 3 + 1] = c.g;
+    nebCol[i * 3 + 2] = c.b;
+    
+    nebSiz[i] = isNasa ? 0.5 + Math.random() * 5 : 0.5 + Math.random() * 3;
+}
+
+const nebGeo = new THREE.BufferGeometry();
+nebGeo.setAttribute('position', new THREE.BufferAttribute(nebPos, 3));
+nebGeo.setAttribute('color', new THREE.BufferAttribute(nebCol, 3));
+nebGeo.setAttribute('size', new THREE.BufferAttribute(nebSiz, 1));
+
+const nebMat = new THREE.PointsMaterial({
+    size: isNasa ? 3 : 2,
+    vertexColors: true,
+    transparent: true,
+    opacity: isNasa ? 0.4 : 0.3,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true
+});
+
+const nebula = new THREE.Points(nebGeo, nebMat);
+nebulaParticles.add(nebula);
+scene.add(nebulaParticles);
+// ============================================================
+//  کره‌های نورانی 16K
+// ============================================================
+
+const sphereCount = isNasa ? 200 : 120;
+for (let i = 0; i < sphereCount; i++) {
+    const size = isNasa ? 1.5 + Math.random() * 6 : 1.5 + Math.random() * 5;
+    const geo = new THREE.SphereGeometry(size, isNasa ? 64 : 48, isNasa ? 64 : 48);
+    const color = new THREE.Color().setHSL(0.04 + Math.random() * 0.08, 0.9, 0.5);
+    const mat = new THREE.MeshPhongMaterial({
+        color: color,
+        emissive: color,
+        emissiveIntensity: isNasa ? 0.6 : 0.3,
+        transparent: true,
+        opacity: isNasa ? 0.5 + Math.random() * 0.4 : 0.3 + Math.random() * 0.3,
+        shininess: isNasa ? 200 : 150,
+        specular: 0xffffff,
+        envMapIntensity: isNasa ? 2.5 : 1.5
+    });
+    const sphere = new THREE.Mesh(geo, mat);
+    
+    const radius = isNasa ? 30 + Math.random() * 150 : 40 + Math.random() * 100;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    
+    sphere.position.set(
+        radius * Math.sin(phi) * Math.cos(theta),
+        radius * Math.cos(phi) * 0.35 + (isNasa ? 30 : 20),
+        radius * Math.sin(phi) * Math.sin(theta)
+    );
+    
+    sphere.userData = {
+        radius: radius,
+        theta: theta,
+        phi: phi,
+        speed: (isNasa ? 0.0004 : 0.0006) + Math.random() * 0.002,
+        rotSpeed: (Math.random() - 0.5) * (isNasa ? 0.025 : 0.02),
+        phase: Math.random() * Math.PI * 2
+    };
+    
+    sphere.castShadow = true;
+    sphere.receiveShadow = true;
+    scene.add(sphere);
+    spheres.push(sphere);
+}
+
+// ============================================================
+//  حلقه‌های نورانی 16K
+// ============================================================
+
+const ringGroup = new THREE.Group();
+const ringCount = isNasa ? 24 : 16;
+
+for (let i = 0; i < ringCount; i++) {
+    const radius = isNasa ? 35 + i * 25 : 40 + i * 20;
+    const geo = new THREE.TorusGeometry(radius, isNasa ? 1.0 : 0.7, 48, isNasa ? 200 : 150);
+    const mat = new THREE.MeshPhongMaterial({
+        color: new THREE.Color().setHSL(0.04 + i * 0.012, 0.9, 0.5),
+        emissive: new THREE.Color().setHSL(0.04 + i * 0.012, 0.9, isNasa ? 0.5 : 0.3),
+        transparent: true,
+        opacity: isNasa ? 0.4 - i * 0.012 : 0.3 - i * 0.012,
+        shininess: 120,
+        specular: 0xffffff
+    });
+    const ring = new THREE.Mesh(geo, mat);
+    ring.rotation.x = Math.PI / 2.5 + i * 0.035;
+    ring.rotation.z = i * 0.07;
+    ring.position.y = isNasa ? -8 + i * 2.5 : -12 + i * 2.5;
+    ringGroup.add(ring);
+}
+
+scene.add(ringGroup);
+rings.push(ringGroup);
+    // ============================================================
+    //  هاله‌های نورانی 16K
+    // ============================================================
+    
+    haloGroup = new THREE.Group();
+    const haloCount = isNasa ? 40 : 20;
+    
+    for (let i = 0; i < haloCount; i++) {
+        const radius = isNasa ? 20 + Math.random() * 120 : 25 + Math.random() * 80;
+        const geo = new THREE.RingGeometry(radius - (isNasa ? 2 : 1), radius + (isNasa ? 2 : 1), isNasa ? 80 : 64);
+        const mat = new THREE.MeshPhongMaterial({
+            color: new THREE.Color().setHSL(0.04 + Math.random() * 0.06, 0.8, 0.4),
+            emissive: new THREE.Color().setHSL(0.04 + Math.random() * 0.06, 0.8, 0.2),
+            transparent: true,
+            opacity: isNasa ? 0.06 + Math.random() * 0.1 : 0.05 + Math.random() * 0.08,
+            side: THREE.DoubleSide,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        const halo = new THREE.Mesh(geo, mat);
+        const angle = Math.random() * Math.PI * 2;
+        const dist = isNasa ? 30 + Math.random() * 120 : 40 + Math.random() * 80;
+        halo.position.set(
+            Math.cos(angle) * dist,
+            isNasa ? -15 + Math.random() * 60 : -10 + Math.random() * 40,
+            Math.sin(angle) * dist
+        );
+        halo.rotation.x = Math.PI / 2 + (Math.random() - 0.5) * 0.5;
+        halo.rotation.z = Math.random() * Math.PI * 2;
+        halo.userData = {
+            rotSpeed: (Math.random() - 0.5) * (isNasa ? 0.003 : 0.002),
+            floatSpeed: (isNasa ? 0.001 : 0.002) + Math.random() * 0.003,
+            phase: Math.random() * Math.PI * 2
+        };
+        haloGroup.add(halo);
+    }
+    scene.add(haloGroup);
+    
+    // ============================================================
+    //  پرتوهای نور 16K
+    // ============================================================
+    
+    beamGroup = new THREE.Group();
+    const beamCount = isNasa ? 24 : 12;
+    
+    for (let i = 0; i < beamCount; i++) {
+        const height = isNasa ? 100 + Math.random() * 100 : 70 + Math.random() * 60;
+        const geo = new THREE.CylinderGeometry(
+            isNasa ? 0.8 : 0.5,
+            isNasa ? 0.8 : 0.5,
+            height, 8, 1
+        );
+        const mat = new THREE.MeshPhongMaterial({
+            color: new THREE.Color().setHSL(0.04 + i * 0.005, 0.8, 0.3),
+            emissive: new THREE.Color().setHSL(0.04 + i * 0.005, 0.8, 0.15),
+            transparent: true,
+            opacity: isNasa ? 0.03 + Math.random() * 0.04 : 0.02 + Math.random() * 0.03,
+            side: THREE.DoubleSide,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        const beam = new THREE.Mesh(geo, mat);
+        const angle = (i / beamCount) * Math.PI * 2 + Math.random() * 0.2;
+        const dist = isNasa ? 15 + Math.random() * 60 : 20 + Math.random() * 40;
+        beam.position.set(
+            Math.cos(angle) * dist,
+            isNasa ? 10 + Math.random() * 30 : 5 + Math.random() * 20,
+            Math.sin(angle) * dist
+        );
+        beam.rotation.x = Math.PI / 2 + (Math.random() - 0.5) * 0.3;
+        beam.rotation.z = angle + (Math.random() - 0.5) * 0.3;
+        beam.userData = { rotSpeed: (isNasa ? 0.0008 : 0.001) + Math.random() * 0.0008 };
+        beamGroup.add(beam);
+    }
+    scene.add(beamGroup);
+    
+    // ============================================================
+    //  سیاه‌چاله (فقط ناسا)
+    // ============================================================
+    
+    if (isNasa) {
+        const bhGeo = new THREE.SphereGeometry(4, 48, 48);
+        const bhMat = new THREE.MeshPhongMaterial({
+            color: 0x000000,
+            emissive: 0x000000,
+            transparent: true,
+            opacity: 0.9
+        });
+        blackHole = new THREE.Mesh(bhGeo, bhMat);
+        blackHole.position.set(0, -10, 0);
+        scene.add(blackHole);
+        
+        // هاله سیاه‌چاله
+        const bhGlowGeo = new THREE.RingGeometry(4.5, 8, 64);
+        const bhGlowMat = new THREE.MeshPhongMaterial({
+            color: 0xff4400,
+            emissive: 0xff2200,
+            transparent: true,
+            opacity: 0.3,
+            side: THREE.DoubleSide,
+            blending: THREE.AdditiveBlending
+        });
+        const bhGlow = new THREE.Mesh(bhGlowGeo, bhGlowMat);
+        bhGlow.rotation.x = Math.PI / 2;
+        bhGlow.position.set(0, -10, 0);
+        scene.add(bhGlow);
+    }
+    
+    // شروع انیمیشن
+    if (!window.animating) {
+        window.animating = true;
+        animate();
+    }
+}
+// ============================================================
+//  انیمیشن فراکهکشانی
+// ============================================================
+
+function animate() {
+    requestAnimationFrame(animate);
+    time += 0.01;
+    frameCount++;
+    
+    const now = performance.now();
+    if (now - lastFpsUpdate >= 1000) {
+        document.getElementById('fpsDisplay').textContent = Math.round(frameCount * 1000 / (now - lastFpsUpdate));
+        frameCount = 0;
+        lastFpsUpdate = now;
+    }
+    
+    // ========== کهکشان ==========
+    if (galaxyGroup) {
+        galaxyGroup.rotation.y += 0.0008;
+        galaxyGroup.rotation.x = Math.sin(time * 0.015) * 0.015;
+        galaxyGroup.rotation.z = Math.sin(time * 0.01) * 0.008;
+    }
+    
+    // ========== حلقه‌ها ==========
+    rings.forEach(group => {
+        if (group) {
+            group.rotation.y += 0.0012;
+            group.children.forEach((ring, i) => {
+                ring.rotation.z += 0.003 * (i + 1);
+                const scale = 1 + Math.sin(time * 0.25 + i * 0.15) * 0.035;
+                ring.scale.set(scale, scale, scale);
+            });
+        }
+    });
+    
+    // ========== نورها ==========
+    lights.forEach((item, i) => {
+        if (item.isGalaxy) {
+            item.light.intensity = (currentQuality === 'nasa' ? 8 : 4) + Math.sin(time * 0.15) * 2;
+            return;
+        }
+        item.angle += item.speed;
+        const x = Math.cos(item.angle) * item.radius;
+        const z = Math.sin(item.angle) * item.radius;
+        item.light.position.set(
+            x,
+            item.height + Math.sin(time * 0.25 + item.phase) * (currentQuality === 'nasa' ? 20 : 15),
+            z
+        );
+        const baseIntensity = currentQuality === 'nasa' ? 5 : 3.5;
+        item.light.intensity = baseIntensity + Math.sin(time * 0.35 + i) * 1.2;
+    });
+    
+    // ========== کره‌ها ==========
+    spheres.forEach((sphere, i) => {
+        const data = sphere.userData;
+        data.theta += data.speed;
+        data.phi += data.speed * 0.25;
+        
+        const r = data.radius + Math.sin(time * 0.35 + i * 0.12) * (currentQuality === 'nasa' ? 10 : 8);
+        sphere.position.x = r * Math.sin(data.phi) * Math.cos(data.theta);
+        sphere.position.y = r * Math.cos(data.phi) * 0.35 + (currentQuality === 'nasa' ? 30 : 20) +
+            Math.sin(time * 0.25 + data.phase) * (currentQuality === 'nasa' ? 18 : 12);
+        sphere.position.z = r * Math.sin(data.phi) * Math.sin(data.theta);
+        
+        sphere.rotation.x += data.rotSpeed || 0;
+        sphere.rotation.y += (data.rotSpeed || 0) * 0.7;
+        
+        if (sphere.material) {
+            const hue = 0.04 + Math.sin(time * 0.01 + i * 0.035) * 0.04;
+            const color = new THREE.Color().setHSL(hue, 0.9, 0.5);
+            sphere.material.color.set(color);
+            sphere.material.emissive.set(color);
+            sphere.material.opacity = (currentQuality === 'nasa' ? 0.5 : 0.3) +
+                Math.sin(time * 0.015 + i) * (currentQuality === 'nasa' ? 0.2 : 0.1);
+        }
+    });
+    
+    // ========== هاله‌ها ==========
+    if (haloGroup) {
+        haloGroup.children.forEach((halo, i) => {
+            halo.rotation.x += halo.userData.rotSpeed || 0.001;
+            halo.rotation.y += halo.userData.rotSpeed || 0.001;
+            const float = Math.sin(time * (halo.userData.floatSpeed || 0.002) + (halo.userData.phase || 0));
+            halo.position.y += float * 0.025;
+            if (halo.material) {
+                halo.material.opacity = (currentQuality === 'nasa' ? 0.06 : 0.05) +
+                    Math.sin(time * 0.25 + i) * (currentQuality === 'nasa' ? 0.05 : 0.03);
+            }
+        });
+    }
+    
+    // ========== پرتوها ==========
+    if (beamGroup) {
+        beamGroup.children.forEach((beam, i) => {
+            beam.rotation.z += (beam.userData.rotSpeed || 0.001) * 0.4;
+            if (beam.material) {
+                beam.material.opacity = (currentQuality === 'nasa' ? 0.03 : 0.02) +
+                    Math.sin(time * 0.15 + i * 0.4) * (currentQuality === 'nasa' ? 0.025 : 0.015);
+            }
+        });
+    }
+    
+    // ========== سحابی‌ها ==========
+    if (nebulaParticles) {
+        nebulaParticles.rotation.y += 0.0002;
+        nebulaParticles.rotation.x = Math.sin(time * 0.008) * 0.008;
+    }
+    
+    // ========== ستاره‌ها ==========
+    if (starField) {
+        starField.rotation.y += 0.00003;
+        starField.rotation.x = Math.sin(time * 0.00002) * 0.01;
+    }
+    
+    // ========== سیاه‌چاله ==========
+    if (blackHole) {
+        blackHole.rotation.x += 0.005;
+        blackHole.rotation.y += 0.01;
+    }
+    
+    // ========== دوربین ==========
+    const camAngle = time * (currentQuality === 'nasa' ? 0.008 : 0.012);
+    const camDist = currentQuality === 'nasa' ? 150 : 200;
+    camera.position.x = Math.sin(camAngle) * (currentQuality === 'nasa' ? 20 : 30);
+    camera.position.z = camDist + Math.sin(camAngle * 0.25) * 12;
+    camera.position.y = currentQuality === 'nasa' ? 30 : 40;
+    camera.lookAt(0, currentQuality === 'nasa' ? -5 : -5, 0);
+    
+    renderer.render(scene, camera);
+}
+        // ============================================================
+        //  بارگذاری
+        // ============================================================
+        
+        let loadProgress = 0;
+        const loadingFill = document.getElementById('loadingFill');
+        const loadingText = document.getElementById('loadingText');
+        const loadingScreen = document.getElementById('loadingScreen');
+        
+        function updateLoading() {
+            loadProgress += Math.random() * 4;
+            if (loadProgress > 100) loadProgress = 100;
+            
+            loadingFill.style.width = loadProgress + '%';
+            
+            const messages = [
+                '[RTX 6000 Ti SUPER] راه‌اندازی هسته کوانتومی...',
+                '🌌 ایجاد کهکشان 16K...',
+                '✨ بارگذاری ۱۲۰,۰۰۰ ستاره...',
+                '💫 ساخت سحابی‌های فراکهکشانی...',
+                '🌟 رندرینگ نورهای کوانتومی...',
+                '🚀 آماده‌سازی فضای بی‌نهایت...'
+            ];
+            const idx = Math.min(Math.floor(loadProgress / 17), messages.length - 1);
+            loadingText.textContent = messages[idx] + ` ${Math.round(loadProgress)}%`;
+            
+            if (loadProgress < 100) {
+                setTimeout(updateLoading, 50 + Math.random() * 80);
+            } else {
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => loadingScreen.style.display = 'none', 800);
+                }, 300);
+            }
+        }
+        
+        setTimeout(updateLoading, 150);
+        
+        // ============================================================
+        //  ریسپانسیو
+        // ============================================================
+        
+        window.addEventListener('resize', function() {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            if (camera) {
+                camera.aspect = w / h;
+                camera.updateProjectionMatrix();
+            }
+            if (renderer) {
+                renderer.setSize(w, h);
+            }
+        });
+        
+        // ============================================================
+        //  راه‌اندازی اولیه
+        // ============================================================
+        
+        setTimeout(() => {
+            initScene('nasa');
+            document.getElementById('qualityDisplay').textContent = 'فراکهکشانی';
+            document.getElementById('rtxDisplay').textContent = '16K';
+        }, 100);
+        
+        console.log('🚀 گرافیک فراکهکشانی راه‌اندازی شد!');
+        console.log('🖥️ GPU: RTX 6000 Ti SUPER');
+        console.log('🌌 رزولوشن: 16K Ultra');
+        console.log('💎 تعداد ستاره‌ها: 120,000');
+    </script>
+</body>
+</html>

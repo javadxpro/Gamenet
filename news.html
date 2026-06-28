@@ -8,8 +8,6 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <script src="https://unpkg.com/jalali-moment/dist/jalali-moment.browser.js"></script>
     <link rel="stylesheet" href="Webstyle.css">
-
-    </style>
 </head>
 <body>
 
@@ -22,6 +20,48 @@
     <a href="web.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی</a>
 
     <div class="news-content">
+        
+        <!-- ========== اخبار جدید ========== -->
+        
+        <div class="news-item">
+            <div class="title">✅ تغییرات مدیریت و کادر فنی تیم راه ابریشم</div>
+            <div class="text">
+                <span style="color:#4ade80;">✅ محمد جواد شوهانی</span> به عنوان <strong style="color:#ffaa00;">مدیر برنامه</strong> تیم راه ابریشم انتخاب شد<br>
+                <span style="color:#4ade80;">✅ امیر محمد طاهریان</span> به عنوان <strong style="color:#ffaa00;">مربی</strong> تیم راه ابریشم انتخاب شد
+            </div>
+            <div class="highlight">
+                <i class="fas fa-user-tie"></i> مدیریت برنامه: محمد جواد شوهانی
+                <br>
+                <i class="fas fa-chalkboard-user"></i> مربی: امیر محمد طاهریان
+            </div>
+        </div>
+
+        <div class="news-item">
+            <div class="title">🟥 اطلاعیه مهم لباس تیم</div>
+            <div class="text">
+                ⚫ رنگ لباس تیم <strong style="color:#ffaa00;">سیاه</strong> اعلام شده است
+            </div>
+            <div class="highlight-red">
+                <i class="fas fa-tshirt"></i> <strong style="color:#4ade80;">هرکسی که لباس سیاه دارد، نیازی به پرداخت هزینه ندارد</strong>
+                <br>
+                <span style="color:#aaa; font-size:0.85rem;">✅ بازیکنانی که لباس مشکی دارند معاف از پرداخت هستند</span>
+            </div>
+        </div>
+
+        <div class="news-item">
+            <div class="title">⚽ تعطیلی تمرین این هفته</div>
+            <div class="text">
+                <span style="color:#ff6a00;">⛔ تمرین این هفته</span> <strong style="color:#ff4444;">تعطیل شد</strong>
+            </div>
+            <div class="highlight">
+                <i class="fas fa-calendar-times"></i> زمان بعدی متعاقباً اعلام می‌شود
+                <br>
+                <span style="color:#aaa; font-size:0.85rem;">📢 جهت اطلاع از زمان تمرین بعدی، اخبار را دنبال کنید</span>
+            </div>
+        </div>
+
+        <!-- ========== اخبار قبلی ========== -->
+
         <div class="news-item">
             <div class="title">برنامه بازی های تیم راه ابریشم (گیم‌نت)</div>
             <div class="text">
@@ -42,18 +82,22 @@
                 <br>در غیر اینصورت رنگ لباس شما با رنگ لباس هماهنگ نمیشود و امکان بازی نیست 🙅
             </div>
         </div>
+
         <div class="news-item">
             <div class="title">هیچ مسابقه‌ای برگزار نمی‌شود</div>
             <div class="text">هیچ مسابقه‌ای تا زمانی که تیم راه ابریشم کامل آماده نباشد برگزار نمی‌شود ❌</div>
         </div>
+
         <div class="news-item">
             <div class="title">تغییر نام تیم</div>
             <div class="text">اسم تیم به <strong style="color:#ffaa00;">«تیم راه ابریشم»</strong> تغییر کرد</div>
         </div>
+
         <div class="news-item">
             <div class="title">خروج بازیکنان</div>
             <div class="text">طاهریان و محمد جواد شوهانی با درخواست خودشان به تیم نیامدند❌<br>یوسف اسماعیلی به درخواست خودش از تیم حذف گردید ❗</div>
         </div>
+
     </div>
 
     <!-- ========== تقویم ========== -->
@@ -103,24 +147,20 @@
         const grid = document.getElementById('calendarGrid');
         document.getElementById('monthTitle').textContent = `${monthNames[month - 1]} ${year}`;
 
-        // استفاده از jalali-moment برای محاسبه دقیق
         const firstDayOfMonth = moment(`${year}/${month}/01`, 'jYYYY/jMM/jDD').day();
         const daysInMonth = moment(`${year}/${month}/01`, 'jYYYY/jMM/jDD').jDaysInMonth();
         const today = moment().locale('fa').format('jYYYY-jMM-jDD');
 
         let html = '';
 
-        // هدر روزهای هفته
         weekDays.forEach(day => {
             html += `<div class="calendar-day-header">${day}</div>`;
         });
 
-        // روزهای خالی اول ماه
         for (let i = 0; i < firstDayOfMonth; i++) {
             html += `<div class="calendar-day empty"></div>`;
         }
 
-        // روزهای ماه
         for (let day = 1; day <= daysInMonth; day++) {
             const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             const hasEvent = eventsData[dateStr] !== undefined;
@@ -137,13 +177,11 @@
 
         grid.innerHTML = html;
 
-        // نمایش رویدادها
         if (selectedDate && eventsData[selectedDate]) {
             showEvents(selectedDate);
         } else if (eventsData[today]) {
             showEvents(today);
         } else {
-            // اولین روز با رویداد را پیدا کن
             let found = false;
             for (let day = 1; day <= daysInMonth; day++) {
                 const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -165,7 +203,6 @@
         const events = eventsData[date] || [];
         selectedDate = date;
 
-        // هایلایت کردن روز انتخاب شده
         document.querySelectorAll('.calendar-day').forEach(el => {
             el.classList.remove('active');
             if (el.dataset.date === date) {
@@ -178,7 +215,6 @@
             return;
         }
 
-        // نمایش تاریخ به صورت خوانا با jalali-moment
         const parts = date.split('-');
         const y = parseInt(parts[0]);
         const m = parseInt(parts[1]);
@@ -207,11 +243,11 @@
     document.getElementById('prevMonth').addEventListener('click', () => changeMonth(-1));
     document.getElementById('nextMonth').addEventListener('click', () => changeMonth(1));
 
-    // ========== اجرا ==========
     const now = moment().locale('fa');
     currentYear = parseInt(now.format('jYYYY'));
     currentMonth = parseInt(now.format('jMM'));
     buildCalendar(currentYear, currentMonth);
 </script>
+
 </body>
 </html>

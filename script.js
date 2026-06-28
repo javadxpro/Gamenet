@@ -396,3 +396,88 @@ document.addEventListener('DOMContentLoaded', function() {
         registerBtn.addEventListener('click', registerUser);
     }
 });
+<script>
+// ============================================================
+//  مدیریت حساب کاربری
+// ============================================================
+
+function toggleAccountMenu() {
+    const menu = document.getElementById('accountMenu');
+    if (menu) {
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        if (menu.style.display === 'block') {
+            updateUserDisplay();
+        }
+    }
+}
+
+function updateUserDisplay() {
+    const user = JSON.parse(localStorage.getItem('gameUser'));
+    const nameEl = document.getElementById('userNameDisplay');
+    if (nameEl) {
+        nameEl.textContent = user ? user.fullName : 'کاربر مهمان';
+    }
+}
+
+function showLoginModal() {
+    const modal = document.getElementById('authModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.getElementById('accountMenu').style.display = 'none';
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+
+function logoutUser() {
+    if (confirm('آیا مطمئن هستید؟')) {
+        localStorage.removeItem('gameUser');
+        updateUserDisplay();
+        document.getElementById('accountMenu').style.display = 'none';
+        alert('✅ با موفقیت خارج شدید');
+    }
+}
+
+// ============================================================
+//  ثبت نام کاربر (همون تابع قبلی)
+// ============================================================
+function registerUser() {
+    const fullName = document.getElementById('fullName');
+    const username = document.getElementById('username');
+    const email = document.getElementById('email');
+    const phone = document.getElementById('phone');
+    const statusEl = document.getElementById('userStatus');
+    
+    if (!fullName || !username || !email || !phone) {
+        if (statusEl) statusEl.innerHTML = '<span style="color:#ff4444;">❌ همه فیلدها را پر کنید!</span>';
+        return;
+    }
+    
+    if (!fullName.value || !username.value || !email.value || !phone.value) {
+        if (statusEl) statusEl.innerHTML = '<span style="color:#ff4444;">❌ همه فیلدها را پر کنید!</span>';
+        return;
+    }
+    
+    const user = { fullName: fullName.value, username: username.value, email: email.value, phone: phone.value };
+    localStorage.setItem('gameUser', JSON.stringify(user));
+    
+    if (statusEl) statusEl.innerHTML = `<span style="color:#4ade80;">✅ ${fullName.value} عزیز ثبت نام شدید!</span>`;
+    updateUserDisplay();
+    setTimeout(() => {
+        const modal = document.getElementById('authModal');
+        if (modal) modal.style.display = 'none';
+    }, 1500);
+}
+
+function closeModal() {
+    const modal = document.getElementById('authModal');
+    if (modal) modal.style.display = 'none';
+}
+
+// ============================================================
+//  اجرا
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    updateUserDisplay();
+});
+</script>

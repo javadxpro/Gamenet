@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آنالیز بازیکنان | تیم راه ابریشم</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <link rel="stylesheet" href="Webstyle.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="team-header">
+        <div class="logo"><h1><i class="fas fa-chart-line"></i> آنالیز بازیکنان راه ابریشم</h1></div>
+        <div class="team-badge"><i class="fas fa-trophy"></i> لیگ خوزستان</div>
+    </div>
+
+    <a href="team-info.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت به وضعیت تیم</a>
+
+    <div class="filter-section">
+        <button class="filter-btn active" data-filter="all">همه</button>
+        <button class="filter-btn" data-filter="forward">مهاجم</button>
+        <button class="filter-btn" data-filter="midfielder">هافبک</button>
+        <button class="filter-btn" data-filter="defender">مدافع</button>
+        <button class="filter-btn" data-filter="gk">دروازه‌بان</button>
+    </div>
+
+    <div style="background:rgba(17,17,24,0.5); border-radius:1rem; padding:0.8rem; margin-bottom:1.5rem; border:1px solid rgba(255,106,0,0.08); text-align:center;">
+        <p style="color:#aaa; font-size:0.7rem;">
+            <i class="fas fa-info-circle" style="color:#ff6a00;"></i>
+            سیستم ارزیابی <strong style="color:#ffaa00;">PES 2021</strong> · امتیاز ۹۹ بهترین · 
+            <span style="color:#66ddff;">برای مشاهده نمودار روی نام بازیکن کلیک کنید</span>
+        </p>
+    </div>
+
+    <div id="playersContainer"></div>
+</div>
+
+
+<script>
+// ============================================================
+//  داده‌های بازیکنان با ۲۰ مهارت
+// ============================================================
+const playersData = [
+    { 
+        name: "فارس", pos: "RWF", role: "مهاجم راست", category: "forward", isGK: false,
+        stats: { 
+            attacking: 72, defending: 30, shortPass: 65, tackling: 55, loftedPass: 60,
+            shooting: 70, dribbling: 74, kickingPower: 75, jump: 60, speed: 82,
+            acceleration: 78, physical: 55, press: 75, awareness: 68, teamwork: 72,
+            corners: 60, freeKick: 55, penalties: 60, curling: 65, gk: 0,
+            weakFootUsage: 3, weakFootAccuracy: 3 
+        }
+    },
+    { 
+        name: "جایمند", pos: "CF", role: "نوک", category: "forward", isGK: false,
+        stats: { 
+            attacking: 80, defending: 25, shortPass: 55, tackling: 30, loftedPass: 50,
+            shooting: 85, dribbling: 76, kickingPower: 82, jump: 78, speed: 78,
+            acceleration: 75, physical: 72, press: 60, awareness: 80, teamwork: 70,
+            corners: 40, freeKick: 45, penalties: 82, curling: 55, gk: 0,
+            weakFootUsage: 2, weakFootAccuracy: 2 
+        }
+    },
+    { 
+        name: "ابی", pos: "DMF - GK", role: "هافبک", category: "midfielder", isGK: false,
+        stats: { 
+            attacking: 60, defending: 72, shortPass: 70, tackling: 68, loftedPass: 68,
+            shooting: 50, dribbling: 72, kickingPower: 65, jump: 65, speed: 65,
+            acceleration: 62, physical: 70, press: 78, awareness: 75, teamwork: 80,
+            corners: 55, freeKick: 50, penalties: 55, curling: 60, gk: 0,
+            weakFootUsage: 3, weakFootAccuracy: 3 
+        }
+    },
+    { 
+        name: "یوسف", pos: "CF - LWF - AMF", role: "مهاجم", category: "forward", isGK: false,
+        stats: { 
+            attacking: 78, defending: 28, shortPass: 72, tackling: 32, loftedPass: 68,
+            shooting: 78, dribbling: 80, kickingPower: 76, jump: 72, speed: 85,
+            acceleration: 82, physical: 60, press: 70, awareness: 76, teamwork: 68,
+            corners: 65, freeKick: 70, penalties: 72, curling: 68, gk: 0,
+            weakFootUsage: 4, weakFootAccuracy: 3 
+        }
+    },
+    { 
+        name: "عباس", pos: "GK", role: "دروازه‌بان", category: "gk", isGK: true,
+        stats: { 
+            attacking: 20, defending: 90, shortPass: 40, tackling: 75, loftedPass: 35,
+            shooting: 10, dribbling: 45, kickingPower: 60, jump: 78, speed: 50,
+            acceleration: 48, physical: 72, press: 45, awareness: 88, teamwork: 75,
+            corners: 15, freeKick: 10, penalties: 30, curling: 20, gk: 88,
+            gkReflexes: 88, gkCoverage: 82, gkAggression: 75, gkPassing: 45,
+            weakFootUsage: 1, weakFootAccuracy: 1 
+        }
+    },
+    { 
+        name: "جواد", pos: "ALL - CB", role: "کاپیتان و مربی", category: "defender", isGK: false,
+        stats: { 
+            attacking: 72, defending: 82, shortPass: 80, tackling: 78, loftedPass: 76,
+            shooting: 65, dribbling: 78, kickingPower: 72, jump: 72, speed: 70,
+            acceleration: 68, physical: 82, press: 80, awareness: 85, teamwork: 95,
+            corners: 60, freeKick: 55, penalties: 70, curling: 62, gk: 0,
+            weakFootUsage: 4, weakFootAccuracy: 4 
+        }
+    },
+    { 
+        name: "میلاد", pos: "CF - AMF", role: "مهاجم", category: "forward", isGK: false,
+        stats: { 
+            attacking: 76, defending: 22, shortPass: 68, tackling: 28, loftedPass: 62,
+            shooting: 80, dribbling: 76, kickingPower: 78, jump: 68, speed: 76,
+            acceleration: 74, physical: 58, press: 65, awareness: 72, teamwork: 65,
+            corners: 50, freeKick: 48, penalties: 70, curling: 58, gk: 0,
+            weakFootUsage: 3, weakFootAccuracy: 2 
+        }
+    },
+    { 
+        name: "امیر عباس", pos: "CF", role: "نوک", category: "forward", isGK: false,
+        stats: { 
+            attacking: 78, defending: 20, shortPass: 50, tackling: 25, loftedPass: 45,
+            shooting: 82, dribbling: 72, kickingPower: 80, jump: 76, speed: 75,
+            acceleration: 72, physical: 70, press: 55, awareness: 78, teamwork: 60,
+            corners: 35, freeKick: 38, penalties: 75, curling: 48, gk: 0,
+            weakFootUsage: 2, weakFootAccuracy: 2 
+        }
+    },
+    { 
+        name: "صادق", pos: "GK - CMF", role: "دروازه‌بان و هافبک", category: "gk", isGK: true,
+        stats: { 
+            attacking: 55, defending: 68, shortPass: 60, tackling: 62, loftedPass: 58,
+            shooting: 45, dribbling: 60, kickingPower: 65, jump: 68, speed: 55,
+            acceleration: 52, physical: 70, press: 60, awareness: 70, teamwork: 65,
+            corners: 40, freeKick: 35, penalties: 55, curling: 40, gk: 72,
+            gkReflexes: 72, gkCoverage: 68, gkAggression: 65, gkPassing: 58,
+            weakFootUsage: 3, weakFootAccuracy: 3 
+        }
+    },
+    { 
+        name: "حسین چعب", pos: "CF - CMF", role: "نوک و هافبک", category: "midfielder", isGK: false,
+        stats: { 
+            attacking: 72, defending: 35, shortPass: 65, tackling: 50, loftedPass: 62,
+            shooting: 76, dribbling: 72, kickingPower: 74, jump: 68, speed: 72,
+            acceleration: 70, physical: 68, press: 68, awareness: 70, teamwork: 62,
+            corners: 50, freeKick: 52, penalties: 65, curling: 58, gk: 0,
+            weakFootUsage: 3, weakFootAccuracy: 3 
+        }
+    },
+    { 
+        name: "حسین جنادله", pos: "CMF - CF", role: "نوک و هافبک", category: "midfielder", isGK: false,
+        stats: { 
+            attacking: 70, defending: 40, shortPass: 72, tackling: 55, loftedPass: 68,
+            shooting: 70, dribbling: 74, kickingPower: 72, jump: 64, speed: 68,
+            acceleration: 66, physical: 65, press: 72, awareness: 65, teamwork: 70,
+            corners: 55, freeKick: 58, penalties: 60, curling: 62, gk: 0,
+            weakFootUsage: 4, weakFootAccuracy: 3 
+        }
+    },
+    { 
+        name: "علی تمیمی", pos: "GK", role: "دروازه‌بان", category: "gk", isGK: true,
+        stats: { 
+            attacking: 15, defending: 85, shortPass: 38, tackling: 70, loftedPass: 32,
+            shooting: 8, dribbling: 40, kickingPower: 55, jump: 75, speed: 48,
+            acceleration: 45, physical: 70, press: 40, awareness: 82, teamwork: 70,
+            corners: 10, freeKick: 8, penalties: 25, curling: 15, gk: 82,
+            gkReflexes: 82, gkCoverage: 78, gkAggression: 70, gkPassing: 40,
+            weakFootUsage: 1, weakFootAccuracy: 1 
+        }
+    },
+    { 
+        name: "رضا طرفی", pos: "AMF", role: "هافبک هجومی", category: "midfielder", isGK: false,
+        stats: { 
+            attacking: 74, defending: 25, shortPass: 78, tackling: 30, loftedPass: 72,
+            shooting: 72, dribbling: 82, kickingPower: 70, jump: 60, speed: 80,
+            acceleration: 78, physical: 50, press: 62, awareness: 70, teamwork: 68,
+            corners: 72, freeKick: 78, penalties: 68, curling: 74, gk: 0,
+            weakFootUsage: 4, weakFootAccuracy: 4 
+        }
+    },
+    { 
+        name: "حمود", pos: "GK - Defend", role: "دروازه‌بان و دفاع", category: "gk", isGK: true,
+        stats: { 
+            attacking: 25, defending: 78, shortPass: 35, tackling: 72, loftedPass: 30,
+            shooting: 15, dribbling: 42, kickingPower: 58, jump: 72, speed: 52,
+            acceleration: 48, physical: 74, press: 50, awareness: 75, teamwork: 60,
+            corners: 12, freeKick: 10, penalties: 28, curling: 18, gk: 75,
+            gkReflexes: 75, gkCoverage: 72, gkAggression: 68, gkPassing: 35,
+            weakFootUsage: 2, weakFootAccuracy: 2 
+        }
+    },
+    { 
+        name: "امید", pos: "Defender", role: "مدافع", category: "defender", isGK: false,
+        stats: { 
+            attacking: 40, defending: 80, shortPass: 48, tackling: 75, loftedPass: 45,
+            shooting: 20, dribbling: 50, kickingPower: 55, jump: 70, speed: 60,
+            acceleration: 58, physical: 78, press: 72, awareness: 70, teamwork: 65,
+            corners: 30, freeKick: 25, penalties: 35, curling: 30, gk: 0,
+            weakFootUsage: 2, weakFootAccuracy: 2 
+        }
+    },
+    { 
+        name: "ناصر", pos: "نامشخص", role: "🫥 در تعلیق", category: "all", isGK: false, suspended: true,
+        stats: { 
+            attacking: 0, defending: 0, shortPass: 0, tackling: 0, loftedPass: 0,
+            shooting: 0, dribbling: 0, kickingPower: 0, jump: 0, speed: 0,
+            acceleration: 0, physical: 0, press: 0, awareness: 0, teamwork: 0,
+            corners: 0, freeKick: 0, penalties: 0, curling: 0, gk: 0,
+            gkReflexes: 0, gkCoverage: 0, gkAggression: 0, gkPassing: 0,
+            weakFootUsage: 0, weakFootAccuracy: 0 
+        }
+    }
+];
+</script>
+
+<script>
+// ============================================================
+//  محاسبه Overall
+// ============================================================
+function calcOverall(stats, isGK) {
+    let weights;
+    if (isGK) {
+        weights = { 
+            gkReflexes: 1.5, gkCoverage: 1.3, gkAggression: 1.0, gkPassing: 0.7,
+            speed: 0.6, jump: 0.8, physical: 0.7, awareness: 1.2, teamwork: 0.6 
+        };
+    } else {
+        weights = { 
+            attacking: 1.0, defending: 0.8, shortPass: 0.9, tackling: 0.7, loftedPass: 0.7,
+            shooting: 1.2, dribbling: 0.9, kickingPower: 0.8, jump: 0.5, speed: 1.1,
+            acceleration: 1.0, physical: 0.7, press: 0.8, awareness: 1.0, teamwork: 1.2,
+            corners: 0.4, freeKick: 0.5, penalties: 0.4, curling: 0.5, gk: 0.3
+        };
+    }
+    let total = 0, sumWeights = 0;
+    for (let key in weights) {
+        total += (stats[key] || 0) * weights[key];
+        sumWeights += weights[key];
+    }
+    return Math.round(total / sumWeights);
+}
+
+// ============================================================
+//  رنگ‌ها
+// ============================================================
+function getColor(value) {
+    if (value >= 85) return '#4ade80';
+    if (value >= 75) return '#a3e635';
+    if (value >= 65) return '#fbbf24';
+    if (value >= 50) return '#fb923c';
+    return '#f87171';
+}
+
+// ============================================================
+//  نمودار راداری
+// ============================================================
+let chartInstances = {};
+
+function createRadarChart(canvasId, stats, isGK) {
+    const ctx = document.getElementById(canvasId);
+    if (!ctx) return;
+    
+    let labels, data;
+    if (isGK) {
+        labels = ['واکنش', 'پوشش', 'خروج', 'پاس گلر', 'سرعت', 'پرش', 'هوش'];
+        data = [
+            stats.gkReflexes || 0, stats.gkCoverage || 0, stats.gkAggression || 0,
+            stats.gkPassing || 0, stats.speed || 0, stats.jump || 0, stats.awareness || 0
+        ];
+    } else {
+        labels = ['حمله', 'دفاع', 'پاس', 'شوت', 'سرعت', 'تکنیک', 'هماهنگی'];
+        data = [
+            stats.attacking || 0, stats.defending || 0, stats.shortPass || 0,
+            stats.shooting || 0, stats.speed || 0, stats.dribbling || 0,
+            stats.teamwork || 0
+        ];
+    }
+    
+    if (chartInstances[canvasId]) chartInstances[canvasId].destroy();
+    
+    chartInstances[canvasId] = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'مهارت‌ها',
+                data: data,
+                backgroundColor: 'rgba(255, 106, 0, 0.2)',
+                borderColor: '#ff6a00',
+                pointBackgroundColor: '#ff6a00',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#ff6a00'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(255,255,255,0.1)' },
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    pointLabels: { color: '#aaa', font: { size: 9, family: 'Vazirmatn' } },
+                    ticks: { color: '#888', backdropColor: 'transparent', font: { size: 8 }, stepSize: 20, max: 100 }
+                }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+}
+
+// ============================================================
+//  رندر بازیکنان
+// ============================================================
+let currentFilter = 'all';
+
+function renderPlayers(filter = 'all') {
+    const container = document.getElementById('playersContainer');
+    currentFilter = filter;
+    
+    const filtered = playersData.filter(p => {
+        if (filter === 'all') return true;
+        if (p.suspended) return false;
+        return p.category === filter;
+    });
+    
+    container.innerHTML = filtered.map((player, index) => {
+        const isSuspended = player.suspended || false;
+        const stats = player.stats;
+        const isGK = player.isGK || false;
+        const overall = isSuspended ? 0 : calcOverall(stats, isGK);
+        const canvasId = 'radar-' + index;
+        
+        // ========== ۲۰ مهارت اصلی ==========
+        const statList = [
+            { key: 'attacking', label: 'دید هجومی' },
+            { key: 'defending', label: 'دید دفاعی' },
+            { key: 'shortPass', label: 'پاس کوتاه' },
+            { key: 'tackling', label: 'توپ‌گیری' },
+            { key: 'loftedPass', label: 'پاس بلند' },
+            { key: 'shooting', label: 'شوت' },
+            { key: 'dribbling', label: 'دریبل' },
+            { key: 'kickingPower', label: 'قدرت شوت' },
+            { key: 'jump', label: 'پرش' },
+            { key: 'speed', label: 'سرعت' },
+            { key: 'acceleration', label: 'شتاب' },
+            { key: 'physical', label: 'فیزیک' },
+            { key: 'press', label: 'پرس' },
+            { key: 'awareness', label: 'هوش' },
+            { key: 'teamwork', label: 'هماهنگی' },
+            { key: 'corners', label: 'کرنر' },
+            { key: 'freeKick', label: 'ضربه آزاد' },
+            { key: 'penalties', label: 'پنالتی' },
+            { key: 'curling', label: 'کات توپ' },
+            { key: 'gk', label: 'دروازه‌بانی' }
+        ];
+        
+        // ========== مهارت‌های دروازه‌بانی ==========
+        const gkStats = [
+            { key: 'gkReflexes', label: 'واکنش' },
+            { key: 'gkCoverage', label: 'پوشش دروازه' },
+            { key: 'gkAggression', label: 'خروج' },
+            { key: 'gkPassing', label: 'پاس گلر' }
+        ];
+        
+        // ========== گروه‌بندی ۴ قسمتی ==========
+        const groups = [
+            { title: '⚔️ حمله', items: ['attacking', 'shooting', 'dribbling', 'speed', 'acceleration'] },
+            { title: '🛡️ دفاع', items: ['defending', 'tackling', 'physical', 'press', 'jump'] },
+            { title: '🎯 پاس و تکنیک', items: ['shortPass', 'loftedPass', 'dribbling', 'curling', 'freeKick'] },
+            { title: '🧠 ذهنی و ست‌پیس', items: ['awareness', 'teamwork', 'corners', 'penalties', 'gk'] }
+        ];
+        
+        return `
+            <div class="player-analysis-card ${isSuspended ? 'suspended' : ''}" data-player="${player.name}">
+                <div class="player-header">
+                    <span class="player-name" onclick="toggleRadar('${canvasId}')">
+                        ${player.name} <i class="fas fa-chevron-down" style="font-size:0.6rem; color:#666;"></i>
+                    </span>
+                    <span class="player-pos">${player.pos}</span>
+                    <span class="player-role">${player.role}</span>
+                    ${player.name === 'جواد' ? '<span class="badge-captain"><i class="fas fa-crown"></i> کاپیتان</span>' : ''}
+                    ${isSuspended ? '<span class="badge-suspended"><i class="fas fa-ban"></i> تعلیق</span>' : ''}
+                    ${isGK && !isSuspended ? '<span class="badge-gk"><i class="fas fa-glove"></i> گلر</span>' : ''}
+                </div>
+                
+                ${!isSuspended ? `
+                    <!-- ========== ۴ گروه اصلی ========== -->
+                    ${groups.map(group => `
+                        <div style="margin-top:0.5rem;">
+                            <div style="font-size:0.55rem; color:#ffaa00; margin-bottom:0.2rem; border-bottom:1px solid rgba(255,106,0,0.1); padding-bottom:0.1rem;">
+                                ${group.title}
+                            </div>
+                            <div class="stats-grid">
+                                ${group.items.map(key => {
+                                    const label = statList.find(s => s.key === key)?.label || key;
+                                    return `
+                                        <div class="stat-item">
+                                            <div class="stat-label">${label}</div>
+                                            <div class="stat-value" style="color:${getColor(stats[key] || 0)}">${stats[key] || 0}</div>
+                                            <div class="stat-bar">
+                                                <div class="stat-fill" style="width:${stats[key] || 0}%; background:${getColor(stats[key] || 0)};"></div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                    
+                    ${isGK ? `
+                        <div class="gk-stats">
+                            <div class="section-label"><i class="fas fa-glove"></i> توانایی‌های دروازه‌بانی</div>
+                            <div class="stats-grid">
+                                ${gkStats.map(s => `
+                                    <div class="stat-item">
+                                        <div class="stat-label">${s.label}</div>
+                                        <div class="stat-value" style="color:${getColor(stats[s.key] || 0)}">${stats[s.key] || 0}</div>
+                                        <div class="stat-bar">
+                                            <div class="stat-fill" style="width:${stats[s.key] || 0}%; background:${getColor(stats[s.key] || 0)};"></div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="weak-foot">
+                        <div class="section-label"><i class="fas fa-shoe-prints"></i> پای غیرتخصصی</div>
+                        <div style="display:flex; justify-content:center; gap:1rem; margin-top:0.2rem; font-size:0.6rem;">
+                            <span style="color:#aaa;">استفاده:</span>
+                            <span style="font-weight:bold; color:#fbbf24;">${stats.weakFootUsage || 2}</span>
+                            <span style="color:#aaa;">دقت:</span>
+                            <span style="font-weight:bold; color:#fbbf24;">${stats.weakFootAccuracy || 2}</span>
+                        </div>
+                        <div class="weak-foot-dots">
+                            ${[1,2,3,4,5].map(level => `
+                                <div class="dot" style="background:${level <= (stats.weakFootAccuracy || 2) ? '#fbbf24' : 'rgba(255,255,255,0.1)'};"></div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="radar-container" id="radar-container-${canvasId}">
+                        <canvas id="${canvasId}"></canvas>
+                    </div>
+                    
+                    <div class="overall">
+                        <span style="color:${getColor(overall)};">${overall}</span>
+                        <span class="overall-label"> / 99</span>
+                        <span class="overall-label" style="margin-right:0.5rem;">Overall</span>
+                    </div>
+                ` : `
+                    <div style="text-align:center; padding:0.5rem; color:#666; font-size:0.8rem;">
+                        <i class="fas fa-user-slash"></i> این بازیکن در تعلیق است
+                    </div>
+                `}
+            </div>
+        `;
+    }).join('');
+    
+    setTimeout(() => {
+        document.querySelectorAll('.player-analysis-card:not(.suspended)').forEach((card, idx) => {
+            const playerName = card.dataset.player;
+            const player = playersData.find(p => p.name === playerName);
+            if (player && !player.suspended) {
+                const canvasId = 'radar-' + idx;
+                const container = document.getElementById('radar-container-' + canvasId);
+                if (container && !container.dataset.created) {
+                    container.dataset.created = 'true';
+                    createRadarChart(canvasId, player.stats, player.isGK || false);
+                }
+            }
+        });
+    }, 100);
+}
+
+function toggleRadar(canvasId) {
+    const container = document.getElementById('radar-container-' + canvasId);
+    if (container) {
+        container.classList.toggle('show');
+        if (container.classList.contains('show') && !container.dataset.chartCreated) {
+            container.dataset.chartCreated = 'true';
+            const card = container.closest('.player-analysis-card');
+            if (card) {
+                const playerName = card.dataset.player;
+                const player = playersData.find(p => p.name === playerName);
+                if (player && !player.suspended) {
+                    createRadarChart(canvasId, player.stats, player.isGK || false);
+                }
+            }
+        }
+    }
+}
+
+// ============================================================
+//  فیلتر
+// ============================================================
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        renderPlayers(this.dataset.filter);
+    });
+});
+
+renderPlayers('all');
+</script>
+</body>
+</html>
