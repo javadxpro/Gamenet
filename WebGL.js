@@ -457,3 +457,72 @@ function burstEffectHandler(event, element) {
         }
     }, 300);
 }
+// ============================================================
+//  اعلان‌های زیبا
+// ============================================================
+
+function showNotification(text, duration = 2000) {
+    const old = document.querySelector('.immersive-notification');
+    if (old) old.remove();
+    
+    const div = document.createElement('div');
+    div.className = 'immersive-notification';
+    div.textContent = text;
+    div.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.8);
+        backdrop-filter: blur(15px);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,106,0,0.2);
+        font-family: 'Vazirmatn', system-ui;
+        font-size: 0.9rem;
+        z-index: 10002;
+        opacity: 0;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    `;
+    document.body.appendChild(div);
+    
+    requestAnimationFrame(() => {
+        div.style.opacity = '1';
+        div.style.transform = 'translateX(-50%) translateY(0)';
+    });
+    
+    setTimeout(() => {
+        div.style.opacity = '0';
+        div.style.transform = 'translateX(-50%) translateY(20px)';
+        setTimeout(() => div.remove(), 500);
+    }, duration);
+}
+// ============================================================
+//  واکنش به موزیک
+// ============================================================
+
+window.updateLightsWithAudio = function(intensity) {
+    if (typeof lights === 'undefined') return;
+    
+    lights.forEach((item, i) => {
+        if (!item.isGalaxy && item.light) {
+            // تغییر شدت نور بر اساس موزیک
+            const baseIntensity = currentQuality === 'nasa' ? 5 : 3.5;
+            item.light.intensity = baseIntensity + intensity * 3;
+            
+            // تغییر رنگ نور بر اساس موزیک
+            if (i % 2 === 0) {
+                const hue = (time * 0.02 + i * 0.05) % 1;
+                item.light.color.setHSL(hue, 1, 0.5 + intensity * 0.3);
+            }
+        }
+    });
+    
+    // تغییر اندازه کره‌ها
+    spheres.forEach((sphere, i) => {
+        const scale = 1 + intensity * 0.2 * Math.sin(time + i);
+        sphere.scale.set(scale, scale, scale);
+    });
+};
