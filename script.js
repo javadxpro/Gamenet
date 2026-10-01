@@ -45,21 +45,40 @@ function addToCart(gameData, selectedType, selectedPrice) {
     return true;
 }
 
-function removeFromCart(id) {
+function removeFromCart(id, type) {
     let cart = getCart();
-    cart = cart.filter(item => item.id !== id);
+    cart = cart.filter(item => !(item.id === id && (item.type || '') === (type || '')));
     saveCart(cart);
     if (typeof renderCart === 'function') renderCart();
 }
 
-function changeQty(id, delta) {
+function changeQty(id, type, delta) {
     let cart = getCart();
-    const item = cart.find(i => i.id === id);
+    const item = cart.find(i => i.id === id && (i.type || '') === (type || ''));
     if (item) {
         item.quantity = Math.max(1, (item.quantity || 1) + delta);
         saveCart(cart);
         if (typeof renderCart === 'function') renderCart();
     }
+}
+
+// ============================================================
+// تبدیل کاراکترهای خاص HTML (جلوگیری از تزریق HTML در خروجی innerHTML)
+// ============================================================
+
+function escHtml(value) {
+    return String(value == null ? '' : value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+// تبدیل قیمت رشته‌ای (مثلاً "150,000") به عدد صحیح
+function parsePrice(price) {
+    const n = parseInt(String(price).replace(/[^0-9]/g, ''), 10);
+    return Number.isFinite(n) && n > 0 ? n : 0;
 }
 
 // ============================================================
@@ -91,24 +110,24 @@ function renderCart() {
     
     let subtotal = 0;
     cart.forEach(item => {
-        let price = parseInt(String(item.price).replace(/,/g, '')) || 150000;
+        let price = parsePrice(item.price) || 150000;
         subtotal += price * (item.quantity || 1);
     });
     
     if (container) {
         container.innerHTML = cart.map(item => `
             <div class="cart-item">
-                <div class="item-title">${item.title} ${item.type ? `(${item.type})` : ''}</div>
+                <div class="item-title">${escHtml(item.title)} ${item.type ? `(${escHtml(item.type)})` : ''}</div>
                 <div class="item-price-row">
-                    <div class="price-tag">${Number(item.price).toLocaleString()} تومان</div>
+                    <div class="price-tag">${parsePrice(item.price).toLocaleString()} تومان</div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <button class="remove-btn" onclick="removeFromCart(${item.id})">
+                        <button class="remove-btn" onclick="removeFromCart(${item.id}, '${escHtml(item.type || '')}')">
                             <i class="fas fa-trash"></i>
                         </button>
                         <div class="quantity-control">
-                            <button onclick="changeQty(${item.id}, -1)">-</button>
+                            <button onclick="changeQty(${item.id}, '${escHtml(item.type || '')}', -1)">-</button>
                             <span>${item.quantity || 1}</span>
-                            <button onclick="changeQty(${item.id}, 1)">+</button>
+                            <button onclick="changeQty(${item.id}, '${escHtml(item.type || '')}', 1)">+</button>
                         </div>
                     </div>
                 </div>
@@ -146,7 +165,7 @@ function generateOrderCode(username, cart) {
     const date = new Date().toLocaleDateString('fa-IR').replace(/\//g, '.');
     let total = 0;
     cart.forEach(item => {
-        let price = parseInt(String(item.price).replace(/,/g, '')) || 150000;
+        let price = parsePrice(item.price) || 150000;
         total += price * (item.quantity || 1);
     });
     return `${username}_${itemsPart}_${date}_${total.toLocaleString()}`;
@@ -187,14 +206,14 @@ function checkout() {
     const checkoutBtn = document.getElementById('checkoutBtn');
     
     if (orderCodeDiv) orderCodeDiv.style.display = 'block';
-    if (orderCodeEl) orderCodeEl.innerHTML = code;
+    if (orderCodeEl) orderCodeEl.textContent = code;
     
     let orderDetails = '';
     let total = 0;
     cart.forEach(item => {
-        let price = parseInt(String(item.price).replace(/,/g, '')) || 150000;
+        let price = parsePrice(item.price) || 150000;
         total += price * (item.quantity || 1);
-        orderDetails += `${item.title} ${item.type ? `(${item.type})` : ''} × ${item.quantity || 1} = ${(price * (item.quantity || 1)).toLocaleString()} تومان<br>`;
+        orderDetails += `${escHtml(item.title)} ${item.type ? `(${escHtml(item.type)})` : ''} × ${item.quantity || 1} = ${(price * (item.quantity || 1)).toLocaleString()} تومان<br>`;
     });
     
     if (orderDetailsEl) {
@@ -202,10 +221,10 @@ function checkout() {
             <strong>📦 جزئیات سفارش:</strong><br>
             ${orderDetails}
             <strong>💰 مبلغ کل: ${total.toLocaleString()} تومان</strong><br>
-            <strong>👤 نام: ${user.fullName}</strong><br>
-            <strong>🆔 نام کاربری: ${user.username}</strong><br>
-            <strong>📞 تلفن: ${user.phone}</strong><br>
-            <strong>📧 ایمیل: ${user.email}</strong>
+            <strong>👤 نام: ${escHtml(user.fullName)}</strong><br>
+            <strong>🆔 نام کاربری: ${escHtml(user.username)}</strong><br>
+            <strong>📞 تلفن: ${escHtml(user.phone)}</strong><br>
+            <strong>📧 ایمیل: ${escHtml(user.email)}</strong>
         `;
     }
     
@@ -396,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function() {
         registerBtn.addEventListener('click', registerUser);
     }
 });
-<script>
+
 // ============================================================
 //  مدیریت حساب کاربری
 // ============================================================
@@ -480,4 +499,3 @@ function closeModal() {
 document.addEventListener('DOMContentLoaded', function() {
     updateUserDisplay();
 });
-</script>

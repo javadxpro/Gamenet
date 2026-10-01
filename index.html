@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="فروشگاه گیم نت: خرید بازی کپی خور PS و Xbox، گیفت کارت، اشتراک و سکه و جم — با پشتیبانی تلفنی.">
+    <meta property="og:title" content="فروشگاه گیم نت | صفحه اصلی">
+    <meta property="og:description" content="فروشگاه گیم نت: خرید بازی کپی خور PS و Xbox، گیفت کارت، اشتراک و سکه و جم — با پشتیبانی تلفنی.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
     <title>فروشگاه گیم نت | صفحه اصلی</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     
     <link rel="stylesheet" href="Webstyle.css">
@@ -15,20 +21,20 @@
 <div class="container">
 
     <div class="main-header">
-        <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+        <button class="menu-btn" id="menuBtn" aria-label="باز کردن منو"><i class="fas fa-bars"></i></button>
         <div class="logo"><h1><i class="fas fa-store"></i> فروشگاه گیم نت</h1></div>
-        <button class="user-btn" id="userBtn"><i class="fas fa-user"></i></button>
+        <button class="user-btn" id="userBtn" aria-label="حساب کاربری"><i class="fas fa-user"></i></button>
         <a href="web.html" class="back-link" style="margin:0; padding:0.3rem 0.8rem; font-size:0.8rem; display:inline-flex; align-items:center; gap:0.3rem;">
             <i class="fas fa-arrow-right"></i> بازگشت
         </a>
-        <div class="cart-icon" onclick="location.href='cart.html'">
+        <div class="cart-icon" role="button" tabindex="0" aria-label="سبد خرید" onclick="location.href='cart.html'">
             <i class="fas fa-shopping-cart"></i>
             <span class="cart-count" id="cartCount">0</span>
         </div>
     </div>
 
     <div class="side-menu" id="sideMenu">
-        <button class="close-menu" id="closeMenu"><i class="fas fa-times"></i></button>
+        <button class="close-menu" id="closeMenu" aria-label="بستن منو"><i class="fas fa-times"></i></button>
         <h3><i class="fas fa-gamepad"></i> دسته‌بندی‌ها</h3>
         <div class="side-cat"><i class="fab fa-xbox"></i> ایکس باکس</div>
         <div class="side-cat"><i class="fab fa-playstation"></i> پلی استیشن</div>
@@ -53,7 +59,7 @@
         <!-- PES eFootball SP FOOTBALL LIFE 2026 -->
         <a href="game1.html" class="product-card" onclick="burstEffectHandler(event, this)">
             <div class="img-container">
-                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/images/PES_SPLIFE.png" alt="PES eFootball SP FOOTBALL LIFE 2026" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
+                <img class="product-img" src="images/PES_SPLIFE.png" alt="PES eFootball SP FOOTBALL LIFE 2026" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
             </div>
             <div class="product-info">
                 <div class="product-title">PES eFootball SP FOOTBALL LIFE 2026</div>
@@ -66,7 +72,7 @@
         <!-- Call of Duty -->
         <a href="game2.html" class="product-card" onclick="burstEffectHandler(event, this)">
             <div class="img-container">
-                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/images/call%20of%20duty%20black%20ops%20cold%20war.jpg" alt="Call of Duty" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
+                <img class="product-img" src="images/call%20of%20duty%20black%20ops%20cold%20war.jpg" alt="Call of Duty" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
             </div>
             <div class="product-info">
                 <div class="product-title">Call of Duty: Black Ops Cold War</div>
@@ -79,7 +85,7 @@
         <!-- Gang Beast -->
         <a href="game3.html" class="product-card" onclick="burstEffectHandler(event, this)">
             <div class="img-container">
-                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/images/gang%20beast.jpg" alt="Gang Beast" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
+                <img class="product-img" src="images/gang%20beast.jpg" alt="Gang Beast" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
             </div>
             <div class="product-info">
                 <div class="product-title">Gang Beast</div>
@@ -94,25 +100,25 @@
 
     <h2 class="section-title">📡 اشتراک‌های محبوب</h2>
     <div class="subscriptions-grid">
-        <div class="sub-card" onclick="alert('اشتراک پلی استیشن پلاس - ناموجود')">
+        <div class="sub-card" role="link" tabindex="0" onclick="location.href='subscriptions.html'" onkeydown="if(event.key==='Enter')location.href='subscriptions.html'">
             <div class="sub-icon"><i class="fab fa-playstation"></i></div>
             <div class="sub-title">پلی استیشن پلاس</div>
-            <div class="sub-status">ناموجود</div>
+            <div class="sub-status available">مشاهده و خرید</div>
         </div>
-        <div class="sub-card" onclick="alert('اشتراک گیم پس - ناموجود')">
+        <div class="sub-card" role="link" tabindex="0" onclick="location.href='subscriptions.html'" onkeydown="if(event.key==='Enter')location.href='subscriptions.html'">
             <div class="sub-icon"><i class="fab fa-xbox"></i></div>
             <div class="sub-title">گیم پس</div>
-            <div class="sub-status">ناموجود</div>
+            <div class="sub-status available">مشاهده و خرید</div>
         </div>
-        <div class="sub-card" onclick="alert('رویال پس پابجی - ناموجود')">
+        <div class="sub-card" role="link" tabindex="0" onclick="location.href='subscriptions.html'" onkeydown="if(event.key==='Enter')location.href='subscriptions.html'">
             <div class="sub-icon"><i class="fas fa-crosshairs"></i></div>
             <div class="sub-title">رویال پس پابجی</div>
-            <div class="sub-status">ناموجود</div>
+            <div class="sub-status available">مشاهده و خرید</div>
         </div>
-        <div class="sub-card" onclick="alert('بتل پس کالاف - ناموجود')">
+        <div class="sub-card" role="link" tabindex="0" onclick="location.href='subscriptions.html'" onkeydown="if(event.key==='Enter')location.href='subscriptions.html'">
             <div class="sub-icon"><i class="fas fa-gun"></i></div>
             <div class="sub-title">بتل پس کالاف</div>
-            <div class="sub-status">ناموجود</div>
+            <div class="sub-status available">مشاهده و خرید</div>
         </div>
     </div>
 
@@ -147,85 +153,6 @@
 
 <script src="script.js"></script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const menuBtn = document.getElementById('menuBtn');
-    const closeMenuBtn = document.getElementById('closeMenu');
-    const overlay = document.getElementById('overlay');
-    const sideMenu = document.getElementById('sideMenu');
-    
-    if (menuBtn) {
-        menuBtn.addEventListener('click', function() {
-            sideMenu.classList.add('open');
-            overlay.classList.add('show');
-        });
-    }
-    
-    if (closeMenuBtn) {
-        closeMenuBtn.addEventListener('click', function() {
-            sideMenu.classList.remove('open');
-            overlay.classList.remove('show');
-        });
-    }
-    
-    if (overlay) {
-        overlay.addEventListener('click', function() {
-            sideMenu.classList.remove('open');
-            overlay.classList.remove('show');
-        });
-    }
-    
-    const userBtn = document.getElementById('userBtn');
-    if (userBtn) {
-        userBtn.addEventListener('click', function() {
-            const user = JSON.parse(localStorage.getItem('gameUser'));
-            if (user) {
-                alert(`👤 ${user.fullName}\n🆔 ${user.username}\n📞 ${user.phone}\n📧 ${user.email}`);
-            } else {
-                document.getElementById('authModal').style.display = 'flex';
-            }
-        });
-    }
-});
-
-function registerUser() {
-    const fullName = document.getElementById('fullName');
-    const username = document.getElementById('username');
-    const email = document.getElementById('email');
-    const phone = document.getElementById('phone');
-    const statusEl = document.getElementById('userStatus');
-    
-    if (!fullName || !username || !email || !phone) {
-        if (statusEl) statusEl.innerHTML = '<span style="color:#ff4444;">❌ همه فیلدها را پر کنید!</span>';
-        return;
-    }
-    
-    if (!fullName.value || !username.value || !email.value || !phone.value) {
-        if (statusEl) statusEl.innerHTML = '<span style="color:#ff4444;">❌ همه فیلدها را پر کنید!</span>';
-        return;
-    }
-    
-    const user = { fullName: fullName.value, username: username.value, email: email.value, phone: phone.value };
-    localStorage.setItem('gameUser', JSON.stringify(user));
-    
-    if (statusEl) statusEl.innerHTML = `<span style="color:#4ade80;">✅ ${fullName.value} عزیز ثبت نام شدید!</span>`;
-    setTimeout(() => {
-        document.getElementById('authModal').style.display = 'none';
-    }, 1500);
-}
-
-function closeModal() {
-    document.getElementById('authModal').style.display = 'none';
-}
-
-function burstEffectHandler(event, element) {
-    event.preventDefault();
-    const href = element.getAttribute('href');
-    if (href && href !== '#') {
-        window.location.href = href;
-    }
-}
-</script>
 
 </body>
 </html>

@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="سبد خرید فروشگاه گیم نت — بررسی اقلام، ثبت سفارش و دریافت کد پیگیری.">
+    <meta property="og:title" content="سبد خرید | فروشگاه گیم نت">
+    <meta property="og:description" content="سبد خرید فروشگاه گیم نت — بررسی اقلام، ثبت سفارش و دریافت کد پیگیری.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
     <title>سبد خرید | فروشگاه گیم نت</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     
     <link rel="stylesheet" href="Webstyle.css">
@@ -66,192 +72,9 @@
 
 <!-- ========== اسکریپت مخصوص سبد خرید ========== -->
 <script>
-    // ========== تابع‌های سبد خرید ==========
-    function getCart() {
-        return JSON.parse(localStorage.getItem('gameCart')) || [];
-    }
-
-    function saveCart(cart) {
-        localStorage.setItem('gameCart', JSON.stringify(cart));
-        updateCartCount();
-    }
-
-    function updateCartCount() {
-        const cart = getCart();
-        const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-        document.querySelectorAll('.cart-count').forEach(el => {
-            el.textContent = count;
-        });
-    }
-
-    function removeFromCart(id) {
-        let cart = getCart();
-        cart = cart.filter(item => item.id !== id);
-        saveCart(cart);
-        renderCart();
-    }
-
-    function changeQty(id, delta) {
-        let cart = getCart();
-        const item = cart.find(i => i.id === id);
-        if (item) {
-            item.quantity = Math.max(1, (item.quantity || 1) + delta);
-            saveCart(cart);
-            renderCart();
-        }
-    }
-
-    function renderCart() {
-        const container = document.getElementById('cartItems');
-        const summaryContainer = document.getElementById('cartSummary');
-        const cart = getCart();
-        
-        if (!cart || cart.length === 0) {
-            if (container) {
-                container.innerHTML = `
-                    <div class="empty-cart">
-                        🛒 سبد خرید شما خالی است
-                        <br><br>
-                        <a href="index.html" style="color:#ff6a00; font-weight:bold;">بازگشت به فروشگاه</a>
-                    </div>
-                `;
-            }
-            if (summaryContainer) summaryContainer.innerHTML = '';
-            document.getElementById('checkoutBtn').style.display = 'none';
-            document.getElementById('orderCodeDiv').style.display = 'none';
-            return;
-        }
-        
-        let subtotal = 0;
-        cart.forEach(item => {
-            let price = parseInt(String(item.price).replace(/,/g, '')) || 150000;
-            subtotal += price * (item.quantity || 1);
-        });
-        
-        if (container) {
-            container.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <div class="item-title">${item.title} ${item.type ? `(${item.type})` : ''}</div>
-                    <div class="item-price-row">
-                        <div class="price-tag">${Number(item.price).toLocaleString()} تومان</div>
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <button class="remove-btn" onclick="removeFromCart(${item.id})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            <div class="quantity-control">
-                                <button onclick="changeQty(${item.id}, -1)">-</button>
-                                <span>${item.quantity || 1}</span>
-                                <button onclick="changeQty(${item.id}, 1)">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        if (summaryContainer) {
-            summaryContainer.innerHTML = `
-                <div class="cart-summary">
-                    <div class="summary-row">
-                        <span>مجموع</span>
-                        <span>${subtotal.toLocaleString()} تومان</span>
-                    </div>
-                    <div class="total">
-                        <span>قابل پرداخت</span>
-                        <span>${subtotal.toLocaleString()} تومان</span>
-                    </div>
-                </div>
-            `;
-        }
-        
-        document.getElementById('checkoutBtn').style.display = 'block';
-    }
-
-    // ========== تسویه حساب ==========
-    function generateOrderCode(username, cart) {
-        const itemsPart = cart.map(item => {
-            const tag = item.title.substring(0, 4).toUpperCase();
-            return `${tag}x${item.quantity || 1}`;
-        }).join('_');
-        const date = new Date().toLocaleDateString('fa-IR').replace(/\//g, '.');
-        let total = 0;
-        cart.forEach(item => {
-            let price = parseInt(String(item.price).replace(/,/g, '')) || 150000;
-            total += price * (item.quantity || 1);
-        });
-        return `${username}_${itemsPart}_${date}_${total.toLocaleString()}`;
-    }
-
-    function copyOrderCode() {
-        const code = document.getElementById('orderCode');
-        if (!code) return;
-        navigator.clipboard.writeText(code.innerText)
-            .then(() => {
-                const msg = document.getElementById('copySuccess');
-                if (msg) {
-                    msg.style.display = 'block';
-                    setTimeout(() => msg.style.display = 'none', 2000);
-                }
-            })
-            .catch(() => alert('لطفاً دستی کپی کنید: ' + code.innerText));
-    }
-
-    document.getElementById('checkoutBtn').addEventListener('click', function() {
-        const cart = getCart();
-        if (!cart || cart.length === 0) {
-            alert('سبد خرید شما خالی است!');
-            return;
-        }
-        
-        const user = JSON.parse(localStorage.getItem('gameUser'));
-        if (!user) {
-            alert('لطفاً ابتدا در صفحه اصلی ثبت نام کنید!');
-            window.location.href = 'index.html';
-            return;
-        }
-        
-        const code = generateOrderCode(user.username, cart);
-        
-        document.getElementById('orderCodeDiv').style.display = 'block';
-        document.getElementById('orderCode').innerHTML = code;
-        
-        let orderDetails = '';
-        let total = 0;
-        cart.forEach(item => {
-            let price = parseInt(String(item.price).replace(/,/g, '')) || 150000;
-            total += price * (item.quantity || 1);
-            orderDetails += `${item.title} ${item.type ? `(${item.type})` : ''} × ${item.quantity || 1} = ${(price * (item.quantity || 1)).toLocaleString()} تومان<br>`;
-        });
-        
-        document.getElementById('orderDetails').innerHTML = `
-            <strong>📦 جزئیات سفارش:</strong><br>
-            ${orderDetails}
-            <strong>💰 مبلغ کل: ${total.toLocaleString()} تومان</strong><br>
-            <strong>👤 نام: ${user.fullName}</strong><br>
-            <strong>🆔 نام کاربری: ${user.username}</strong><br>
-            <strong>📞 تلفن: ${user.phone}</strong><br>
-            <strong>📧 ایمیل: ${user.email}</strong>
-        `;
-        
-        this.style.display = 'none';
-        
-        localStorage.setItem('lastOrderCode', code);
-        localStorage.setItem('lastOrderCart', JSON.stringify(cart));
-        localStorage.setItem('lastOrderUser', JSON.stringify(user));
-        
-        saveCart([]);
-        renderCart();
-        updateCartCount();
-        
-        setTimeout(copyOrderCode, 100);
-        alert(`✅ سفارش شما ثبت شد!\n📌 کد پیگیری: ${code}\n📞 لطفاً با شماره‌های تماس، هماهنگی کنید.`);
-    });
-
+    // ========== توابع سبد خرید (getCart, renderCart, checkout و ...) در script.js مشترک قرار دارند ==========
+    document.getElementById('checkoutBtn').addEventListener('click', checkout);
     document.getElementById('copyCodeBtn').addEventListener('click', copyOrderCode);
-
-    // ========== اجرا ==========
-    renderCart();
-    updateCartCount();
 </script>
 
 </body>

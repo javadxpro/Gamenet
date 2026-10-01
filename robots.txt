@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://javadxpro.github.io/Gamenet/sitemap.xml

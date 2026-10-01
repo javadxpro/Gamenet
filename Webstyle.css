@@ -239,6 +239,16 @@ body {
     transform: scale(1.05);
 }
 
+.btn-webpc {
+    background: rgba(140, 100, 255, 0.12);
+    color: #bb99ff;
+    border: 1px solid rgba(140, 100, 255, 0.18);
+}
+.btn-webpc:hover {
+    background: rgba(140, 100, 255, 0.25);
+    transform: scale(1.05);
+}
+
 .btn-test {
     background: rgba(0, 200, 255, 0.15);
     color: #00ddff;
@@ -1879,6 +1889,9 @@ footer {
     color: #ff4444;
     font-weight: bold;
     margin-top: 0.3rem;
+}
+.sub-status.available {
+    color: #4ade80;
 }
 /* ============================================================
    آنالیز بازیکنان (analysis.html)

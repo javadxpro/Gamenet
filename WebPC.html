@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="گیم‌نت | نمایش گرافیک فراکهکشانی با three.js و کیفیت‌های مختلف رندر.">
+    <meta property="og:title" content="گیم‌نت | گرافیک فراکهکشانی - RTX 6000 Ti SUPER">
+    <meta property="og:description" content="گیم‌نت | نمایش گرافیک فراکهکشانی با three.js و کیفیت‌های مختلف رندر.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
     <title>گیم‌نت | گرافیک فراکهکشانی - RTX 6000 Ti SUPER</title>
     
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <style>
@@ -479,12 +485,12 @@ scene.add(galaxyGroup);
 //  ستاره‌های 16K
 // ============================================================
 
-const starCount = isNasa ? 120000 : 50000;
-const starPos = new Float32Array(starCount * 3);
-const starCol = new Float32Array(starCount * 3);
-const starSiz = new Float32Array(starCount);
+const bgStarCount = isNasa ? 120000 : 50000;
+const starPos = new Float32Array(bgStarCount * 3);
+const starCol = new Float32Array(bgStarCount * 3);
+const starSiz = new Float32Array(bgStarCount);
 
-for (let i = 0; i < starCount; i++) {
+for (let i = 0; i < bgStarCount; i++) {
     const radius = isNasa ? 100 + Math.random() * 1000 : 200 + Math.random() * 700;
     const theta = Math.random() * Math.PI * 2;
     const phi = Math.acos(2 * Math.random() - 1);
