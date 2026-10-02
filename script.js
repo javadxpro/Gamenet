@@ -97,7 +97,7 @@ function renderCart() {
                 <div class="empty-cart">
                     🛒 سبد خرید شما خالی است
                     <br><br>
-                    <a href="index.html" style="color:#ff6a00; font-weight:bold;">بازگشت به فروشگاه</a>
+                    <a href="shop-index.html" style="color:#ff6a00; font-weight:bold;">بازگشت به فروشگاه</a>
                 </div>
             `;
         }
@@ -195,7 +195,7 @@ function checkout() {
     const user = JSON.parse(localStorage.getItem('gameUser'));
     if (!user) {
         alert('لطفاً ابتدا در صفحه اصلی ثبت نام کنید!');
-        window.location.href = 'index.html';
+        window.location.href = 'shop-index.html';
         return;
     }
     
@@ -444,7 +444,7 @@ function showLoginModal() {
         modal.style.display = 'flex';
         document.getElementById('accountMenu').style.display = 'none';
     } else {
-        window.location.href = 'index.html';
+        window.location.href = 'shop-index.html';
     }
 }
 
