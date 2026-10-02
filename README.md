@@ -15,6 +15,18 @@ npx serve .
 
 سپس `http://localhost:8000` را باز کنید.
 
+## 🚢 دپلی (GitHub Pages)
+
+سایت از طریق **GitHub Pages** منتشر می‌شود. منبع دپلی در تنظیمات
+`Settings → Pages` روی **شاخهٔ فعال کار** (در حال حاضر `arena/01a0f983-gamenet`) و مسیر `/` تنظیم است.
+
+- هر commit جدیدی که روی همان شاخه push شود، بیلد Pages را به‌صورت خودکار اجرا می‌کند
+  (Workflow: `pages build and deployment`).
+- اگر در تنظیمات Pages شاخهٔ منبع را عوض کردید ولی بیلد جدیدی اجرا نشد،
+  یک commit جدید روی آن شاخه push کنید تا بیلد راه‌اندازی شود.
+- فایل `.nojekyll` باعث می‌شود GitHub Pages سایت را بدون پردازش Jekyll سرو کند.
+- پیش‌نمایش بیلد: `Actions` تب → workflow «pages build and deployment».
+
 ## 📄 صفحات
 
 | صفحه | توضیح |
