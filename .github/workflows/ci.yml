@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [Web, main, master, "arena/*"]
+  pull_request:
+
+jobs:
+  check:
+    name: Syntax & link check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Syntax check all JS files
+        run: |
+          set -e
+          count=0
+          while IFS= read -r -d '' f; do
+            node --check "$f"
+            echo "ok: $f"
+            count=$((count+1))
+          done < <(find . -name '*.js' -not -path './node_modules/*' -print0)
+          echo "checked $count JS files"
+
+      - name: Check internal links & assets
+        run: node scripts/check-links.mjs
+
+      - name: Check inline scripts in HTML
+        run: node scripts/check-inline-js.mjs

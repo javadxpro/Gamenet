@@ -2,230 +2,439 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فروشگاه گیم نت | صفحه اصلی</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="گیم‌نت | صفحه رسمی — معرفی گیم نت، خدمات، اخبار و آلبوم عکس با گرافیک سه‌بعدی WebGL.">
+    <meta property="og:title" content="گیم‌نت | صفحه رسمی">
+    <meta property="og:description" content="گیم‌نت | صفحه رسمی — معرفی گیم نت، خدمات، اخبار و آلبوم عکس با گرافیک سه‌بعدی WebGL.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=3">
+
+    <title>گیم‌نت | صفحه رسمی</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- ========== فونت وزیرمتن (آنلاین) ========== -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     
-    <link rel="stylesheet" href="Webstyle.css">
+    <!-- ========== Font Awesome (آنلاین) ========== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- ========== Three.js (برای WebGL) ========== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- ========== استایل اصلی ========== -->
+    <link rel="stylesheet" href="Webstyle.css?v=3">
+    
+    <style>
+        /* ========== تنظیمات نمایشگر کیفیت ========== */
+        #infoDisplay {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 13px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 120px;
+            pointer-events: none;
+            user-select: none;
+        }
+        #infoDisplay .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        #infoDisplay .label { color: #888; }
+        #infoDisplay .value { font-weight: bold; }
+        #infoDisplay .fps { color: #4ade80; }
+        #infoDisplay .quality { color: #fbbf24; }
+
+        /* ========== دکمه‌های تنظیمات کیفیت ========== */
+        #qualitySettings {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 12px;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+        }
+        #qualitySettings button {
+            border: none;
+            padding: 4px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            width: 100%;
+            text-align: center;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(14px) saturate(1.35);
+            -webkit-backdrop-filter: blur(14px) saturate(1.35);
+            background-image: linear-gradient(165deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.02) 55%, rgba(255,255,255,0) 75%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 0 0 1px rgba(255,255,255,0.06), 0 4px 14px rgba(0,0,0,0.35);
+        }
+        #qualitySettings button:hover {
+            background-image: linear-gradient(165deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.05) 45%, rgba(255,106,0,0.12) 100%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.20), 0 6px 20px rgba(0,0,0,0.45), 0 0 18px rgba(255,106,0,0.16);
+        }
+        #qualitySettings button:hover {
+            transform: scale(1.05);
+        }
+        #qualitySettings button:active {
+            transform: scale(0.95);
+        }
+
+        /* ========== پخش‌کننده موسیقی (سمت راست پایین، کنار نمایشگر FPS) ========== */
+        #musicPlayer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 106, 0, 0.2);
+            border-radius: 16px;
+            padding: 10px 14px;
+            min-width: 160px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        #musicPlayer .player-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        #musicToggle {
+            background: rgba(255, 106, 0, 0.2);
+            border: 2px solid #ff6a00;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            color: #ffaa00;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        #musicToggle:hover {
+            background: rgba(255, 106, 0, 0.4);
+            transform: scale(1.05);
+        }
+        .music-info {
+            flex: 1;
+            text-align: right;
+        }
+        .music-info .status {
+            font-size: 0.6rem;
+            color: #888;
+        }
+        .music-info .title {
+            font-size: 0.65rem;
+            color: #ffaa00;
+            font-weight: bold;
+        }
+        #musicProgress {
+            width: 100%;
+            height: 3px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 2px;
+        }
+        #musicProgress .fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff6a00, #ffaa00);
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+
+        @media (max-width: 500px) {
+            #musicPlayer {
+                min-width: 120px;
+                padding: 6px 10px;
+                bottom: 20px;
+                right: 10px;
+            }
+            #musicToggle {
+                width: 28px;
+                height: 28px;
+                font-size: 0.7rem;
+            }
+            .music-info .title {
+                font-size: 0.55rem;
+            }
+            .music-info .status {
+                font-size: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
+    <!-- ========== WebGL Canvas ========== -->
+    <div id="webglCanvas"></div>
 
-    <div class="main-header">
-        <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
-        <div class="logo"><h1><i class="fas fa-store"></i> فروشگاه گیم نت</h1></div>
-        <button class="user-btn" id="userBtn"><i class="fas fa-user"></i></button>
-        <a href="web.html" class="back-link" style="margin:0; padding:0.3rem 0.8rem; font-size:0.8rem; display:inline-flex; align-items:center; gap:0.3rem;">
-            <i class="fas fa-arrow-right"></i> بازگشت
-        </a>
-        <div class="cart-icon" onclick="location.href='cart.html'">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="cart-count" id="cartCount">0</span>
+    <!-- ========== نمایشگر FPS + کیفیت ========== -->
+    <div id="infoDisplay">
+        <div class="row">
+            <span class="label">FPS:</span>
+            <span class="value fps" id="fpsValue">0</span>
+        </div>
+        <div class="row">
+            <span class="label">کیفیت:</span>
+            <span class="value quality" id="qualityText">بالا</span>
         </div>
     </div>
 
-    <div class="side-menu" id="sideMenu">
-        <button class="close-menu" id="closeMenu"><i class="fas fa-times"></i></button>
-        <h3><i class="fas fa-gamepad"></i> دسته‌بندی‌ها</h3>
-        <div class="side-cat"><i class="fab fa-xbox"></i> ایکس باکس</div>
-        <div class="side-cat"><i class="fab fa-playstation"></i> پلی استیشن</div>
-        <div class="side-cat"><i class="fas fa-desktop"></i> کامپیوتر</div>
-        <div class="side-cat"><i class="fas fa-microchip"></i> نینتندو سوییچ</div>
-        <div class="side-cat"><i class="fas fa-globe"></i> سایر اشتراک‌ها</div>
-        <div class="side-cat"><i class="fas fa-coins"></i> سکه و جم</div>
-        <div class="side-cat"><i class="fas fa-ticket-alt"></i> گیفت کارت</div>
-        <div class="side-cat"><i class="fas fa-copy"></i> بازی کپی خور</div>
-    </div>
-    <div class="overlay" id="overlay"></div>
-
-    <div class="contact-bar">
-        <i class="fas fa-phone-alt"></i> برای شرایط خرید و اطمینان از منبع تماس بگیرید:
-        <a href="tel:0933880140">۰۹۳۳۸۸۰۱۴۰</a> |
-        <a href="tel:09372726142">۰۹۳۷۲۷۲۶۱۴۲</a>
-    </div>
-
-    <h2 class="section-title">🎮 بازی‌های محبوب</h2>
-    <div class="games-grid">
-
-        <!-- PES eFootball SP FOOTBALL LIFE 2026 -->
-        <a href="game1.html" class="product-card" onclick="burstEffectHandler(event, this)">
-            <div class="img-container">
-                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/images/PES_SPLIFE.png" alt="PES eFootball SP FOOTBALL LIFE 2026" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
-            </div>
-            <div class="product-info">
-                <div class="product-title">PES eFootball SP FOOTBALL LIFE 2026</div>
-                <div class="platform-icons"><i class="fab fa-playstation ps-icon"></i></div>
-                <div class="game-type">🎮 کپی خور</div>
-                <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
-            </div>
-        </a>
-
-        <!-- Call of Duty -->
-        <a href="game2.html" class="product-card" onclick="burstEffectHandler(event, this)">
-            <div class="img-container">
-                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/images/call%20of%20duty%20black%20ops%20cold%20war.jpg" alt="Call of Duty" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
-            </div>
-            <div class="product-info">
-                <div class="product-title">Call of Duty: Black Ops Cold War</div>
-                <div class="platform-icons"><i class="fab fa-playstation ps-icon"></i><i class="fab fa-xbox xbox-icon"></i></div>
-                <div class="game-type">🎮 کپی خور</div>
-                <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
-            </div>
-        </a>
-
-        <!-- Gang Beast -->
-        <a href="game3.html" class="product-card" onclick="burstEffectHandler(event, this)">
-            <div class="img-container">
-                <img class="product-img" src="https://raw.githubusercontent.com/javadxpro/Gamenet/refs/heads/images/gang%20beast.jpg" alt="Gang Beast" onerror="this.parentElement.innerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1a1a2e; color:#ff6a00;\\'><i class=\\'fas fa-gamepad\\' style=\\'font-size:3rem;\\'></i></div>'">
-            </div>
-            <div class="product-info">
-                <div class="product-title">Gang Beast</div>
-                <div class="platform-icons"><i class="fab fa-playstation ps-icon"></i><i class="fab fa-xbox xbox-icon"></i></div>
-                <div class="game-type">🎮 کپی خور</div>
-                <div class="view-detail">👈 مشاهده جزئیات و خرید</div>
-            </div>
-        </a>
-
-
-    </div>
-
-    <h2 class="section-title">📡 اشتراک‌های محبوب</h2>
-    <div class="subscriptions-grid">
-        <div class="sub-card" onclick="alert('اشتراک پلی استیشن پلاس - ناموجود')">
-            <div class="sub-icon"><i class="fab fa-playstation"></i></div>
-            <div class="sub-title">پلی استیشن پلاس</div>
-            <div class="sub-status">ناموجود</div>
-        </div>
-        <div class="sub-card" onclick="alert('اشتراک گیم پس - ناموجود')">
-            <div class="sub-icon"><i class="fab fa-xbox"></i></div>
-            <div class="sub-title">گیم پس</div>
-            <div class="sub-status">ناموجود</div>
-        </div>
-        <div class="sub-card" onclick="alert('رویال پس پابجی - ناموجود')">
-            <div class="sub-icon"><i class="fas fa-crosshairs"></i></div>
-            <div class="sub-title">رویال پس پابجی</div>
-            <div class="sub-status">ناموجود</div>
-        </div>
-        <div class="sub-card" onclick="alert('بتل پس کالاف - ناموجود')">
-            <div class="sub-icon"><i class="fas fa-gun"></i></div>
-            <div class="sub-title">بتل پس کالاف</div>
-            <div class="sub-status">ناموجود</div>
+    <!-- ========== دکمه‌های تنظیمات کیفیت ========== -->
+    <div id="qualitySettings">
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+            <button onclick="setQuality('high')" style="background: rgba(0,255,100,0.15); color: #4ade80;" id="btn-high">🔴 بالا</button>
+            <button onclick="setQuality('medium')" style="background: rgba(255,200,0,0.15); color: #fbbf24;" id="btn-medium">🟡 متوسط</button>
+            <button onclick="setQuality('low')" style="background: rgba(255,0,0,0.15); color: #f87171;" id="btn-low">🟢 کم مصرف</button>
         </div>
     </div>
 
-    <footer>
-        <div class="owner-id"><i class="fab fa-telegram"></i> آیدی مدیریت: <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a></div>
-        <p>فروشگاه گیم نت | تمامی حقوق محفوظ است</p>
-    </footer>
-</div>
-
-<div class="bottom-nav">
-    <a href="index.html" class="active"><i class="fas fa-home"></i> خانه</a>
-    <a href="cart.html"><i class="fas fa-shopping-cart"></i> سبد خرید</a>
-    <a href="offers.html"><i class="fas fa-gift"></i> پیشنهادها</a>
-    <a href="games.html"><i class="fas fa-gamepad"></i> بازی‌ها</a>
-    <a href="giftcard.html"><i class="fas fa-ticket-alt"></i> گیفت کارت</a>
-</div>
-
-<div id="authModal" class="modal" style="display: none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:2000; justify-content:center; align-items:center;">
-    <div class="modal-content">
-        <h3><i class="fas fa-user-plus"></i> ثبت نام / ورود</h3>
-        <input type="text" id="fullName" placeholder="نام و نام خانوادگی" required>
-        <input type="text" id="username" placeholder="نام کاربری (username)" required>
-        <input type="email" id="email" placeholder="ایمیل" required>
-        <input type="tel" id="phone" placeholder="شماره تلفن" required>
-        <div>
-            <button onclick="registerUser()">ثبت نام</button>
-            <button onclick="closeModal()" style="background:#333;">انصراف</button>
+    <!-- ========== پخش‌کننده موسیقی (سمت راست پایین، کنار نمایشگر FPS) ========== -->
+    <div id="musicPlayer">
+        <div class="player-row">
+            <button id="musicToggle">
+                <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-play"></use></svg>
+            </button>
+            <div class="music-info">
+                <div class="status">🎵 در حال پخش</div>
+                <div class="title">Robert Miles - Children</div>
+            </div>
         </div>
-        <div id="userStatus" style="margin-top: 10px;"></div>
+        <div id="musicProgress">
+            <div class="fill" id="progressFill"></div>
+        </div>
     </div>
-</div>
 
-<script src="script.js"></script>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="assets/audio/background-music.mp3" type="audio/mpeg">
+        مرورگر شما از پخش آهنگ پشتیبانی نمی‌کند.
+    </audio>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const menuBtn = document.getElementById('menuBtn');
-    const closeMenuBtn = document.getElementById('closeMenu');
-    const overlay = document.getElementById('overlay');
-    const sideMenu = document.getElementById('sideMenu');
-    
-    if (menuBtn) {
-        menuBtn.addEventListener('click', function() {
-            sideMenu.classList.add('open');
-            overlay.classList.add('show');
+    <!-- ========== محتوای اصلی ========== -->
+    <div class="glass-container">
+        
+        <!-- ========== هدر ========== -->
+        <div class="hero">
+            <h1>گیم‌نت</h1>
+            <div class="hero-tagline">
+                <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-gamepad"></use></svg> اینجا صفحه رسمی وب گیم نت حامدی فر هست
+            </div>
+        </div>
+
+        <!-- ========== ردیف اول: ساعات کاری + عکس ========== -->
+        <div class="row-top">
+            <div class="card-hours">
+                <div class="hours-header">
+                    <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-clock"></use></svg>
+                    <div>
+                        <h3>ساعات کاری</h3>
+                        <p>⏰ ۱۰ صبح تا ۱۰ شب</p>
+                    </div>
+                </div>
+                <a href="news.html" class="btn btn-news" onclick="burstEffectHandler(event, this)">
+                    <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-news"></use></svg> اخبار گیم نت
+                </a>
+            </div>
+            <div class="card-image">
+                <img src="images/MWIII-S1-ANNOUNCEMENT.jpg" alt="MWIII-S1">
+            </div>
+        </div>
+
+        <!-- ========== ردیف دوم: خدمات ========== -->
+        <div class="row-middle">
+            <div class="card-services">
+                <div class="services-header">
+                    <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-store"></use></svg>
+                    <div>
+                        <h3>خدمات</h3>
+                        <p>🎮 نصب بازی آفلاین و آنلاین PS و Xbox</p>
+                    </div>
+                </div>
+                <div class="platform-icons">
+                    <i class="fab fa-playstation ps"></i>
+                    <i class="fab fa-xbox xbox"></i>
+                </div>
+                <a href="shop-index.html" class="btn btn-shop" onclick="burstEffectHandler(event, this)">
+                    <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-store"></use></svg> ورود به فروشگاه
+                </a>
+            </div>
+        </div>
+
+        <!-- ========== ردیف سوم: دکمه‌ها ========== -->
+        <div class="row-buttons">
+            <a href="team.html" class="btn btn-team" onclick="burstEffectHandler(event, this)">
+                <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-soccer"></use></svg> تیم فوتبال
+            </a>
+            <a href="WebPC.html" class="btn btn-webpc" onclick="burstEffectHandler(event, this)">
+                <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-orbit"></use></svg> گرافیک فراکهکشانی
+            </a>
+            <a href="https://photos.app.goo.gl/fDSRKWhZyAnd1HVv5" target="_blank" class="btn btn-gallery" onclick="burstEffectHandler(event, this)">
+                <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-photos"></use></svg> آلبوم گیم نت
+            </a>
+        </div>
+
+        <!-- ========== کانال‌ها ========== -->
+        <div class="channels-list">
+            <div class="channel-item">
+                <i class="fab fa-r-project"></i>
+                <a href="https://rubika.ir/GAMENETJXP" target="_blank">کانال روبیکا</a>
+            </div>
+            <div class="channel-item">
+                <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-user"></use></svg>
+                <a href="https://rubika.ir/joing/IGBBIDBA0WCZWZPMKJBBNANXIDBOLVUZ" target="_blank">گروه روبیکا</a>
+            </div>
+        </div>
+
+        <!-- ========== فوتر ========== -->
+        <footer>
+            <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-crown"></use></svg> گیم‌نت حامدی فر | ۱۰ صبح تا ۱۰ شب
+        </footer>
+
+    </div>
+
+    <!-- ========== اسکریپت‌ها ========== -->
+    <script src="script.js?v=3"></script>
+    <script src="WebGL.js?v=3"></script>
+
+    <script>
+        // ========== تنظیمات کیفیت ==========
+        let currentQuality = sessionStorage.getItem('quality') || 'high';
+        
+        const qualityNames = {
+            high: '🔴 بالا',
+            medium: '🟡 متوسط',
+            low: '🟢 کم مصرف'
+        };
+        const qualityColors = {
+            high: '#4ade80',
+            medium: '#fbbf24',
+            low: '#f87171'
+        };
+        
+        function updateQualityDisplay() {
+            const el = document.getElementById('qualityText');
+            if (el) {
+                el.textContent = qualityNames[currentQuality] || 'بالا';
+                el.style.color = qualityColors[currentQuality] || '#fbbf24';
+            }
+        }
+        updateQualityDisplay();
+        
+        document.querySelectorAll('#qualitySettings button').forEach(btn => {
+            btn.style.opacity = '0.5';
         });
-    }
-    
-    if (closeMenuBtn) {
-        closeMenuBtn.addEventListener('click', function() {
-            sideMenu.classList.remove('open');
-            overlay.classList.remove('show');
-        });
-    }
-    
-    if (overlay) {
-        overlay.addEventListener('click', function() {
-            sideMenu.classList.remove('open');
-            overlay.classList.remove('show');
-        });
-    }
-    
-    const userBtn = document.getElementById('userBtn');
-    if (userBtn) {
-        userBtn.addEventListener('click', function() {
-            const user = JSON.parse(localStorage.getItem('gameUser'));
-            if (user) {
-                alert(`👤 ${user.fullName}\n🆔 ${user.username}\n📞 ${user.phone}\n📧 ${user.email}`);
+        const activeBtn = document.getElementById('btn-' + currentQuality);
+        if (activeBtn) activeBtn.style.opacity = '1';
+
+        function setQuality(level) {
+            currentQuality = level;
+            sessionStorage.setItem('quality', level);
+            updateQualityDisplay();
+            
+            document.querySelectorAll('#qualitySettings button').forEach(btn => {
+                btn.style.opacity = '0.5';
+            });
+            const btn = document.getElementById('btn-' + level);
+            if (btn) btn.style.opacity = '1';
+            
+            if (window.qualityChange) {
+                window.qualityChange(level);
             } else {
-                document.getElementById('authModal').style.display = 'flex';
+                window.location.href = window.location.href.split('?')[0] + '?q=' + level;
+            }
+        }
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlQuality = urlParams.get('q');
+        if (urlQuality && urlQuality !== currentQuality) {
+            currentQuality = urlQuality;
+            sessionStorage.setItem('quality', urlQuality);
+            updateQualityDisplay();
+        }
+
+        // ============================================================
+        //  کنترل موسیقی پس‌زمینه
+        // ============================================================
+
+        const audio = document.getElementById('bgMusic');
+        const toggleBtn = document.getElementById('musicToggle');
+        const progressFill = document.getElementById('progressFill');
+        let isPlaying = false;
+
+        audio.volume = 0.3;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                toggleBtn.innerHTML = '<svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-play"></use></svg>';
+                toggleBtn.style.borderColor = '#ff6a00';
+                toggleBtn.style.color = '#ffaa00';
+                isPlaying = false;
+            } else {
+                audio.play().then(() => {
+                    toggleBtn.innerHTML = '<svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-pause"></use></svg>';
+                    toggleBtn.style.borderColor = '#4ade80';
+                    toggleBtn.style.color = '#4ade80';
+                    isPlaying = true;
+                }).catch(() => {
+                    alert('🎵 برای پخش آهنگ، روی دکمه کلیک کنید');
+                });
+            }
+        }
+
+        toggleBtn.addEventListener('click', toggleMusic);
+
+        audio.addEventListener('timeupdate', function() {
+            if (audio.duration) {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = percent + '%';
             }
         });
-    }
-});
 
-function registerUser() {
-    const fullName = document.getElementById('fullName');
-    const username = document.getElementById('username');
-    const email = document.getElementById('email');
-    const phone = document.getElementById('phone');
-    const statusEl = document.getElementById('userStatus');
-    
-    if (!fullName || !username || !email || !phone) {
-        if (statusEl) statusEl.innerHTML = '<span style="color:#ff4444;">❌ همه فیلدها را پر کنید!</span>';
-        return;
-    }
-    
-    if (!fullName.value || !username.value || !email.value || !phone.value) {
-        if (statusEl) statusEl.innerHTML = '<span style="color:#ff4444;">❌ همه فیلدها را پر کنید!</span>';
-        return;
-    }
-    
-    const user = { fullName: fullName.value, username: username.value, email: email.value, phone: phone.value };
-    localStorage.setItem('gameUser', JSON.stringify(user));
-    
-    if (statusEl) statusEl.innerHTML = `<span style="color:#4ade80;">✅ ${fullName.value} عزیز ثبت نام شدید!</span>`;
-    setTimeout(() => {
-        document.getElementById('authModal').style.display = 'none';
-    }, 1500);
-}
+        audio.addEventListener('ended', function() {
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+        });
 
-function closeModal() {
-    document.getElementById('authModal').style.display = 'none';
-}
+        // تلاش برای پخش خودکار
+        document.addEventListener('DOMContentLoaded', function() {
+            audio.play().then(() => {
+                toggleBtn.innerHTML = '<svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-pause"></use></svg>';
+                toggleBtn.style.borderColor = '#4ade80';
+                toggleBtn.style.color = '#4ade80';
+                isPlaying = true;
+            }).catch(() => {
+                console.log('⏸️ پخش خودکار نیاز به کلیک کاربر دارد');
+            });
+        });
 
-function burstEffectHandler(event, element) {
-    event.preventDefault();
-    const href = element.getAttribute('href');
-    if (href && href !== '#') {
-        window.location.href = href;
-    }
-}
-</script>
+        console.log('🎵 آهنگ Robert Miles - Children آماده پخش است!');
+        console.log('📍 دکمه موسیقی در گوشه سمت راست پایین صفحه قرار دارد');
+    </script>
 
 </body>
 </html>

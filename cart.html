@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="سبد خرید فروشگاه گیم نت — بررسی اقلام، ثبت سفارش و دریافت کد پیگیری.">
+    <meta property="og:title" content="سبد خرید | فروشگاه گیم نت">
+    <meta property="og:description" content="سبد خرید فروشگاه گیم نت — بررسی اقلام، ثبت سفارش و دریافت کد پیگیری.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=3">
+
     <title>سبد خرید | فروشگاه گیم نت</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     
-    <link rel="stylesheet" href="Webstyle.css">
+    <link rel="stylesheet" href="Webstyle.css?v=3">
 </head>
 <body>
 
 <div class="container">
     <div class="main-header">
-        <div class="logo"><h1><i class="fas fa-store"></i> فروشگاه گیم نت</h1></div>
-        <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت</a>
+        <div class="logo"><h1><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-store"></use></svg> فروشگاه گیم نت</h1></div>
+        <a href="shop-index.html" class="back-link"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-back"></use></svg> بازگشت</a>
     </div>
 
     <h1 class="section-title">🛒 سبد خرید</h1>
@@ -27,231 +33,48 @@
     <div id="cartSummary"></div>
     
     <!-- ========== دکمه ثبت سفارش ========== -->
-    <button class="checkout-btn" id="checkoutBtn">✅ ثبت سفارش و دریافت کد پیگیری</button>
+    <button class="checkout-btn" id="checkoutBtn"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-check"></use></svg> ثبت سفارش و دریافت کد پیگیری</button>
     
     <!-- ========== کد پیگیری سفارش ========== -->
     <div id="orderCodeDiv" class="order-code" style="display: none;">
-        <i class="fas fa-ticket-alt" style="font-size: 1.5rem; color: #ff6a00;"></i>
+        <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true" style="font-size: 1.5rem; color: #ff6a00;"><use href="icons.svg?v=3#ic-ticket"></use></svg>
         <h3>✅ کد پیگیری سفارش شما:</h3>
         <h2 id="orderCode" style="color: #ff6a00; direction: ltr; font-size: 0.9rem; word-break: break-all; background: #0a0a0f; padding: 0.5rem; border-radius: 10px;"></h2>
-        <button class="copy-btn" id="copyCodeBtn">📋 کپی کد</button>
+        <button class="copy-btn" id="copyCodeBtn"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-copy"></use></svg> کپی کد</button>
         <div id="copySuccess" class="copy-success" style="display: none;">✅ کد پیگیری کپی شد!</div>
         <div class="order-details" id="orderDetails"></div>
         <p style="font-size: 0.8rem; margin-top: 0.5rem;">📞 لطفاً با این کد با ما تماس بگیرید.</p>
     </div>
 
     <div class="contact-bar">
-        <i class="fas fa-phone-alt"></i> شماره‌های تماس برای هماهنگی:
+        <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-phone"></use></svg> شماره‌های تماس برای هماهنگی:
         <a href="tel:0933880140">۰۹۳۳۸۸۰۱۴۰</a> | 
         <a href="tel:09372726142">۰۹۳۷۲۷۲۶۱۴۲</a>
     </div>
 
     <footer>
-        <div class="owner-id"><i class="fab fa-telegram"></i> آیدی مدیریت: <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a></div>
+        <div class="owner-id"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-send"></use></svg> آیدی مدیریت: <a href="https://rubika.ir/javadxpro" target="_blank">javadxpro@</a></div>
         <p>فروشگاه گیم نت | تمامی حقوق محفوظ است</p>
     </footer>
 </div>
 
 <!-- ========== منوی پایین ========== -->
 <div class="bottom-nav">
-    <a href="index.html"><i class="fas fa-home"></i> خانه</a>
-    <a href="cart.html" class="active"><i class="fas fa-shopping-cart"></i> سبد خرید</a>
-    <a href="offers.html"><i class="fas fa-gift"></i> پیشنهادها</a>
-    <a href="games.html"><i class="fas fa-gamepad"></i> بازی‌ها</a>
-    <a href="giftcard.html"><i class="fas fa-ticket-alt"></i> گیفت کارت</a>
+    <a href="shop-index.html"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-home"></use></svg> خانه</a>
+    <a href="cart.html" class="active"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-cart"></use></svg> سبد خرید</a>
+    <a href="offers.html"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-gift"></use></svg> پیشنهادها</a>
+    <a href="games.html"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-gamepad"></use></svg> بازی‌ها</a>
+    <a href="giftcard.html"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-ticket"></use></svg> گیفت کارت</a>
 </div>
 
 <!-- ========== اسکریپت‌ها ========== -->
-<script src="script.js"></script>
+<script src="script.js?v=3"></script>
 
 <!-- ========== اسکریپت مخصوص سبد خرید ========== -->
 <script>
-    // ========== تابع‌های سبد خرید ==========
-    function getCart() {
-        return JSON.parse(localStorage.getItem('gameCart')) || [];
-    }
-
-    function saveCart(cart) {
-        localStorage.setItem('gameCart', JSON.stringify(cart));
-        updateCartCount();
-    }
-
-    function updateCartCount() {
-        const cart = getCart();
-        const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-        document.querySelectorAll('.cart-count').forEach(el => {
-            el.textContent = count;
-        });
-    }
-
-    function removeFromCart(id) {
-        let cart = getCart();
-        cart = cart.filter(item => item.id !== id);
-        saveCart(cart);
-        renderCart();
-    }
-
-    function changeQty(id, delta) {
-        let cart = getCart();
-        const item = cart.find(i => i.id === id);
-        if (item) {
-            item.quantity = Math.max(1, (item.quantity || 1) + delta);
-            saveCart(cart);
-            renderCart();
-        }
-    }
-
-    function renderCart() {
-        const container = document.getElementById('cartItems');
-        const summaryContainer = document.getElementById('cartSummary');
-        const cart = getCart();
-        
-        if (!cart || cart.length === 0) {
-            if (container) {
-                container.innerHTML = `
-                    <div class="empty-cart">
-                        🛒 سبد خرید شما خالی است
-                        <br><br>
-                        <a href="index.html" style="color:#ff6a00; font-weight:bold;">بازگشت به فروشگاه</a>
-                    </div>
-                `;
-            }
-            if (summaryContainer) summaryContainer.innerHTML = '';
-            document.getElementById('checkoutBtn').style.display = 'none';
-            document.getElementById('orderCodeDiv').style.display = 'none';
-            return;
-        }
-        
-        let subtotal = 0;
-        cart.forEach(item => {
-            let price = parseInt(String(item.price).replace(/,/g, '')) || 150000;
-            subtotal += price * (item.quantity || 1);
-        });
-        
-        if (container) {
-            container.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <div class="item-title">${item.title} ${item.type ? `(${item.type})` : ''}</div>
-                    <div class="item-price-row">
-                        <div class="price-tag">${Number(item.price).toLocaleString()} تومان</div>
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <button class="remove-btn" onclick="removeFromCart(${item.id})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            <div class="quantity-control">
-                                <button onclick="changeQty(${item.id}, -1)">-</button>
-                                <span>${item.quantity || 1}</span>
-                                <button onclick="changeQty(${item.id}, 1)">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        if (summaryContainer) {
-            summaryContainer.innerHTML = `
-                <div class="cart-summary">
-                    <div class="summary-row">
-                        <span>مجموع</span>
-                        <span>${subtotal.toLocaleString()} تومان</span>
-                    </div>
-                    <div class="total">
-                        <span>قابل پرداخت</span>
-                        <span>${subtotal.toLocaleString()} تومان</span>
-                    </div>
-                </div>
-            `;
-        }
-        
-        document.getElementById('checkoutBtn').style.display = 'block';
-    }
-
-    // ========== تسویه حساب ==========
-    function generateOrderCode(username, cart) {
-        const itemsPart = cart.map(item => {
-            const tag = item.title.substring(0, 4).toUpperCase();
-            return `${tag}x${item.quantity || 1}`;
-        }).join('_');
-        const date = new Date().toLocaleDateString('fa-IR').replace(/\//g, '.');
-        let total = 0;
-        cart.forEach(item => {
-            let price = parseInt(String(item.price).replace(/,/g, '')) || 150000;
-            total += price * (item.quantity || 1);
-        });
-        return `${username}_${itemsPart}_${date}_${total.toLocaleString()}`;
-    }
-
-    function copyOrderCode() {
-        const code = document.getElementById('orderCode');
-        if (!code) return;
-        navigator.clipboard.writeText(code.innerText)
-            .then(() => {
-                const msg = document.getElementById('copySuccess');
-                if (msg) {
-                    msg.style.display = 'block';
-                    setTimeout(() => msg.style.display = 'none', 2000);
-                }
-            })
-            .catch(() => alert('لطفاً دستی کپی کنید: ' + code.innerText));
-    }
-
-    document.getElementById('checkoutBtn').addEventListener('click', function() {
-        const cart = getCart();
-        if (!cart || cart.length === 0) {
-            alert('سبد خرید شما خالی است!');
-            return;
-        }
-        
-        const user = JSON.parse(localStorage.getItem('gameUser'));
-        if (!user) {
-            alert('لطفاً ابتدا در صفحه اصلی ثبت نام کنید!');
-            window.location.href = 'index.html';
-            return;
-        }
-        
-        const code = generateOrderCode(user.username, cart);
-        
-        document.getElementById('orderCodeDiv').style.display = 'block';
-        document.getElementById('orderCode').innerHTML = code;
-        
-        let orderDetails = '';
-        let total = 0;
-        cart.forEach(item => {
-            let price = parseInt(String(item.price).replace(/,/g, '')) || 150000;
-            total += price * (item.quantity || 1);
-            orderDetails += `${item.title} ${item.type ? `(${item.type})` : ''} × ${item.quantity || 1} = ${(price * (item.quantity || 1)).toLocaleString()} تومان<br>`;
-        });
-        
-        document.getElementById('orderDetails').innerHTML = `
-            <strong>📦 جزئیات سفارش:</strong><br>
-            ${orderDetails}
-            <strong>💰 مبلغ کل: ${total.toLocaleString()} تومان</strong><br>
-            <strong>👤 نام: ${user.fullName}</strong><br>
-            <strong>🆔 نام کاربری: ${user.username}</strong><br>
-            <strong>📞 تلفن: ${user.phone}</strong><br>
-            <strong>📧 ایمیل: ${user.email}</strong>
-        `;
-        
-        this.style.display = 'none';
-        
-        localStorage.setItem('lastOrderCode', code);
-        localStorage.setItem('lastOrderCart', JSON.stringify(cart));
-        localStorage.setItem('lastOrderUser', JSON.stringify(user));
-        
-        saveCart([]);
-        renderCart();
-        updateCartCount();
-        
-        setTimeout(copyOrderCode, 100);
-        alert(`✅ سفارش شما ثبت شد!\n📌 کد پیگیری: ${code}\n📞 لطفاً با شماره‌های تماس، هماهنگی کنید.`);
-    });
-
+    // ========== توابع سبد خرید (getCart, renderCart, checkout و ...) در script.js مشترک قرار دارند ==========
+    document.getElementById('checkoutBtn').addEventListener('click', checkout);
     document.getElementById('copyCodeBtn').addEventListener('click', copyOrderCode);
-
-    // ========== اجرا ==========
-    renderCart();
-    updateCartCount();
 </script>
 
 </body>

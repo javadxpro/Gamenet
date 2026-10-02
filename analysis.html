@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="آنالیز آماری بازیکنان تیم راه ابریشم.">
+    <meta property="og:title" content="آنالیز بازیکنان | تیم راه ابریشم">
+    <meta property="og:description" content="آنالیز آماری بازیکنان تیم راه ابریشم.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=3">
+
     <title>آنالیز بازیکنان | تیم راه ابریشم</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-    <link rel="stylesheet" href="Webstyle.css">
+    <link rel="stylesheet" href="Webstyle.css?v=3">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
 <div class="container">
     <div class="team-header">
-        <div class="logo"><h1><i class="fas fa-chart-line"></i> آنالیز بازیکنان راه ابریشم</h1></div>
-        <div class="team-badge"><i class="fas fa-trophy"></i> لیگ خوزستان</div>
+        <div class="logo"><h1><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-chart"></use></svg> آنالیز بازیکنان راه ابریشم</h1></div>
+        <div class="team-badge"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-trophy"></use></svg> لیگ خوزستان</div>
     </div>
 
-    <a href="team-info.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت به وضعیت تیم</a>
+    <a href="team-info.html" class="back-link"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-back"></use></svg> بازگشت به وضعیت تیم</a>
 
     <div class="filter-section">
         <button class="filter-btn active" data-filter="all">همه</button>
@@ -379,7 +385,7 @@ function renderPlayers(filter = 'all') {
                     </span>
                     <span class="player-pos">${player.pos}</span>
                     <span class="player-role">${player.role}</span>
-                    ${player.name === 'جواد' ? '<span class="badge-captain"><i class="fas fa-crown"></i> کاپیتان</span>' : ''}
+                    ${player.name === 'جواد' ? '<span class="badge-captain"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-crown"></use></svg> کاپیتان</span>' : ''}
                     ${isSuspended ? '<span class="badge-suspended"><i class="fas fa-ban"></i> تعلیق</span>' : ''}
                     ${isGK && !isSuspended ? '<span class="badge-gk"><i class="fas fa-glove"></i> گلر</span>' : ''}
                 </div>
@@ -451,7 +457,7 @@ function renderPlayers(filter = 'all') {
                     </div>
                 ` : `
                     <div style="text-align:center; padding:0.5rem; color:#666; font-size:0.8rem;">
-                        <i class="fas fa-user-slash"></i> این بازیکن در تعلیق است
+                        <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=3#ic-user-off"></use></svg> این بازیکن در تعلیق است
                     </div>
                 `}
             </div>
