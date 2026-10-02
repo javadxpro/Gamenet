@@ -38,9 +38,10 @@ npx serve .
 ```
 Gamenet/
 ├── *.html               # صفحات سایت
-├── Webstyle.css         # استایل اصلی
+├── Webstyle.css         # استایل اصلی (شامل لایه‌ی شیشه‌ای دکمه‌ها)
 ├── script.js            # اسکریپت مشترک (سبد خرید، ثبت سفارش، منو، افکت‌ها)
 ├── WebGL.js             # صحنه سه‌بعدی three.js (صفحه web.html)
+├── icons.svg            # اسپرایت آیکون‌های اختصاصی گیم‌نت
 ├── images/              # تصاویر بازی‌ها (آفلاین در خود سایت)
 ├── assets/audio/        # موزیک زمینه web.html
 ├── favicon.svg

@@ -77,6 +77,15 @@
             width: 100%;
             text-align: center;
             font-family: inherit;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(14px) saturate(1.35);
+            -webkit-backdrop-filter: blur(14px) saturate(1.35);
+            background-image: linear-gradient(165deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.02) 55%, rgba(255,255,255,0) 75%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 0 0 1px rgba(255,255,255,0.06), 0 4px 14px rgba(0,0,0,0.35);
+        }
+        #qualitySettings button:hover {
+            background-image: linear-gradient(165deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.05) 45%, rgba(255,106,0,0.12) 100%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.20), 0 6px 20px rgba(0,0,0,0.45), 0 0 18px rgba(255,106,0,0.16);
         }
         #qualitySettings button:hover {
             transform: scale(1.05);
@@ -208,7 +217,7 @@
     <div id="musicPlayer">
         <div class="player-row">
             <button id="musicToggle">
-                <i class="fas fa-play"></i>
+                <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-play"></use></svg>
             </button>
             <div class="music-info">
                 <div class="status">🎵 در حال پخش</div>
@@ -232,7 +241,7 @@
         <div class="hero">
             <h1>گیم‌نت</h1>
             <div class="hero-tagline">
-                <i class="fas fa-gamepad"></i> اینجا صفحه رسمی وب گیم نت حامدی فر هست
+                <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-gamepad"></use></svg> اینجا صفحه رسمی وب گیم نت حامدی فر هست
             </div>
         </div>
 
@@ -240,14 +249,14 @@
         <div class="row-top">
             <div class="card-hours">
                 <div class="hours-header">
-                    <i class="fas fa-clock"></i>
+                    <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-clock"></use></svg>
                     <div>
                         <h3>ساعات کاری</h3>
                         <p>⏰ ۱۰ صبح تا ۱۰ شب</p>
                     </div>
                 </div>
                 <a href="news.html" class="btn btn-news" onclick="burstEffectHandler(event, this)">
-                    <i class="fas fa-newspaper"></i> اخبار گیم نت
+                    <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-news"></use></svg> اخبار گیم نت
                 </a>
             </div>
             <div class="card-image">
@@ -259,7 +268,7 @@
         <div class="row-middle">
             <div class="card-services">
                 <div class="services-header">
-                    <i class="fas fa-store"></i>
+                    <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-store"></use></svg>
                     <div>
                         <h3>خدمات</h3>
                         <p>🎮 نصب بازی آفلاین و آنلاین PS و Xbox</p>
@@ -270,7 +279,7 @@
                     <i class="fab fa-xbox xbox"></i>
                 </div>
                 <a href="index.html" class="btn btn-shop" onclick="burstEffectHandler(event, this)">
-                    <i class="fas fa-store"></i> ورود به فروشگاه
+                    <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-store"></use></svg> ورود به فروشگاه
                 </a>
             </div>
         </div>
@@ -278,13 +287,13 @@
         <!-- ========== ردیف سوم: دکمه‌ها ========== -->
         <div class="row-buttons">
             <a href="team.html" class="btn btn-team" onclick="burstEffectHandler(event, this)">
-                <i class="fas fa-futbol"></i> تیم فوتبال
+                <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-soccer"></use></svg> تیم فوتبال
             </a>
             <a href="WebPC.html" class="btn btn-webpc" onclick="burstEffectHandler(event, this)">
-                <i class="fas fa-globe"></i> گرافیک فراکهکشانی
+                <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-orbit"></use></svg> گرافیک فراکهکشانی
             </a>
             <a href="https://photos.app.goo.gl/fDSRKWhZyAnd1HVv5" target="_blank" class="btn btn-gallery" onclick="burstEffectHandler(event, this)">
-                <i class="fas fa-images"></i> آلبوم گیم نت
+                <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-photos"></use></svg> آلبوم گیم نت
             </a>
         </div>
 
@@ -295,14 +304,14 @@
                 <a href="https://rubika.ir/GAMENETJXP" target="_blank">کانال روبیکا</a>
             </div>
             <div class="channel-item">
-                <i class="fas fa-users"></i>
+                <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-user"></use></svg>
                 <a href="https://rubika.ir/joing/IGBBIDBA0WCZWZPMKJBBNANXIDBOLVUZ" target="_blank">گروه روبیکا</a>
             </div>
         </div>
 
         <!-- ========== فوتر ========== -->
         <footer>
-            <i class="fas fa-crown"></i> گیم‌نت حامدی فر | ۱۰ صبح تا ۱۰ شب
+            <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-crown"></use></svg> گیم‌نت حامدی فر | ۱۰ صبح تا ۱۰ شب
         </footer>
 
     </div>
@@ -381,13 +390,13 @@
         function toggleMusic() {
             if (isPlaying) {
                 audio.pause();
-                toggleBtn.innerHTML = '<i class="fas fa-play"></i>';
+                toggleBtn.innerHTML = '<svg class="gi" aria-hidden="true"><use href="icons.svg#ic-play"></use></svg>';
                 toggleBtn.style.borderColor = '#ff6a00';
                 toggleBtn.style.color = '#ffaa00';
                 isPlaying = false;
             } else {
                 audio.play().then(() => {
-                    toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    toggleBtn.innerHTML = '<svg class="gi" aria-hidden="true"><use href="icons.svg#ic-pause"></use></svg>';
                     toggleBtn.style.borderColor = '#4ade80';
                     toggleBtn.style.color = '#4ade80';
                     isPlaying = true;
@@ -414,7 +423,7 @@
         // تلاش برای پخش خودکار
         document.addEventListener('DOMContentLoaded', function() {
             audio.play().then(() => {
-                toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                toggleBtn.innerHTML = '<svg class="gi" aria-hidden="true"><use href="icons.svg#ic-pause"></use></svg>';
                 toggleBtn.style.borderColor = '#4ade80';
                 toggleBtn.style.color = '#4ade80';
                 isPlaying = true;

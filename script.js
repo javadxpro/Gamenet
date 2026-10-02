@@ -122,7 +122,7 @@ function renderCart() {
                     <div class="price-tag">${parsePrice(item.price).toLocaleString()} تومان</div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <button class="remove-btn" onclick="removeFromCart(${item.id}, '${escHtml(item.type || '')}')">
-                            <i class="fas fa-trash"></i>
+                            <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-trash"></use></svg>
                         </button>
                         <div class="quantity-control">
                             <button onclick="changeQty(${item.id}, '${escHtml(item.type || '')}', -1)">-</button>

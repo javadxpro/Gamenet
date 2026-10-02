@@ -34,17 +34,23 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: #ff6a00;
+            background: rgba(255, 106, 0, 0.85);
+            background-image: linear-gradient(165deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0) 75%);
             color: #fff;
             text-decoration: none;
             padding: 0.8rem 1.8rem;
             border-radius: 1rem;
             font-weight: bold;
-            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(12px) saturate(1.3);
+            -webkit-backdrop-filter: blur(12px) saturate(1.3);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 6px 22px rgba(255, 106, 0, 0.22);
+            transition: transform 0.25s, box-shadow 0.25s, background-image 0.25s;
         }
         .error-home:hover {
             transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(255, 106, 0, 0.4);
+            background-image: linear-gradient(165deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0) 75%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 10px 30px rgba(255, 106, 0, 0.42);
         }
     </style>
 </head>
@@ -54,7 +60,7 @@
     <div class="error-wrap">
         <div class="error-code">404</div>
         <div class="error-text">😕 به نظر می‌رسه این صفحه جابه‌جا شده یا دیگر وجود نداره.</div>
-        <a class="error-home" href="index.html"><i class="fas fa-home"></i> بازگشت به فروشگاه</a>
+        <a class="error-home" href="index.html"><svg class="gi" aria-hidden="true"><use href="icons.svg#ic-home"></use></svg> بازگشت به فروشگاه</a>
     </div>
     <footer>
         <p>فروشگاه گیم نت | تمامی حقوق محفوظ است</p>
