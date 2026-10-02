@@ -2434,10 +2434,19 @@ footer {
     vertical-align: -0.24em;
 }
 .bottom-nav a .gi {
-    width: 1.9em;
-    height: 1.9em;
+    width: 2.6em;
+    height: 2.6em;
     display: block;
     margin-bottom: 4px;
+}
+.btn .gi {
+    width: 1em;
+    height: 1em;
+}
+.user-btn .gi,
+.cart-icon .gi {
+    width: 1.1em;
+    height: 1.1em;
 }
 .gi.gi-big {
     width: 1.5em;
