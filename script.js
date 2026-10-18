@@ -69,7 +69,9 @@ function addToCart(gameData, selectedType, selectedPrice) {
     }
 
     saveCart(cart);
-    alert(`${gameData.title} (${selectedType}) با قیمت ${selectedPrice} تومان به سبد خرید اضافه شد!`);
+    alert(selectedPrice === 'قیمت روز'
+        ? `${gameData.title} (${selectedType}) به سبد خرید اضافه شد! (قیمت روز — مبلغ هنگام هماهنگی اعلام می‌شود)`
+        : `${gameData.title} (${selectedType}) با قیمت ${selectedPrice} تومان به سبد خرید اضافه شد!`);
     return true;
 }
 
@@ -111,9 +113,18 @@ function parsePrice(price) {
 
 // قیمت مؤثر یک قلم: اگر قیمت نامعتبر بود، همان مبلغ پیش‌فرضِ جمع کل استفاده می‌شود
 // تا قیمت نمایشیِ هر قلم با «قابل پرداخت» تناقض نداشته باشد.
-const FALLBACK_PRICE = 150000;
+const FALLBACK_PRICE = 250000;
 function effectivePrice(item) {
+    if (isDailyPrice(item)) return 0; // «قیمت روز» مبلغ ثابت ندارد
     return parsePrice(item.price) || FALLBACK_PRICE;
+}
+
+// اقلام «قیمت روز» (خرید ظرفیتی نسخهٔ اصلی): مبلغ ثابت ندارند و در جمع سبد حساب نمی‌شوند
+function isDailyPrice(item) {
+    return String(item && item.price != null ? item.price : '').includes('قیمت روز');
+}
+function displayPrice(item) {
+    return isDailyPrice(item) ? 'قیمت روز' : effectivePrice(item).toLocaleString() + ' تومان';
 }
 
 // ============================================================
@@ -156,7 +167,7 @@ function renderCart() {
             <div class="cart-item">
                 <div class="item-title">${escHtml(item.title)} ${item.type ? `(${escHtml(item.type)})` : ''}</div>
                 <div class="item-price-row">
-                    <div class="price-tag">${effectivePrice(item).toLocaleString()} تومان</div>
+                    <div class="price-tag">${displayPrice(item)}</div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <button class="remove-btn" data-cart-action="remove" data-index="${index}" aria-label="حذف از سبد">
                             <svg class="gi" aria-hidden="true"><use href="icons.svg#ic-trash"></use></svg>
@@ -179,8 +190,9 @@ function renderCart() {
                     <span>مجموع</span>
                     <span>${subtotal.toLocaleString()} تومان</span>
                 </div>
+                ${cart.some(isDailyPrice) ? '<div class="summary-row"><span>اقلام ظرفیتی</span><span>قیمت روز (هنگام هماهنگی اعلام می‌شود)</span></div>' : ''}
                 <div class="total">
-                    <span>قابل پرداخت</span>
+                    <span>قابل پرداخت (اقلام با قیمت ثابت)</span>
                     <span>${subtotal.toLocaleString()} تومان</span>
                 </div>
             </div>
@@ -266,14 +278,15 @@ function checkout() {
     cart.forEach(item => {
         const price = effectivePrice(item);
         total += price * (item.quantity || 1);
-        orderDetails += `${escHtml(item.title)} ${item.type ? `(${escHtml(item.type)})` : ''} × ${item.quantity || 1} = ${(price * (item.quantity || 1)).toLocaleString()} تومان<br>`;
+        const linePrice = isDailyPrice(item) ? 'قیمت روز' : (price * (item.quantity || 1)).toLocaleString() + ' تومان';
+        orderDetails += `${escHtml(item.title)} ${item.type ? `(${escHtml(item.type)})` : ''} × ${item.quantity || 1} = ${linePrice}<br>`;
     });
 
     if (orderDetailsEl) {
         orderDetailsEl.innerHTML = `
             <strong>📦 جزئیات سفارش:</strong><br>
             ${orderDetails}
-            <strong>💰 مبلغ کل: ${total.toLocaleString()} تومان</strong><br>
+            <strong>💰 مبلغ اقلام با قیمت ثابت: ${total.toLocaleString()} تومان</strong>${cart.some(isDailyPrice) ? '<br><strong>🎮 اقلام ظرفیتی: قیمت روز (هنگام هماهنگی اعلام می‌شود)</strong>' : ''}<br>
             <strong>👤 نام: ${escHtml(user.fullName)}</strong><br>
             <strong>🆔 نام کاربری: ${escHtml(user.username)}</strong><br>
             <strong>📞 تلفن: ${escHtml(user.phone)}</strong><br>

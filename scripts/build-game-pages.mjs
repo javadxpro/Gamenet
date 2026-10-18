@@ -48,6 +48,8 @@ const PHONE2_TEL = '+989372726142';
 
 function gamePage(game) {
   const features = game.features.map(f => `<li>${esc(f)}</li>`).join('\n                    ');
+  const hasOriginal = Boolean(game.origSize);
+  const copyPriceFa = Number(String(game.price).replace(/[^0-9]/g, '')).toLocaleString('fa-IR');
   return `<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -57,22 +59,29 @@ function gamePage(game) {
     <meta property="og:title" content="${esc(game.title)} | فروشگاه گیم نت">
     <meta property="og:description" content="خرید نسخه کپی‌خور ${esc(game.title)} برای PS4 و PS5 — مشخصات کامل، مقایسه حجم نسخه اصلی و کپی‌خور و قیمت در فروشگاه گیم نت.">
     <meta property="og:type" content="website">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=4">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=5">
 
     <title>${esc(game.title)} | فروشگاه گیم نت</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-    <link rel="stylesheet" href="Webstyle.css?v=4">
+    <link rel="stylesheet" href="Webstyle.css?v=5">
 </head>
 <body>
 <div class="container">
     <div class="main-header">
-        <div class="logo"><p class="logo-text"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=4#ic-store"></use></svg> فروشگاه گیم نت</p></div>
-        <a href="games.html" class="back-link"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=4#ic-back"></use></svg> همه بازی‌ها</a>
+        <div class="logo"><p class="logo-text"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=5#ic-store"></use></svg> فروشگاه گیم نت</p></div>
+        <a href="games.html" class="back-link"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=5#ic-back"></use></svg> همه بازی‌ها</a>
     </div>
 
     <div class="game-detail">
-        <img class="game-img" src="${esc(game.img)}" alt="${esc(game.title)}" onerror="this.onerror=null; this.src='images/placeholder.svg';">
+        <figure class="cover-frame">
+            <img class="game-img cover-img" src="${esc(game.img)}" alt="${esc(game.title)}" onerror="this.onerror=null; this.src='images/placeholder.svg';">
+            <figcaption class="cover-badges">
+                <span class="cover-badge available">✅ موجود</span>
+                <span class="cover-badge platform"><i class="fab fa-playstation" aria-hidden="true"></i> PS4 | PS5</span>
+                <span class="cover-badge price">کپی‌خور: ${copyPriceFa} تومان</span>
+            </figcaption>
+        </figure>
         <div class="game-info">
             <h1 class="game-title">${esc(game.title)}</h1>
             <div class="game-platform"><i class="fab fa-playstation" style="color: #0099ff;"></i> نسخه کپی‌خور: PS4 | PS5</div>
@@ -87,15 +96,15 @@ function gamePage(game) {
                 <div><span>🔞 رده‌بندی سنی</span><strong>${esc(game.pegi)}</strong></div>
             </div>
 
-            <h2 class="compare-title">📦 مقایسهٔ نسخهٔ اصلی و کپی‌خور</h2>
+${hasOriginal ? `            <h2 class="compare-title">📦 مقایسهٔ نسخهٔ اصلی و کپی‌خور</h2>
             <div class="version-compare">
                 <div class="version-card original">
-                    <h3>نسخهٔ اصلی (Original)</h3>
+                    <h3>نسخهٔ اصلی — خرید بازی ظرفیتی 🎮</h3>
                     <div class="version-size">${esc(game.origSize)}</div>
                     <ul>
-                        <li>خرید دیجیتال از PlayStation Store (پرداخت ارزی و اکانت خارجی لازم دارد)</li>
-                        <li>حجم دانلود نسخهٔ PS4 از استور؛ با آپدیت‌ها و DLCها بیشتر می‌شود</li>
-                        <li>بازی آنلاین رسمی روی سرورهای پلی‌استیشن (با PS Plus)</li>
+                        <li>در این فروشگاه به‌صورت <strong>خرید بازی ظرفیتی</strong> ارائه می‌شود؛ نوع ظرفیت را پایین‌تر انتخاب کنید: <strong>آنلاین، آفلاین یا کامل</strong></li>
+                        <li>قیمت نسخهٔ ظرفیتی <strong>قیمت روز</strong> است و هنگام ثبت سفارش و هماهنگی اعلام می‌شود</li>
+                        <li>حجم دانلود نسخهٔ PS4 از PlayStation Store؛ با آپدیت‌ها و DLCها بیشتر می‌شود و بازی آنلاین رسمی روی سرورهای پلی‌استیشن انجام می‌شود</li>
                     </ul>
                 </div>
                 <div class="version-card copy">
@@ -103,11 +112,24 @@ function gamePage(game) {
                     <div class="version-size">${esc(game.copySize)}</div>
                     <ul>
                         <li><strong>فقط برای PS4 و PS5</strong> ارائه می‌شود (نسخهٔ هکی/کپی‌خور مخصوص این دو کنسول است)</li>
+                        <li>قیمت ثابت: <strong>${copyPriceFa} تومان</strong></li>
                         <li>حجم نصب روی کنسول با نسخهٔ اصلی فرق می‌کند؛ چون معمولاً زبان‌ها و فایل‌های اضافه حذف و بازی فشرده می‌شود</li>
                         <li>بدون نیاز به خرید دلاری و اکانت خارجی؛ مناسب بازی آفلاین و داستانی</li>
                     </ul>
                 </div>
+            </div>` : `            <h2 class="compare-title">📦 نسخهٔ قابل خرید</h2>
+            <div class="version-compare single">
+                <div class="version-card copy">
+                    <h3>نسخهٔ کپی‌خور (همین فروشگاه) ✅</h3>
+                    <div class="version-size">${esc(game.copySize)}</div>
+                    <ul>
+                        <li><strong>فقط برای PS4 و PS5</strong> ارائه می‌شود (نسخهٔ هکی/کپی‌خور مخصوص این دو کنسول است)</li>
+                        <li>قیمت ثابت: <strong>${copyPriceFa} تومان</strong></li>
+                        <li>حجم نصب روی کنسول تقریبی است و با نسخهٔ پچ/آپدیت تغییر می‌کند</li>
+                    </ul>
+                </div>
             </div>
+            ${game.noOriginalNote ? `<p class="size-note">ℹ️ ${esc(game.noOriginalNote)}</p>` : ''}`}
             <p class="size-note">ℹ️ حجم‌ها تقریبی‌اند و با ریجن بازی، زبان‌های نصب‌شده و نسخهٔ آپدیت تغییر می‌کنند؛ حجم دقیق هنگام هماهنگی خرید اعلام می‌شود.</p>
 
             <h2 class="compare-title">⭐ ویژگی‌های بازی</h2>
@@ -117,19 +139,28 @@ function gamePage(game) {
 
             <div class="type-selector">
                 <h3>🎯 حالت خرید را انتخاب کنید:</h3>
+
+                <p class="buy-group-label">💾 نسخهٔ کپی‌خور — فقط PS4/PS5</p>
                 <div class="type-buttons">
-                    <div class="type-btn disabled" data-type="نسخه اصلی" data-price="ناموجود">نسخه اصلی <span style="font-size:0.7rem;">(فقط اطلاع‌رسانی — فروش در استور)</span></div>
-                    <div class="type-btn" data-type="کپی خور (PS4/PS5)" data-price="${esc(game.price)}">کپی خور PS4/PS5 <span style="font-size:0.7rem;">(${Number(String(game.price).replace(/[^0-9]/g, '')).toLocaleString('fa-IR')} تومان)</span></div>
+                    <div class="type-btn" data-type="کپی خور (PS4/PS5)" data-price="${esc(game.price)}">کپی خور <span style="font-size:0.7rem;">(${copyPriceFa} تومان)</span></div>
                 </div>
+${hasOriginal ? `
+                <p class="buy-group-label">🎮 خرید بازی ظرفیتی — نسخهٔ اصلی (قیمت روز)</p>
+                <div class="type-buttons">
+                    <div class="type-btn" data-type="ظرفیتی - آنلاین (نسخه اصلی)" data-price="قیمت روز">آنلاین <span style="font-size:0.7rem;">(قیمت روز)</span></div>
+                    <div class="type-btn" data-type="ظرفیتی - آفلاین (نسخه اصلی)" data-price="قیمت روز">آفلاین <span style="font-size:0.7rem;">(قیمت روز)</span></div>
+                    <div class="type-btn" data-type="ظرفیتی - کامل (نسخه اصلی)" data-price="قیمت روز">کامل <span style="font-size:0.7rem;">(قیمت روز)</span></div>
+                </div>
+                <p class="size-note">ظرفیت‌ها: <strong>آنلاین</strong> برای بازی آنلاین، <strong>آفلاین</strong> فقط برای بازی آفلاین و <strong>کامل</strong> برای هر دو حالت است. قیمت خرید ظرفیتی «قیمت روز» است؛ مبلغ دقیق هنگام هماهنگی سفارش اعلام می‌شود و این اقلام در سبد با برچسب «قیمت روز» ثبت می‌شوند.</p>` : ''}
                 <div id="priceDisplay" class="price-display" style="display: none;"></div>
             </div>
 
-            <button id="addToCartBtn" class="add-to-cart" style="display: none;"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=4#ic-plus"></use></svg> افزودن به سبد خرید</button>
+            <button id="addToCartBtn" class="add-to-cart" style="display: none;"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=5#ic-plus"></use></svg> افزودن به سبد خرید</button>
         </div>
     </div>
 
     <div class="contact-bar">
-        <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=4#ic-phone"></use></svg> برای شرایط خرید و اطمینان از منبع تماس بگیرید:
+        <svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=5#ic-phone"></use></svg> برای شرایط خرید و اطمینان از منبع تماس بگیرید:
         <a href="tel:${PHONE_TEL}">${PHONE_FA}</a> |
         <a href="tel:${PHONE2_TEL}">${PHONE2_FA}</a>
     </div>
@@ -140,14 +171,14 @@ function gamePage(game) {
 </div>
 
 <div class="bottom-nav">
-    <a href="shop-index.html"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=4#ic-home"></use></svg> خانه</a>
-    <a href="cart.html"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=4#ic-cart"></use></svg> سبد خرید</a>
-    <a href="offers.html"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=4#ic-gift"></use></svg> پیشنهادها</a>
-    <a href="games.html" class="active"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=4#ic-gamepad"></use></svg> بازی‌ها</a>
-    <a href="giftcard.html"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=4#ic-ticket"></use></svg> گیفت کارت</a>
+    <a href="shop-index.html"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=5#ic-home"></use></svg> خانه</a>
+    <a href="cart.html"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=5#ic-cart"></use></svg> سبد خرید</a>
+    <a href="offers.html"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=5#ic-gift"></use></svg> پیشنهادها</a>
+    <a href="games.html" class="active"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=5#ic-gamepad"></use></svg> بازی‌ها</a>
+    <a href="giftcard.html"><svg class="gi" width="1.18em" height="1.18em" aria-hidden="true"><use href="icons.svg?v=5#ic-ticket"></use></svg> گیفت کارت</a>
 </div>
 
-<script src="script.js?v=4"></script>
+<script src="script.js?v=5"></script>
 <script>
     const gameData = {
         id: ${game.id},
@@ -168,7 +199,9 @@ function gamePage(game) {
 
             const priceDisplay = document.getElementById('priceDisplay');
             priceDisplay.style.display = 'block';
-            priceDisplay.textContent = '💰 قیمت ' + selectedType + ': ' + selectedPrice + ' تومان';
+            priceDisplay.textContent = selectedPrice === 'قیمت روز'
+                ? '💰 ' + selectedType + ': قیمت روز (مبلغ دقیق هنگام هماهنگی اعلام می‌شود)'
+                : '💰 قیمت ' + selectedType + ': ' + selectedPrice + ' تومان';
 
             document.getElementById('addToCartBtn').style.display = 'block';
         });

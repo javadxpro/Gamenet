@@ -2643,3 +2643,96 @@ a.game-card {
     line-height: 1.9;
     margin-top: 0.7rem;
 }
+
+/* --- قاب مدرن کاور بازی (صفحات اختصاصی) --- */
+.cover-frame {
+    position: relative;
+    margin: 1rem 1rem 0;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 106, 0, 0.12), 0 8px 32px rgba(255, 106, 0, 0.12);
+}
+.cover-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(5, 5, 12, 0.72) 100%);
+    pointer-events: none;
+}
+.cover-img {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s ease;
+}
+.game-detail:hover .cover-img { transform: scale(1.03); }
+.cover-badges {
+    position: absolute;
+    inset-inline: 0.9rem;
+    bottom: 0.8rem;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+}
+.cover-badge {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #fff;
+    padding: 0.32rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(10, 10, 18, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px) saturate(1.3);
+    -webkit-backdrop-filter: blur(10px) saturate(1.3);
+}
+.cover-badge.price {
+    margin-inline-start: auto;
+    background: rgba(255, 106, 0, 0.82);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+@media (max-width: 600px) {
+    .cover-frame { margin: 0.7rem 0.7rem 0; border-radius: 1rem; }
+    .cover-badge.price { margin-inline-start: 0; }
+}
+
+/* --- فیت مدرن تصویر کارت‌ها در فهرست بازی‌ها --- */
+.games-grid .img-container,
+.subscriptions-grid .img-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem 1rem 0 0;
+}
+.img-container .game-img {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+.game-card:hover .img-container .game-img { transform: scale(1.05); }
+.img-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 62%, rgba(5, 5, 12, 0.45) 100%);
+    pointer-events: none;
+}
+
+/* --- گروه‌بندی دکمه‌های خرید (کپی‌خور / ظرفیتی) --- */
+.buy-group-label {
+    font-weight: 700;
+    font-size: 0.92rem;
+    margin: 0.9rem 0 0.45rem;
+    color: #ffaa00;
+}
+.version-compare.single { grid-template-columns: 1fr; }

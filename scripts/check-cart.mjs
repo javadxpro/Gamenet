@@ -87,6 +87,16 @@ assert('inc raises quantity to 3', sandbox.getCart()[0].quantity === 3);
 sandbox.handleCartAction('remove', 0);
 assert('remove empties the cart', sandbox.getCart().length === 0);
 
+// 3.5) «قیمت روز» (ظرفیتی) نباید به‌صورت مبلغ ثابت در جمع سبد بیاید
+store.gameCart = JSON.stringify([
+  { id: 9, title: 'GTA V', type: 'کپی خور (PS4/PS5)', price: '250,000', quantity: 1 },
+  { id: 9, title: 'GTA V', type: 'ظرفیتی - کامل (نسخه اصلی)', price: 'قیمت روز', quantity: 1 }
+]);
+sandbox.renderCart();
+assert('daily-price item shows «قیمت روز» instead of a number', els.cartItems.innerHTML.includes('قیمت روز'));
+assert('subtotal only counts fixed-price items (250,000)', els.cartSummary.innerHTML.includes((250000).toLocaleString()));
+assert('summary notes capacity items are priced daily', els.cartSummary.innerHTML.includes('قیمت روز'));
+
 // 4) registration validation
 const fields = {
   fullName: { value: 'کاربر تست' },
