@@ -2736,3 +2736,12 @@ a.game-card {
     color: #ffaa00;
 }
 .version-compare.single { grid-template-columns: 1fr; }
+
+/* --- جریان خرید مرحله‌ای و دکمه‌های واقعی --- */
+button.type-btn {
+    font-family: inherit;
+    cursor: pointer;
+    color: inherit;
+}
+#stepVersion, #stepCapacity { margin-top: 0.4rem; }
+#buyBox .price-display { margin-top: 0.9rem; }

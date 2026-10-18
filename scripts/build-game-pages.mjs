@@ -78,13 +78,14 @@ function gamePage(game) {
             <img class="game-img cover-img" src="${esc(game.img)}" alt="${esc(game.title)}" onerror="this.onerror=null; this.src='images/placeholder.svg';">
             <figcaption class="cover-badges">
                 <span class="cover-badge available">✅ موجود</span>
-                <span class="cover-badge platform"><i class="fab fa-playstation" aria-hidden="true"></i> PS4 | PS5</span>
+                <span class="cover-badge platform"><i class="fab fa-playstation" aria-hidden="true"></i> PS4 | PS5</span>${game.xbox ? `
+                <span class="cover-badge platform"><i class="fab fa-xbox" aria-hidden="true"></i> Xbox</span>` : ''}
                 <span class="cover-badge price">کپی‌خور: ${copyPriceFa} تومان</span>
             </figcaption>
         </figure>
         <div class="game-info">
             <h1 class="game-title">${esc(game.title)}</h1>
-            <div class="game-platform"><i class="fab fa-playstation" style="color: #0099ff;"></i> نسخه کپی‌خور: PS4 | PS5</div>
+            <div class="game-platform"><i class="fab fa-playstation" style="color: #0099ff;"></i> PlayStation${game.xbox ? ' <i class="fab fa-xbox" style="color: #52b043;"></i> Xbox' : ''} — نسخه کپی‌خور: فقط PS4 | PS5</div>
             <p class="game-description">${esc(game.desc)}</p>
 
             <div class="spec-grid">
@@ -102,7 +103,8 @@ ${hasOriginal ? `            <h2 class="compare-title">📦 مقایسهٔ نس�
                     <h3>نسخهٔ اصلی — خرید بازی ظرفیتی 🎮</h3>
                     <div class="version-size">${esc(game.origSize)}</div>
                     <ul>
-                        <li>در این فروشگاه به‌صورت <strong>خرید بازی ظرفیتی</strong> ارائه می‌شود؛ نوع ظرفیت را پایین‌تر انتخاب کنید: <strong>آنلاین، آفلاین یا کامل</strong></li>
+                        <li>در این فروشگاه به‌صورت <strong>خرید بازی ظرفیتی</strong> ارائه می‌شود${game.xbox ? ' (برای PlayStation و Xbox)' : ''}؛ در بخش خرید، اول پلتفرم و بعد نوع ظرفیت (<strong>آنلاین، آفلاین یا کامل</strong>) را انتخاب کنید</li>
+                        ${game.xbox ? '<li>برای <strong>Xbox نسخهٔ کپی‌خور نداریم</strong>؛ نسخهٔ Xbox فقط به‌صورت اصلی (ظرفیتی) ارائه می‌شود</li>' : ''}
                         <li>قیمت نسخهٔ ظرفیتی <strong>قیمت روز</strong> است و هنگام ثبت سفارش و هماهنگی اعلام می‌شود</li>
                         <li>حجم دانلود نسخهٔ PS4 از PlayStation Store؛ با آپدیت‌ها و DLCها بیشتر می‌شود و بازی آنلاین رسمی روی سرورهای پلی‌استیشن انجام می‌شود</li>
                     </ul>
@@ -137,21 +139,33 @@ ${hasOriginal ? `            <h2 class="compare-title">📦 مقایسهٔ نس�
                     ${features}
             </ul>
 
-            <div class="type-selector">
-                <h3>🎯 حالت خرید را انتخاب کنید:</h3>
+            <div class="type-selector" id="buyBox">
+                <h3>🛒 خرید بازی — مرحله‌به‌مرحله انتخاب کنید:</h3>
 
-                <p class="buy-group-label">💾 نسخهٔ کپی‌خور — فقط PS4/PS5</p>
+                <p class="buy-group-label">۱) پلتفرم را انتخاب کنید:</p>
                 <div class="type-buttons">
-                    <div class="type-btn" data-type="کپی خور (PS4/PS5)" data-price="${esc(game.price)}">کپی خور <span style="font-size:0.7rem;">(${copyPriceFa} تومان)</span></div>
+                    <button type="button" class="type-btn" data-platform="ps"><i class="fab fa-playstation" aria-hidden="true"></i> PlayStation</button>
+${game.xbox ? `                    <button type="button" class="type-btn" data-platform="xbox"><i class="fab fa-xbox" aria-hidden="true"></i> Xbox</button>` : ''}
+                </div>
+
+                <div id="stepVersion" hidden>
+                    <p class="buy-group-label">۲) نوع نسخه را انتخاب کنید:</p>
+                    <div class="type-buttons">
+                        <button type="button" class="type-btn" id="btnCopy" data-version="copy">💾 کپی‌خور <span style="font-size:0.7rem;">(${copyPriceFa} تومان)</span></button>
+${hasOriginal ? `                        <button type="button" class="type-btn" id="btnOriginal" data-version="original">🎮 اصلی (خرید ظرفیتی) <span style="font-size:0.7rem;">(قیمت روز)</span></button>` : ''}
+                    </div>
+                    <p class="size-note" id="xboxNoCopy" hidden>ℹ️ برای Xbox نسخهٔ کپی‌خور نداریم؛ نسخهٔ Xbox فقط اصلی (ظرفیتی) است.</p>
                 </div>
 ${hasOriginal ? `
-                <p class="buy-group-label">🎮 خرید بازی ظرفیتی — نسخهٔ اصلی (قیمت روز)</p>
-                <div class="type-buttons">
-                    <div class="type-btn" data-type="ظرفیتی - آنلاین (نسخه اصلی)" data-price="قیمت روز">آنلاین <span style="font-size:0.7rem;">(قیمت روز)</span></div>
-                    <div class="type-btn" data-type="ظرفیتی - آفلاین (نسخه اصلی)" data-price="قیمت روز">آفلاین <span style="font-size:0.7rem;">(قیمت روز)</span></div>
-                    <div class="type-btn" data-type="ظرفیتی - کامل (نسخه اصلی)" data-price="قیمت روز">کامل <span style="font-size:0.7rem;">(قیمت روز)</span></div>
-                </div>
-                <p class="size-note">ظرفیت‌ها: <strong>آنلاین</strong> برای بازی آنلاین، <strong>آفلاین</strong> فقط برای بازی آفلاین و <strong>کامل</strong> برای هر دو حالت است. قیمت خرید ظرفیتی «قیمت روز» است؛ مبلغ دقیق هنگام هماهنگی سفارش اعلام می‌شود و این اقلام در سبد با برچسب «قیمت روز» ثبت می‌شوند.</p>` : ''}
+                <div id="stepCapacity" hidden>
+                    <p class="buy-group-label">۳) نوع ظرفیت را انتخاب کنید:</p>
+                    <div class="type-buttons">
+                        <button type="button" class="type-btn" data-capacity="آنلاین">آنلاین <span style="font-size:0.7rem;">(قیمت روز)</span></button>
+                        <button type="button" class="type-btn" data-capacity="آفلاین">آفلاین <span style="font-size:0.7rem;">(قیمت روز)</span></button>
+                        <button type="button" class="type-btn" data-capacity="کامل">کامل <span style="font-size:0.7rem;">(قیمت روز)</span></button>
+                    </div>
+                    <p class="size-note">ظرفیت‌ها: <strong>آنلاین</strong> برای بازی آنلاین، <strong>آفلاین</strong> فقط برای بازی آفلاین و <strong>کامل</strong> برای هر دو حالت است. قیمت خرید ظرفیتی «قیمت روز» است و در سبد با همان برچسب ثبت می‌شود.</p>
+                </div>` : ''}
                 <div id="priceDisplay" class="price-display" style="display: none;"></div>
             </div>
 
@@ -185,29 +199,88 @@ ${hasOriginal ? `
         title: ${JSON.stringify(game.title)},
         size: ${JSON.stringify(shortSize(game.copySize))}
     };
+    const COPY_PRICE = ${JSON.stringify(game.price)};
 
+    // جریان خرید مرحله‌ای: پلتفرم ← نوع نسخه ← (برای اصلی) نوع ظرفیت ← قیمت نهایی
+    const buyState = { platform: null, version: null, capacity: null };
     let selectedType = null;
     let selectedPrice = null;
 
-    document.querySelectorAll('.type-btn:not(.disabled)').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('selected'));
-            this.classList.add('selected');
+    const stepVersion = document.getElementById('stepVersion');
+    const stepCapacity = document.getElementById('stepCapacity');
+    const priceDisplay = document.getElementById('priceDisplay');
+    const addBtn = document.getElementById('addToCartBtn');
+    const btnCopy = document.getElementById('btnCopy');
+    const xboxNoCopy = document.getElementById('xboxNoCopy');
 
-            selectedType = this.getAttribute('data-type');
-            selectedPrice = this.getAttribute('data-price');
+    function markSelected(buttons, chosen) {
+        buttons.forEach(b => b.classList.toggle('selected', b === chosen));
+    }
 
-            const priceDisplay = document.getElementById('priceDisplay');
+    function updateFinal() {
+        selectedType = null;
+        selectedPrice = null;
+
+        if (buyState.version === 'copy') {
+            selectedType = 'کپی خور (PS4/PS5)';
+            selectedPrice = COPY_PRICE;
+        } else if (buyState.version === 'original' && buyState.capacity) {
+            const platformLabel = buyState.platform === 'xbox' ? 'Xbox' : 'PS';
+            selectedType = 'ظرفیتی - ' + buyState.capacity + ' (نسخه اصلی ' + platformLabel + ')';
+            selectedPrice = 'قیمت روز';
+        }
+
+        if (selectedType) {
             priceDisplay.style.display = 'block';
             priceDisplay.textContent = selectedPrice === 'قیمت روز'
-                ? '💰 ' + selectedType + ': قیمت روز (مبلغ دقیق هنگام هماهنگی اعلام می‌شود)'
-                : '💰 قیمت ' + selectedType + ': ' + selectedPrice + ' تومان';
+                ? '✅ انتخاب نهایی: ' + selectedType + ' — 💰 قیمت روز (مبلغ دقیق هنگام هماهنگی اعلام می‌شود)'
+                : '✅ انتخاب نهایی: ' + selectedType + ' — 💰 قیمت: ' + selectedPrice + ' تومان';
+            addBtn.style.display = 'block';
+        } else {
+            priceDisplay.style.display = 'none';
+            addBtn.style.display = 'none';
+        }
+    }
 
-            document.getElementById('addToCartBtn').style.display = 'block';
+    const platformBtns = Array.from(document.querySelectorAll('[data-platform]'));
+    platformBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            buyState.platform = this.getAttribute('data-platform');
+            buyState.version = null;
+            buyState.capacity = null;
+            markSelected(platformBtns, this);
+            document.querySelectorAll('[data-version], [data-capacity]').forEach(b => b.classList.remove('selected'));
+            // برای Xbox کپی‌خور نداریم: دکمهٔ کپی‌خور مخفی و راهنما نمایش داده می‌شود
+            if (btnCopy) btnCopy.style.display = buyState.platform === 'xbox' ? 'none' : '';
+            if (xboxNoCopy) xboxNoCopy.hidden = buyState.platform !== 'xbox';
+            if (stepVersion) stepVersion.hidden = false;
+            if (stepCapacity) stepCapacity.hidden = true;
+            updateFinal();
         });
     });
 
-    document.getElementById('addToCartBtn').addEventListener('click', function() {
+    const versionBtns = Array.from(document.querySelectorAll('[data-version]'));
+    versionBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            buyState.version = this.getAttribute('data-version');
+            buyState.capacity = null;
+            markSelected(versionBtns, this);
+            document.querySelectorAll('[data-capacity]').forEach(b => b.classList.remove('selected'));
+            if (stepCapacity) stepCapacity.hidden = buyState.version !== 'original';
+            updateFinal();
+        });
+    });
+
+    const capacityBtns = Array.from(document.querySelectorAll('[data-capacity]'));
+    capacityBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            buyState.capacity = this.getAttribute('data-capacity');
+            markSelected(capacityBtns, this);
+            updateFinal();
+        });
+    });
+
+    addBtn.addEventListener('click', function() {
         addToCart(gameData, selectedType, selectedPrice);
     });
 </script>
@@ -262,7 +335,8 @@ const listForPage = [...available, ...unavailable].map(g => ({
   img: g.img,
   type: g.status === 'موجود' ? 'کپی خور' : null,
   status: g.status,
-  slug: g.slug || null
+  slug: g.slug || null,
+  xbox: Boolean(g.xbox)
 }));
 const listJs = `const gamesList = ${JSON.stringify(listForPage, null, 8).replace(/\n/g, '\n    ')};`;
 const markerRe = /(\/\/ === AUTO-GAMES-START ===)[\s\S]*?(\/\/ === AUTO-GAMES-END ===)/;
