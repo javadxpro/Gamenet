@@ -34,3 +34,6 @@ jobs:
 
       - name: Check inline scripts in HTML
         run: node scripts/check-inline-js.mjs
+
+      - name: Cart & auth logic smoke tests
+        run: node scripts/check-cart.mjs

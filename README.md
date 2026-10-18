@@ -5,6 +5,8 @@
 
 > 🌐 https://javadxpro.github.io/Gamenet/
 
+گزارش ممیزی و نمرهٔ کیفیت این شاخه: [`REVIEW.md`](REVIEW.md)
+
 ## 🚀 اجرای محلی
 
 ```bash
@@ -18,7 +20,8 @@ npx serve .
 ## 🚢 دپلی (GitHub Pages)
 
 سایت از طریق **GitHub Pages** منتشر می‌شود. منبع دپلی در تنظیمات
-`Settings → Pages` روی **شاخهٔ فعال کار** (در حال حاضر `arena/01a0f983-gamenet`) و مسیر `/` تنظیم است.
+`Settings → Pages` روی **شاخه‌ای که می‌خواهید منتشر شود** و مسیر `/ (root)` تنظیم می‌شود
+(نام شاخه در این فایل hardcode نمی‌شود؛ هر وقت شاخهٔ انتشار عوض شد، همان‌جا در تنظیمات Pages دیده می‌شود).
 
 - هر commit جدیدی که روی همان شاخه push شود، بیلد Pages را به‌صورت خودکار اجرا می‌کند
   (Workflow: `pages build and deployment`).
@@ -62,8 +65,10 @@ Gamenet/
 ├── favicon.svg
 ├── robots.txt / sitemap.xml
 ├── scripts/             # ابزار توسعه
-│   ├── check-links.mjs  # بررسی لینک‌های داخلی
-│   └── inject-head.mjs  # (یک‌بار مصرف) تزریق meta/OG
+│   ├── check-links.mjs      # بررسی لینک‌های داخلی
+│   ├── check-cart.mjs       # تست دود (smoke) منطق سبد خرید و ثبت‌نام
+│   ├── check-inline-js.mjs  # بررسی syntax اسکریپت‌های اینلاین HTML
+│   └── inject-head.mjs      # (یک‌بار مصرف) تزریق meta/OG
 └── .github/workflows/ci.yml
 ```
 
@@ -72,6 +77,7 @@ Gamenet/
 روی هر push / PR:
 - `node --check` روی همه فایل‌های JS
 - `node scripts/check-links.mjs` برای اطمینان از اینکه هیچ href/src داخلی به فایل غیاب اشاره نکند
+- `node scripts/check-inline-js.mjs` برای اطمینان از سالم بودن syntax اسکریپت‌های اینلاین صفحات
 
 ## 🛒 نحوه ثبت سفارش (اکنون)
 

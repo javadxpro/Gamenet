@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="تصویر بازی به‌زودی">
+  <rect width="800" height="450" fill="#1a1a2e"/>
+  <g fill="none" stroke="#ff6a00" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
+    <rect x="265" y="165" width="270" height="130" rx="60"/>
+    <line x1="330" y1="215" x2="330" y2="245"/>
+    <line x1="315" y1="230" x2="345" y2="230"/>
+    <circle cx="455" cy="218" r="7" fill="#ff6a00" stroke="none"/>
+    <circle cx="482" cy="242" r="7" fill="#ff6a00" stroke="none"/>
+  </g>
+  <text x="400" y="345" text-anchor="middle" font-family="sans-serif" font-size="30" fill="#ffaa00">به‌زودی</text>
+</svg>

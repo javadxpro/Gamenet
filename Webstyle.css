@@ -121,7 +121,8 @@ body {
     position: relative;
 }
 
-.logo h1 {
+.logo h1,
+.logo .logo-text {
     font-size: 1.4rem;
     font-weight: bold;
     background: linear-gradient(90deg, 
@@ -140,7 +141,8 @@ body {
     animation: trainOnTextRightToLeft 4s linear infinite;
 }
 
-.logo h1:hover {
+.logo h1:hover,
+.logo .logo-text:hover {
     animation: trainOnTextLeftToRight 1.5s linear infinite;
 }
 
@@ -1065,7 +1067,8 @@ footer {
     margin-bottom: 2rem;
 }
 
-.team-header .logo h1 {
+.team-header .logo h1,
+.logo .logo-text {
     font-size: 2rem;
     background: linear-gradient(90deg, #ffffff 0%, #ff6a00 50%, #ffffff 100%);
     background-size: 300% auto;
@@ -2084,7 +2087,8 @@ footer {
     .container {
         padding: 0.3rem;
     }
-    .team-header .logo h1 {
+    .team-header .logo h1,
+.logo .logo-text {
         font-size: 1.4rem;
     }
     .team-info-table {
@@ -2558,7 +2562,10 @@ footer {
 .copy-btn:focus-visible,
 .modal-content button:focus-visible,
 .quantity-control button:focus-visible,
-.remove-btn:focus-visible {
+.remove-btn:focus-visible,
+.game-card:focus-visible,
+.offer-card:focus-visible,
+.gift-card:focus-visible {
     outline: 2px solid rgba(255, 106, 0, 0.85);
     outline-offset: 2px;
 }
