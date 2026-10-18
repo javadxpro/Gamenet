@@ -2569,3 +2569,77 @@ footer {
     outline: 2px solid rgba(255, 106, 0, 0.85);
     outline-offset: 2px;
 }
+
+/* ============================================================
+   صفحات اختصاصی بازی‌ها (تولیدشده از games.json)
+   ============================================================ */
+a.game-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.spec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.6rem;
+    margin: 1rem 0;
+}
+.spec-grid > div {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.8rem;
+    padding: 0.6rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.spec-grid span { font-size: 0.78rem; color: #aaa; }
+.spec-grid strong { font-size: 0.92rem; }
+
+.compare-title {
+    font-size: 1.05rem;
+    margin: 1.4rem 0 0.7rem;
+}
+
+.version-compare {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.8rem;
+}
+.version-card {
+    border-radius: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+}
+.version-card.copy {
+    border-color: rgba(255, 106, 0, 0.45);
+    background: rgba(255, 106, 0, 0.07);
+}
+.version-card h3 { font-size: 0.98rem; margin-bottom: 0.5rem; }
+.version-size {
+    font-weight: 800;
+    color: #ffaa00;
+    margin-bottom: 0.6rem;
+    line-height: 1.7;
+}
+.version-card ul,
+.feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    font-size: 0.88rem;
+    line-height: 1.8;
+    color: #ddd;
+}
+.version-card ul li::before { content: "• "; color: #ff6a00; }
+.feature-list li::before { content: "⭐ "; }
+
+.size-note {
+    font-size: 0.8rem;
+    color: #aaa;
+    line-height: 1.9;
+    margin-top: 0.7rem;
+}

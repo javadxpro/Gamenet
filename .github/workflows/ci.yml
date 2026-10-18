@@ -37,3 +37,6 @@ jobs:
 
       - name: Cart & auth logic smoke tests
         run: node scripts/check-cart.mjs
+
+      - name: Game pages up to date with games.json
+        run: node scripts/build-game-pages.mjs --check
